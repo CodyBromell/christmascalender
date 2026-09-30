@@ -342,7 +342,7 @@
     {{ snowbank }}
     <div style="position:relative;background:#fff;margin-top:-3px">
       <footer class="x-footer" style="max-width:1180px;margin:0 auto;box-sizing:border-box;padding:4px 40px calc(40px + env(safe-area-inset-bottom));font-size:12.5px;line-height:1.75;color:#6e5a5c">
-        <p style="margin:0;max-width:72ch">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Doors stay open for 48 hours, then close for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route in the <a href="#">promotion terms</a>.</p>
+        <p style="margin:0;max-width:72ch">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Each door opens on its day and stays open for two days (that day and the next), then locks for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route in the <a href="#">promotion terms</a>.</p>
         <p style="margin:12px 0 0;max-width:72ch;color:#a23b3b">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501. Add <code>?day=9</code> to the address to jump to another day, or <code>?reset</code> to start over.</p>
       </footer>
     </div>
@@ -406,7 +406,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260},&quot;today&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;graceDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;snow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;}}">
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260},&quot;today&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;graceDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;snow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;}}">
 const MIN_SPEND = 280;
 
 const DAYS = [
@@ -419,9 +419,9 @@ const DAYS = [
   {motif:"⛄",title:"Three warm heads",icon:"🧢",name:"Würth Thinsulate beanie",price:2.99,
    sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Thinsulate-knitted-hat-with-lining/31080504070702.cyid/3108.cgid/en/GB/GBP/?CampaignName=CS016"},
-  {motif:"🧤",title:"Four hands working",icon:"🧤",name:"SOFTFLEX IMPACT gloves",price:3.58,
-   sub:"Winter protective glove, size 7. We'll email to confirm your size.",code:"WU-GLOV",supplier:"Würth",
-   url:"https://eshop.wurth.co.uk/SOFTFLEX-IMPACT-protective-glove-PROTGLOV-KNIT-SOFTFLEX-IMPACT-SZ7/0899401457.sku/en/GB/GBP/?CampaignName=SR001"},
+  {motif:"🧤",title:"Four hands working",icon:"🧤",name:"TIGERFLEX THERMO DRY W-350 winter gloves",price:3.58,
+   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",supplier:"Würth",
+   url:"https://eshop.wurth.co.uk/Product-categories/Protective-glove-winter-TIGERFLEX-THERMO-DRY-W-350/310805040907124.cyid/3108.cgid/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🕯️",title:"Five allen keys",icon:"🔧",name:"Allen key set, 9 pieces",price:5.45,
    sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Allen-key-set-9-pieces-ALLENKEY-SET-LONG-15-10MM-9PCS/071531%20120.sku/en/GB/GBP/?CampaignName=SR007"},
@@ -431,7 +431,7 @@ const DAYS = [
   {motif:"📏",title:"Seven things made level",icon:"📏",name:"Magnetic spirit level",price:10.56,
    sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Small-spirit-level-with-magnet-LEVL-LMET-PLA-MAGN-74X41X34/0714644505.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0714644505"},
-  {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",price:11,
+  {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",price:10.99,
    sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Xbox-Ultimate-Console-Month-Membership/dp/B07SBBC7Q2"},
   {motif:"🔥",title:"Nine warm fingers",icon:"🔥",name:"Rechargeable electric hand warmers",price:12.99,
@@ -443,9 +443,9 @@ const DAYS = [
   {motif:"🛏️",title:"Eleven cosy evenings",icon:"🛏️",name:"Heated honeycomb overblanket",price:18.04,
    sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Schallen-Electric-Honeycomb-Overblanket-Settings/dp/B00D8WVY2K"},
-  {motif:"🎁",title:"Twelve days, the big one",icon:"👑",name:"1/2\" impact socket wrench set",price:19.18,
-   sub:"11 pieces, short hexagon. Our headline gift — dispatched with your next order.",code:"WU-SOCK",supplier:"Würth",top:true,
-   url:"https://eshop.wurth.co.uk/1-2-inch-impact-socket-wrench-set-inch-hexagon-Short-11-pieces-IMPSKT-1-2IN-SET-SHORT-11PC/0714900110.sku/en/GB/GBP/?CampaignName=SR007"}
+  {motif:"🎁",title:"Twelve days, the big one",icon:"🧰",name:"1/4\" socket wrench assortment, 40 pieces",price:10.08,
+   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",supplier:"Würth",top:true,
+   url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
 const ORDERS = [
@@ -461,7 +461,7 @@ const HINTS = [
   "Something for a frosty morning start.",
   "Helps you see the road ahead.",
   "Something for cold ears.",
-  "Something for cold hands on site.",
+  "Warm, grippy hands on a frosty site.",
   "Small, six-sided, always needed.",
   "Something for the tree.",
   "Keeps everything straight.",
@@ -469,13 +469,13 @@ const HINTS = [
   "Heat you can carry in your pocket.",
   "A click-click-click kind of gift.",
   "For the sofa after a long week.",
-  "The big one. Worth the wait."
+  "Forty pieces to finish the twelve."
 ];
 
 const STEPS = [
   {n:"1", text:"Place an order of £280 or more between 1 Nov and 12 Dec."},
   {n:"2", text:"Find your order number on the confirmation email."},
-  {n:"3", text:"Open that day's door — every valid entry gets the gift behind it."}
+  {n:"3", text:"Open that day's door within two days, before it locks — every valid entry gets the gift behind it."}
 ];
 
 const THINKING = ["Checking your order number…", "Lifting the latch…", "Reaching into the door…"];
@@ -862,7 +862,8 @@ class Component extends DCLogic {
     const q = parseInt(new URLSearchParams(location.search).get("day"), 10);
     return Math.min(12, Math.max(1, q || (this.props.today ?? 6)));
   }
-  grace() { return this.props.graceDays ?? 2; }
+  // Each door is open for two days (its own day + the next), then locks.
+  grace() { return this.props.graceDays ?? 1; }
   dayDate(n) { return new Date(Date.UTC(2026, 11, n)); }
   date(n) { return this.dayDate(n).toLocaleDateString("en-GB", {weekday:"long", day:"numeric", month:"long", timeZone:"UTC"}); }
   niceDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}); }
@@ -911,8 +912,8 @@ class Component extends DCLogic {
       this.setState({ rattle: n });
       this.rt = setTimeout(() => this.setState({ rattle: null }), 500);
     }
-    if (s === "locked") return this.flash("🔒 " + (n - this.today() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + ". Hint: " + HINTS[n - 1].toLowerCase());
-    if (s === "missed") return this.flash("Door " + n + " closed on " + this.niceDate(Math.min(n + this.grace(), 12)) + ". Keep an eye on today's door.");
+    if (s === "locked") return this.flash("🔒 " + (n - this.today() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
+    if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDate(n + this.grace()) + ". Each door is open for two days" + (this.state.opened[this.today()] ? "." : " — today's is still waiting."));
     this.setState({ modal: n, phase: s === "opened" ? "result" : "entry", error: "" });
   }
 
@@ -1105,7 +1106,7 @@ class Component extends DCLogic {
         insideRadius: ARCH[house.arch] ? ARCH[house.arch].radius : "0",
         innerPadLeft: rec ? "28%" : "0",
         innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
-        caption: rec ? rec.name : s === "today" ? "TODAY" : s === "open" ? "48H LEFT" : s === "missed" ? "CLOSED" : this.shortDate(n),
+        caption: rec ? rec.name : s === "today" ? "TODAY" : s === "open" ? "LAST DAY" : s === "missed" ? "LOCKED" : this.shortDate(n),
         captionFg: rec ? "#fff" : s === "today" ? "#fff" : s === "open" ? "#ffd27a" : s === "missed" ? "#b89a9a" : "#ffd4d4",
         captionBg: s === "today" && !rec ? "#cc0000" : "transparent",
         captionPad: s === "today" && !rec ? ".25em .7em" : "0",
@@ -1120,7 +1121,7 @@ class Component extends DCLogic {
         burst: st.burstFor === n ? this.burstFor(n) : null,
         numAnim: s === "today" ? "x-num-pulse 2.4s ease-in-out infinite" : "none",
         starDisplay: s === "today" ? "block" : "none",
-        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, you got " + rec.name : s === "missed" ? "closed" : "open, enter your order number"),
+        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, you got " + rec.name : s === "missed" ? "locked, no longer open" : s === "open" ? "open, last day to enter your order number" : "open, enter your order number"),
         click: () => this.clickDoor(n)
       };
     });
