@@ -21,7 +21,9 @@ Static site, no build step — deploys to Vercel as-is.
 | `vendor/dc-runtime.js` | Runtime that renders the `<x-dc>` template with React (exported from Claude Design — generated, don't edit) |
 | `vendor/react*.js` | React 18.3.1, served locally instead of unpkg |
 | `fonts/` | Archivo (latin, latin-ext, vietnamese subsets) |
-| `images/pattern.png` | Tiled background pattern |
+| `images/wurth-logo.png` | Würth logo (transparent, trimmed) |
+
+The background, fairy lights, snowdrift and snow are all drawn in code (CSS + inline SVG) — no image files.
 
 ## Run locally
 

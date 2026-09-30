@@ -184,13 +184,28 @@
   @keyframes x-gift{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.18);opacity:1}100%{transform:scale(1);opacity:1}}
   @keyframes x-rattle{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px) rotate(-1deg)}40%{transform:translateX(5px) rotate(1deg)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
   @keyframes x-confetti{0%{transform:translate3d(0,-12vh,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(6vw,108vh,0) rotate(900deg);opacity:0}}
+  @keyframes x-fall-near{0%{transform:translate3d(0,-18vh,0) rotate(0)}100%{transform:translate3d(-5vw,112vh,0) rotate(160deg)}}
+  @keyframes x-sway{0%,100%{transform:translateX(-50%) rotate(var(--r))}50%{transform:translateX(-50%) rotate(calc(var(--r) * -1))}}
+  @keyframes x-bulb-twinkle{0%,100%{opacity:1;filter:brightness(1.15)}50%{opacity:.3;filter:brightness(.7)}}
+  @keyframes x-bulb-glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22)}}
+  @keyframes x-bulb-pop{0%{transform:scale(.5);filter:brightness(3)}45%{transform:scale(1.45);filter:brightness(1.9)}100%{transform:scale(1);filter:brightness(1)}}
   ::selection{background:#cc0000;color:#fff}
   input:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+  /* ---- Background: warm glow behind the heading, faint snowflakes, deepening red ---- */
+  .x-bg{background-color:#560000;background-image:
+    radial-gradient(900px 560px at 22% 230px,rgba(255,170,95,.30),rgba(255,170,95,0) 70%),
+    radial-gradient(700px 480px at 88% 30px,rgba(255,70,70,.30),rgba(255,70,70,0) 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cpath d='M62.0 70.0L85.5 74.8M75.6 72.8L82.0 68.5M75.6 72.8L79.9 79.2M62.0 70.0L69.6 92.8M66.4 83.2L73.3 86.6M66.4 83.2L63.0 90.1M62.0 70.0L46.1 88.0M52.8 80.4L53.3 88.1M52.8 80.4L45.1 80.9M62.0 70.0L38.5 65.2M48.4 67.2L42.0 71.5M48.4 67.2L44.1 60.8M62.0 70.0L54.4 47.2M57.6 56.8L50.7 53.4M57.6 56.8L61.0 49.9M62.0 70.0L77.9 52.0M71.2 59.6L70.7 51.9M71.2 59.6L78.9 59.1M200.0 178.0L213.2 185.2M207.6 182.2L212.2 180.8M207.6 182.2L209.0 186.8M200.0 178.0L200.4 193.0M200.2 186.7L203.7 190.0M200.2 186.7L196.9 190.2M200.0 178.0L187.2 185.8M192.6 182.5L191.4 187.2M192.6 182.5L187.9 181.4M200.0 178.0L186.8 170.8M192.4 173.8L187.8 175.2M192.4 173.8L191.0 169.2M200.0 178.0L199.6 163.0M199.8 169.3L196.3 166.0M199.8 169.3L203.1 165.8M200.0 178.0L212.8 170.2M207.4 173.5L208.6 168.8M207.4 173.5L212.1 174.6M214.0 50.0L223.0 50.0M219.2 50.0L221.3 48.0M219.2 50.0L221.3 52.0M214.0 50.0L218.5 57.8M216.6 54.5L219.4 55.3M216.6 54.5L215.9 57.3M214.0 50.0L209.5 57.8M211.4 54.5L212.1 57.3M211.4 54.5L208.6 55.3M214.0 50.0L205.0 50.0M208.8 50.0L206.7 52.0M208.8 50.0L206.7 48.0M214.0 50.0L209.5 42.2M211.4 45.5L208.6 44.7M211.4 45.5L212.1 42.7M214.0 50.0L218.5 42.2M216.6 45.5L215.9 42.7M216.6 45.5L219.4 44.7M78.0 222.0L88.3 225.8M84.0 224.2L87.2 222.7M84.0 224.2L85.5 227.4M78.0 222.0L79.9 232.8M79.1 228.3L82.0 230.3M79.1 228.3L77.1 231.2M78.0 222.0L69.6 229.1M73.1 226.1L72.8 229.6M73.1 226.1L69.6 225.8M78.0 222.0L67.7 218.2M72.0 219.8L68.8 221.3M72.0 219.8L70.5 216.6M78.0 222.0L76.1 211.2M76.9 215.7L74.0 213.7M76.9 215.7L78.9 212.8M78.0 222.0L86.4 214.9M82.9 217.9L83.2 214.4M82.9 217.9L86.4 218.2M150.0 122.0L156.0 122.6M153.5 122.3L154.9 121.1M153.5 122.3L154.7 123.8M150.0 122.0L152.5 127.5M151.4 125.2L153.2 125.9M151.4 125.2L150.8 127.0M150.0 122.0L146.5 126.9M148.0 124.8L148.3 126.7M148.0 124.8L146.1 125.1M150.0 122.0L144.0 121.4M146.5 121.7L145.1 122.9M146.5 121.7L145.3 120.2M150.0 122.0L147.5 116.5M148.6 118.8L146.8 118.1M148.6 118.8L149.2 117.0M150.0 122.0L153.5 117.1M152.0 119.2L151.7 117.3M152.0 119.2L153.9 118.9' stroke='white' stroke-opacity='.07' stroke-width='1.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"),
+    linear-gradient(180deg,#a10000 0,#7d0000 560px,#560000 100%);
+    background-size:auto,auto,280px 280px,auto;background-repeat:no-repeat,no-repeat,repeat,no-repeat}
+  .x-footer a{color:#cc0000}
+  .x-footer code{background:#f6e3e3;color:#7a0c0c}
 
   /* ---- Responsive: inline styles are the desktop layout; these override for tablet / phone ---- */
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-  .x-page{padding-left:max(40px,env(safe-area-inset-left)) !important;padding-right:max(40px,env(safe-area-inset-right)) !important;padding-bottom:calc(96px + env(safe-area-inset-bottom)) !important}
+  .x-page{padding-left:max(40px,env(safe-area-inset-left)) !important;padding-right:max(40px,env(safe-area-inset-right)) !important;padding-bottom:24px !important}
   .x-input{font-size:16px !important} /* 16px+ stops iOS Safari zooming on focus */
   .x-dialog{max-height:calc(100dvh - 48px) !important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
   .x-close{width:44px;height:44px;top:4px !important;right:4px !important;display:flex;align-items:center;justify-content:center}
@@ -199,7 +214,8 @@
   /* Tablet — iPad portrait and small laptops */
   @media (max-width:960px){
     .x-page{padding-left:max(28px,env(safe-area-inset-left)) !important;padding-right:max(28px,env(safe-area-inset-right)) !important}
-    .x-hero{grid-template-columns:1fr !important;gap:36px !important;padding:44px 0 40px !important}
+    .x-hero{grid-template-columns:1fr !important;gap:36px !important;padding:24px 0 40px !important}
+    .x-lights{font-size:15px !important}
     .x-hero h1{font-size:clamp(46px,9vw,80px) !important}
     .x-lede{max-width:60ch !important}
     .x-doors{gap:14px !important}
@@ -211,12 +227,18 @@
 
   /* Phone */
   @media (max-width:560px){
-    .x-page{padding-left:max(16px,env(safe-area-inset-left)) !important;padding-right:max(16px,env(safe-area-inset-right)) !important;padding-bottom:calc(64px + env(safe-area-inset-bottom)) !important}
+    .x-page{padding-left:max(16px,env(safe-area-inset-left)) !important;padding-right:max(16px,env(safe-area-inset-right)) !important;padding-bottom:16px !important}
     .x-topbar{padding:16px 0 !important;gap:12px;flex-wrap:wrap}
     .x-logo{padding:8px 11px !important}
     .x-logo img{width:96px !important}
     .x-topbar-meta{font-size:10.5px !important;letter-spacing:.14em !important}
-    .x-hero{gap:28px !important;padding:32px 0 32px !important}
+    .x-hero{gap:28px !important;padding:16px 0 32px !important}
+    .x-lights{font-size:12px !important}
+    .x-bg{background-image:
+      radial-gradient(520px 420px at 30% 200px,rgba(255,170,95,.30),rgba(255,170,95,0) 70%),
+      radial-gradient(420px 340px at 95% 20px,rgba(255,70,70,.28),rgba(255,70,70,0) 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cpath d='M62.0 70.0L85.5 74.8M75.6 72.8L82.0 68.5M75.6 72.8L79.9 79.2M62.0 70.0L69.6 92.8M66.4 83.2L73.3 86.6M66.4 83.2L63.0 90.1M62.0 70.0L46.1 88.0M52.8 80.4L53.3 88.1M52.8 80.4L45.1 80.9M62.0 70.0L38.5 65.2M48.4 67.2L42.0 71.5M48.4 67.2L44.1 60.8M62.0 70.0L54.4 47.2M57.6 56.8L50.7 53.4M57.6 56.8L61.0 49.9M62.0 70.0L77.9 52.0M71.2 59.6L70.7 51.9M71.2 59.6L78.9 59.1M200.0 178.0L213.2 185.2M207.6 182.2L212.2 180.8M207.6 182.2L209.0 186.8M200.0 178.0L200.4 193.0M200.2 186.7L203.7 190.0M200.2 186.7L196.9 190.2M200.0 178.0L187.2 185.8M192.6 182.5L191.4 187.2M192.6 182.5L187.9 181.4M200.0 178.0L186.8 170.8M192.4 173.8L187.8 175.2M192.4 173.8L191.0 169.2M200.0 178.0L199.6 163.0M199.8 169.3L196.3 166.0M199.8 169.3L203.1 165.8M200.0 178.0L212.8 170.2M207.4 173.5L208.6 168.8M207.4 173.5L212.1 174.6M214.0 50.0L223.0 50.0M219.2 50.0L221.3 48.0M219.2 50.0L221.3 52.0M214.0 50.0L218.5 57.8M216.6 54.5L219.4 55.3M216.6 54.5L215.9 57.3M214.0 50.0L209.5 57.8M211.4 54.5L212.1 57.3M211.4 54.5L208.6 55.3M214.0 50.0L205.0 50.0M208.8 50.0L206.7 52.0M208.8 50.0L206.7 48.0M214.0 50.0L209.5 42.2M211.4 45.5L208.6 44.7M211.4 45.5L212.1 42.7M214.0 50.0L218.5 42.2M216.6 45.5L215.9 42.7M216.6 45.5L219.4 44.7M78.0 222.0L88.3 225.8M84.0 224.2L87.2 222.7M84.0 224.2L85.5 227.4M78.0 222.0L79.9 232.8M79.1 228.3L82.0 230.3M79.1 228.3L77.1 231.2M78.0 222.0L69.6 229.1M73.1 226.1L72.8 229.6M73.1 226.1L69.6 225.8M78.0 222.0L67.7 218.2M72.0 219.8L68.8 221.3M72.0 219.8L70.5 216.6M78.0 222.0L76.1 211.2M76.9 215.7L74.0 213.7M76.9 215.7L78.9 212.8M78.0 222.0L86.4 214.9M82.9 217.9L83.2 214.4M82.9 217.9L86.4 218.2M150.0 122.0L156.0 122.6M153.5 122.3L154.9 121.1M153.5 122.3L154.7 123.8M150.0 122.0L152.5 127.5M151.4 125.2L153.2 125.9M151.4 125.2L150.8 127.0M150.0 122.0L146.5 126.9M148.0 124.8L148.3 126.7M148.0 124.8L146.1 125.1M150.0 122.0L144.0 121.4M146.5 121.7L145.1 122.9M146.5 121.7L145.3 120.2M150.0 122.0L147.5 116.5M148.6 118.8L146.8 118.1M148.6 118.8L149.2 117.0M150.0 122.0L153.5 117.1M152.0 119.2L151.7 117.3M152.0 119.2L153.9 118.9' stroke='white' stroke-opacity='.07' stroke-width='1.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"),
+      linear-gradient(180deg,#a10000 0,#7d0000 520px,#560000 100%) !important}
     .x-hero h1{font-size:clamp(40px,12.5vw,58px) !important}
     .x-lede{margin-top:20px !important;font-size:16px !important}
     .x-cta-row{margin-top:24px !important;gap:14px !important}
@@ -228,7 +250,7 @@
     .x-door-caption{font-size:10px !important}
     .x-door-gift{font-size:30px !important}
     .x-door-label{font-size:11.5px !important}
-    .x-footer{margin-top:40px !important}
+    .x-footer{padding-left:max(16px,env(safe-area-inset-left)) !important;padding-right:max(16px,env(safe-area-inset-right)) !important}
     .x-veil{padding:0 !important;align-items:flex-end !important}
     .x-dialog{width:100% !important;max-height:calc(100dvh - 32px) !important;padding:30px 20px calc(24px + env(safe-area-inset-bottom)) !important}
   }
@@ -257,18 +279,18 @@
     .x-door:active{filter:brightness(.92)}
     .x-cta:active{background:#ffd9d9 !important}
   }
-  @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important}}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}.x-snow{display:none !important}}
 </style>
 </helmet>
 
 
 
-<div style="position:relative;min-height:100vh;overflow:hidden;background-color:#6d0000;background-image:url(&quot;images/pattern.png&quot;);background-size:760px;background-repeat:repeat">
-  <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 50% -10%,rgba(204,0,0,.55),rgba(60,0,0,.75) 70%,rgba(40,0,0,.9))"></div>
+<div class="x-bg" style="position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column">
 
   {{ snow }}
+  {{ snowFront }}
 
-  <div class="x-page" style="position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 40px 96px">
+  <div class="x-page" style="position:relative;z-index:2;width:100%;box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 40px 24px">
 
     <div class="x-topbar" style="display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:2px solid rgba(255,255,255,.35)">
       <a class="x-logo" href="https://eshop.wurth.co.uk/" aria-label="Würth UK" style="display:inline-flex;align-items:center;background:#fff;padding:10px 14px;line-height:0">
@@ -277,7 +299,9 @@
       <span class="x-topbar-meta" style="font-size:12px;font-weight:600;letter-spacing:.2em;color:#ffc9c9">THE 12 DAYS · 1—12 DEC 2026</span>
     </div>
 
-    <header class="x-hero" style="display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:end;padding:56px 0 44px">
+    {{ lights }}
+
+    <header class="x-hero" style="display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:end;padding:28px 0 44px">
       <div>
         <p style="margin:0 0 18px;display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;color:#ffc9c9">
           <span style="font-size:15px">❄</span>01 DEC — 12 DEC
@@ -288,12 +312,7 @@
           <button class="x-cta" sc-camel-on-click="{{ openToday }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:15px 26px;cursor:pointer;background:#fff;color:#a00000;border:0" style-hover="background:#ffd9d9">{{ heroCta }}</button>
           <span style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#ffb3b3">{{ progress }}</span>
         </div>
-        <div class="x-pips" aria-hidden="true" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:26px">
-          <sc-for list="{{ pips }}" as="p" hint-placeholder-count="12">
-            <span title="{{ p.title }}" style="width:16px;height:16px;background:{{ p.bg }};box-shadow:{{ p.ring }};animation:{{ p.anim }}"></span>
-          </sc-for>
-        </div>
-        <p class="x-countdown" style="margin:14px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
+        <p class="x-countdown" style="margin:20px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.35)">
         <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
@@ -323,11 +342,16 @@
         </div>
       </sc-for>
     </div>
+  </div>
 
-    <footer class="x-footer" style="margin-top:56px;padding-top:22px;border-top:2px solid rgba(255,255,255,.35);font-size:12.5px;line-height:1.75;color:#ffc2c2;max-width:72ch">
-      <p style="margin:0">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Doors stay open for 48 hours, then close for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route in the <a href="#">promotion terms</a>.</p>
-      <p style="margin:12px 0 0;color:#ff9e9e">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501. Add <code>?day=9</code> to the address to jump to another day, or <code>?reset</code> to start over.</p>
-    </footer>
+  <div class="x-snowbank" style="position:relative;z-index:2;margin-top:auto;padding-top:48px">
+    {{ snowbank }}
+    <div style="position:relative;background:#fff;margin-top:-3px">
+      <footer class="x-footer" style="max-width:1180px;margin:0 auto;box-sizing:border-box;padding:4px 40px calc(40px + env(safe-area-inset-bottom));font-size:12.5px;line-height:1.75;color:#6e5a5c">
+        <p style="margin:0;max-width:72ch">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Doors stay open for 48 hours, then close for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route in the <a href="#">promotion terms</a>.</p>
+        <p style="margin:12px 0 0;max-width:72ch;color:#a23b3b">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501. Add <code>?day=9</code> to the address to jump to another day, or <code>?reset</code> to start over.</p>
+      </footer>
+    </div>
   </div>
 
   <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
@@ -489,7 +513,8 @@ class Component extends DCLogic {
   state = {
     opened: saved.opened || {}, code: saved.code || "",
     modal: null, phase: "entry", error: "", think: 0, toast: "",
-    burstFor: null, party: false, rattle: null, now: Date.now()
+    burstFor: null, party: false, rattle: null, now: Date.now(),
+    newLight: null, lightPop: null
   };
   codeRef = React.createRef();
 
@@ -500,7 +525,7 @@ class Component extends DCLogic {
     };
     document.addEventListener("keydown", this.onKeyDoc);
     const n = Object.keys(this.state.opened).length;
-    if (n) this.flash("Welcome back — you've opened " + n + (n === 1 ? " door" : " doors") + " so far.");
+    if (n) this.flash("Welcome back — " + n + " of your 12 lights " + (n === 1 ? "is" : "are") + " on.");
   }
 
   componentDidUpdate() {
@@ -520,7 +545,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     clearInterval(this.iv); clearInterval(this.clock);
-    clearTimeout(this.to); clearTimeout(this.tt); clearTimeout(this.bt); clearTimeout(this.pt); clearTimeout(this.rt);
+    clearTimeout(this.to); clearTimeout(this.tt); clearTimeout(this.bt); clearTimeout(this.pt); clearTimeout(this.rt); clearTimeout(this.lt);
     document.removeEventListener("keydown", this.onKeyDoc);
     document.body.style.overflow = "";
   }
@@ -559,7 +584,17 @@ class Component extends DCLogic {
     this.tt = setTimeout(() => this.setState({ toast: "" }), 3400);
   }
 
-  close() { this.setState({ modal: null, error: "" }); }
+  close() {
+    // Closing the prize screen switches that day's fairy light on with a little pop.
+    const n = this.state.newLight;
+    this.setState({ modal: null, error: "", newLight: null, lightPop: n || this.state.lightPop });
+    if (n) {
+      clearTimeout(this.lt);
+      this.lt = setTimeout(() => this.setState({ lightPop: null }), 1300);
+      const lit = Object.keys(this.state.opened).length;
+      this.flash("💡 Light " + n + " is on — " + lit + " of 12 lit." + (lit === 12 ? " You lit them all!" : ""));
+    }
+  }
 
   clickDoor(n) {
     const s = this.status(n);
@@ -595,7 +630,7 @@ class Component extends DCLogic {
       this.setState(s => {
         const opened = { ...s.opened, [n]: prize };
         persist({ opened, code });
-        return { opened, phase: "result", burstFor: n, party: true };
+        return { opened, phase: "result", burstFor: n, party: true, newLight: n };
       });
       clearTimeout(this.bt); clearTimeout(this.pt);
       this.bt = setTimeout(() => this.setState({ burstFor: null }), 1600);
@@ -640,6 +675,86 @@ class Component extends DCLogic {
     return this._confetti;
   }
 
+  // A garland across the top: one bulb per day. Opened = lit, today = twinkling, the rest waiting.
+  lightsLayer() {
+    const h = React.createElement;
+    const COLOURS = ["#ffd24a", "#7ee081", "#6cc6ff", "#ff8fb8", "#fff1c9", "#ffa94d"];
+    const wire = "M0,4 " + DAYS.map((d, i) => "Q" + (i * 100 + 50) + ",34 " + ((i + 1) * 100) + ",4").join(" ");
+    let lit = 0;
+    const bulbs = DAYS.map((d, i) => {
+      const n = i + 1, s = this.status(n), c = COLOURS[i % COLOURS.length];
+      const on = s === "opened" || s === "today";
+      if (s === "opened") lit++;
+      const anim = s === "opened"
+        ? (this.state.lightPop === n ? "x-bulb-pop 1s cubic-bezier(.2,1.4,.4,1) both" : "x-bulb-glow " + (3 + (i % 4) * .6) + "s ease-in-out " + (-i * .7) + "s infinite")
+        : s === "today" ? "x-bulb-twinkle 1.4s ease-in-out infinite" : "none";
+      const tilt = (i % 2 ? 5 : -5) + "deg";
+      return h("div", { key: n, style: {
+        position: "absolute", top: ".95em", left: ((i + .5) / 12 * 100) + "%",
+        "--r": tilt, transformOrigin: "50% 0", transform: "translateX(-50%) rotate(" + tilt + ")",
+        animation: "x-sway " + (4 + (i % 3)) + "s ease-in-out " + (-i * .5) + "s infinite",
+        display: "flex", flexDirection: "column", alignItems: "center"
+      }},
+        h("span", { style: { width: ".5em", height: ".55em", background: "#240606", borderRadius: ".12em .12em .06em .06em" } }),
+        h("span", { style: {
+          width: ".95em", height: "1.35em", marginTop: "-.05em",
+          borderRadius: "50% 50% 50% 50% / 40% 40% 60% 60%",
+          background: on
+            ? "radial-gradient(circle at 38% 30%, #fff 0 14%, " + c + " 52%, " + c + ")"
+            : "radial-gradient(circle at 38% 30%, rgba(255,255,255,.35) 0 10%, rgba(255,255,255,.08) 45%, rgba(40,0,0,.35))",
+          boxShadow: on ? "0 0 .5em .15em " + c + ", 0 0 1.6em .45em " + c + "99" : "inset 0 0 0 1px rgba(255,255,255,.22)",
+          opacity: s === "missed" ? .45 : 1,
+          animation: anim
+        }})
+      );
+    });
+    return h("div", { className: "x-lights", role: "img", "aria-label": lit + " of 12 lights on", style: {
+      position: "relative", height: "3.4em", fontSize: "18px", marginTop: "-2px"
+    }},
+      h("svg", { viewBox: "0 0 1200 40", preserveAspectRatio: "none", "aria-hidden": "true", style: {
+        position: "absolute", left: 0, top: 0, width: "100%", height: "2.4em", overflow: "visible"
+      }}, h("path", { d: wire, fill: "none", stroke: "#2a0606", strokeWidth: 2.2, strokeLinecap: "round", vectorEffect: "non-scaling-stroke" })),
+      bulbs
+    );
+  }
+
+  // Snowy hills that the terms sit on. 'slice' keeps the shapes undistorted at any width.
+  snowbankArt() {
+    if (this._bank) return this._bank;
+    const h = React.createElement;
+    const tree = (x, y, s) => h("path", { key: "t" + x, fill: "#f0d9dc", d:
+      "M" + x + "," + (y - 64 * s) + " L" + (x + 22 * s) + "," + (y - 26 * s) + " L" + (x + 10 * s) + "," + (y - 26 * s) +
+      " L" + (x + 30 * s) + "," + y + " L" + (x - 30 * s) + "," + y + " L" + (x - 10 * s) + "," + (y - 26 * s) +
+      " L" + (x - 22 * s) + "," + (y - 26 * s) + " Z" });
+    this._bank = h("svg", { viewBox: "0 0 1440 150", preserveAspectRatio: "xMidYMax slice", "aria-hidden": "true", style: {
+      display: "block", width: "100%", height: "clamp(80px,10.4vw,150px)"
+    }},
+      tree(150, 62, 1), tree(232, 58, .7), tree(1190, 76, .85), tree(1262, 80, 1.1), tree(1336, 74, .65),
+      h("path", { key: "b", fill: "#ecd3d7", d: "M0,70 C180,30 330,40 480,62 C640,86 780,40 960,44 C1130,48 1270,86 1440,60 L1440,150 L0,150Z" }),
+      h("path", { key: "m", fill: "#f8ecee", d: "M0,100 C220,60 420,70 620,92 C820,114 1020,70 1220,80 C1330,86 1400,98 1440,96 L1440,150 L0,150Z" }),
+      h("path", { key: "f", fill: "#ffffff", d: "M0,122 C260,96 520,104 760,118 C1000,132 1220,104 1440,114 L1440,150 L0,150Z" })
+    );
+    return this._bank;
+  }
+
+  // Big, soft, slow flakes in front of everything — gives the snow some depth.
+  snowFrontLayer() {
+    if (this._snowFront) return this._snowFront;
+    const flakes = [];
+    for (let i = 0; i < 9; i++) {
+      flakes.push(React.createElement("span", { key: i, style: {
+        position: "absolute", top: 0, left: ((i * 29 + 7) % 100) + "%",
+        fontSize: (26 + (i % 4) * 8) + "px", lineHeight: 1,
+        color: "rgba(255,255,255,.5)", filter: "blur(" + (1.5 + (i % 3)) + "px)",
+        animation: "x-fall-near " + (20 + (i % 5) * 3) + "s linear " + (-i * 3.1) + "s infinite"
+      }}, "❄"));
+    }
+    this._snowFront = React.createElement("div", { className: "x-snow", "aria-hidden": "true", style: {
+      position: "fixed", inset: 0, zIndex: 3, pointerEvents: "none", overflow: "hidden"
+    }}, flakes);
+    return this._snowFront;
+  }
+
   snowLayer() {
     if (this._snow) return this._snow;
     const glyphs = ["❄","❅","✦","❆"];
@@ -652,7 +767,7 @@ class Component extends DCLogic {
         animation: `x-fall ${10 + (i % 10)}s linear ${-(i % 14)}s infinite`
       }}, glyphs[i % 4]));
     }
-    this._snow = React.createElement("div", { "aria-hidden": "true", style: {
+    this._snow = React.createElement("div", { className: "x-snow", "aria-hidden": "true", style: {
       position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden"
     }}, flakes);
     return this._snow;
@@ -694,22 +809,16 @@ class Component extends DCLogic {
       };
     });
 
-    const pips = DAYS.map((d, i) => {
-      const s = this.status(i + 1);
-      return {
-        bg: s === "opened" ? "#fff" : s === "today" || s === "open" ? "#cc0000" : "transparent",
-        ring: s === "opened" ? "none" : s === "today" || s === "open" ? "inset 0 0 0 2px #fff" : s === "missed" ? "inset 0 0 0 2px rgba(255,255,255,.18)" : "inset 0 0 0 2px rgba(255,255,255,.4)",
-        anim: s === "today" ? "x-pulse 2.8s ease-in-out infinite" : "none",
-        title: "Day " + (i + 1) + " — " + s
-      };
-    });
 
     const next = modal && modal < 12 ? modal + 1 : null;
 
     return {
       snow: (this.props.snow ?? true) ? this.snowLayer() : null,
+      snowFront: (this.props.snow ?? true) ? this.snowFrontLayer() : null,
+      lights: this.lightsLayer(),
+      snowbank: this.snowbankArt(),
       confetti: st.party ? this.confettiLayer() : null,
-      doors, steps: STEPS, pips,
+      doors, steps: STEPS,
       progress: count
         ? count + " OF 12 OPENED" + (waiting ? " · " + waiting + " WAITING" : "")
         : waiting ? waiting + (waiting === 1 ? " DOOR" : " DOORS") + " WAITING FOR YOU" : "NO DOORS OPEN YET",
