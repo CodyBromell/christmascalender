@@ -323,7 +323,7 @@
           <div sc-camel-on-click="{{ d.click }}" aria-hidden="true" style="position:absolute;inset:0;cursor:pointer">{{ d.facade }}</div>
           <div style="position:absolute;left:27%;width:46%;top:19.2%;height:54.4%;perspective:900px;perspective-origin:left center">
             <div class="x-door-inside" style="position:absolute;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding-left:{{ d.innerPadLeft }};border-radius:{{ d.insideRadius }};background:{{ d.innerBg }};box-shadow:{{ d.innerShadow }}">
-              <span class="x-house-gift" style="line-height:1;animation:{{ d.giftAnim }}">{{ d.prizeIcon }}</span>
+              {{ d.gift }}
             </div>
             {{ d.burst }}
             <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;border:0;background:none;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;transform:{{ d.transform }};filter:{{ d.filter }}">
@@ -379,7 +379,7 @@
 
         <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
           <div>
-            <p style="margin:0;font-size:62px;line-height:1">{{ prizeIcon }}</p>
+            {{ prizeVisual }}
             <p style="margin:12px 0 14px;display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;padding:5px 10px;background:#dedede">{{ prizeChip }}</p>
             <h2 style="margin:0 0 10px;font-size:27px;font-weight:800;line-height:1.15;text-transform:uppercase">{{ prizeHead }}</h2>
             <p style="margin:0 0 4px;font-size:18px;font-weight:700">{{ prizeName }}</p>
@@ -411,40 +411,40 @@ const MIN_SPEND = 280;
 
 const DAYS = [
   {motif:"🎄",title:"A frost-free windscreen",icon:"🧴",name:"Super de-icer spray, 500ml",
-   sub:"Dispatched with your next order.",code:"WU-DEICE",supplier:"Würth",
+   sub:"Dispatched with your next order.",code:"WU-DEICE",img:"images/prizes/day-01.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Super-de-icer-spray-DEICESPR-SUPER-500ML/0892331201.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0892331201"},
   {motif:"🔔",title:"Two clear screens",icon:"💧",name:"Winter screenwash, 5 litres",
-   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",supplier:"Würth",
+   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",img:"images/prizes/day-02.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Windscreen-cleaner-with-frost-protection-down-to-8-C-WSCRNCLNR-ANTIFREZ-BLUE-5LTR/0892332105.sku/en/GB/GBP/?CampaignName=SR001"},
   {motif:"⛄",title:"Three warm heads",icon:"🧢",name:"Würth Thinsulate beanie",
-   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",supplier:"Würth",
+   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",img:"images/prizes/day-03.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Thinsulate-knitted-hat-with-lining/31080504070702.cyid/3108.cgid/en/GB/GBP/?CampaignName=CS016"},
   {motif:"🧤",title:"Four hands working",icon:"🧤",name:"TIGERFLEX THERMO DRY W-350 winter gloves",
-   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",supplier:"Würth",
+   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",img:"images/prizes/day-04.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Protective-glove-winter-TIGERFLEX-THERMO-DRY-W-350/310805040907124.cyid/3108.cgid/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🕯️",title:"Five allen keys",icon:"🔧",name:"Allen key set, 9 pieces",
-   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",supplier:"Würth",
+   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",img:"images/prizes/day-05.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Allen-key-set-9-pieces-ALLENKEY-SET-LONG-15-10MM-9PCS/071531%20120.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🎄",title:"Six ornaments hanging",icon:"🎅",name:"Würth Christmas ornaments",
    sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/"},
   {motif:"📏",title:"Seven things made level",icon:"📏",name:"Magnetic spirit level",
-   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",supplier:"Würth",
+   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",img:"images/prizes/day-07.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Small-spirit-level-with-magnet-LEVL-LMET-PLA-MAGN-74X41X34/0714644505.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0714644505"},
   {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",
-   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",supplier:"Amazon",
+   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",img:"images/prizes/day-08.jpg",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Xbox-Ultimate-Console-Month-Membership/dp/B07SBBC7Q2"},
   {motif:"🔥",title:"Nine warm fingers",icon:"🔥",name:"Rechargeable electric hand warmers",
-   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",supplier:"Amazon",
+   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",img:"images/prizes/day-09.jpg",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Rechargeable-Electric-Portable-Reusable-Handwarmers/dp/B0DBLX2HS7"},
   {motif:"⭐",title:"Ten bits at the ready",icon:"🪛",name:"Pistol ratchet multi-bit screwdriver set",
-   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",supplier:"Würth",
+   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",img:"images/prizes/day-10.jpg",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Pistol-ratchet-multi-bit-screwdriver-set-3-8-pieces-SCRDRIV-MULTIBIT-PIST-RTCH-LED-VAR3-8PCS/06136403.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🛏️",title:"Eleven cosy evenings",icon:"🛏️",name:"Heated honeycomb overblanket",
-   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",supplier:"Amazon",
+   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",img:"images/prizes/day-11.jpg",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Schallen-Electric-Honeycomb-Overblanket-Settings/dp/B00D8WVY2K"},
   {motif:"🎁",title:"Twelve days, the big one",icon:"🧰",name:"1/4\" socket wrench assortment, 40 pieces",
-   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",supplier:"Würth",top:true,
+   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",img:"images/prizes/day-12.jpg",supplier:"Würth",top:true,
    url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
@@ -812,6 +812,22 @@ function doorArt(n, house, lampOn) {
   return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" } }, k);
 }
 
+// Product photo for a day, falling back to the emoji. Uses DAYS so doors opened before photos existed still get one.
+function giftInDoor(n, anim) {
+  const d = DAYS[n - 1], h = React.createElement;
+  if (!d.img) return h("span", { className: "x-house-gift", style: { lineHeight: 1, animation: anim } }, d.icon);
+  return h("img", { src: d.img, alt: d.name, decoding: "async", style: {
+    display: "block", width: "88%", aspectRatio: "1", objectFit: "contain", background: "#fff", padding: "5%",
+    boxSizing: "border-box", borderRadius: "4px", boxShadow: "0 4px 10px rgba(80,30,0,.35)", animation: anim } });
+}
+function giftOnPrizeScreen(n) {
+  const d = DAYS[n - 1], h = React.createElement;
+  const pop = "x-gift .5s cubic-bezier(.2,1.5,.4,1) both";
+  if (!d.img) return h("p", { style: { margin: 0, fontSize: "62px", lineHeight: 1, animation: pop } }, d.icon);
+  return h("img", { src: d.img, alt: d.name, style: {
+    display: "block", width: "100%", maxWidth: "240px", height: "200px", objectFit: "contain", margin: "0 0 4px", animation: pop } });
+}
+
 function money(v) { return "£" + v.toFixed(2); }
 function pad(n) { return String(n).padStart(2, "0"); }
 
@@ -928,6 +944,7 @@ class Component extends DCLogic {
     if (order.total < MIN_SPEND) return this.setState({ error: "That order is " + money(order.total) + ". You need " + money(MIN_SPEND) + " or more to enter." });
 
     const g = DAYS[n - 1];
+    if (g.img) new Image().src = g.img; // warm the cache while the "thinking" spinner runs
     const prize = { ...g, ref: g.code + "-" + pad(n) + "-" + Math.random().toString(36).slice(2,6).toUpperCase() };
 
     this.setState({ phase: "thinking", think: 0, error: "", code });
@@ -1100,7 +1117,7 @@ class Component extends DCLogic {
         numTop: house.numTop,
         numColor: house.num,
         numShadow: house.numShadow || "0 1px 0 rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.35)",
-        prizeIcon: rec ? rec.icon : "",
+        gift: rec ? giftInDoor(n, "x-gift .5s cubic-bezier(.2,1.5,.4,1) both") : null,
         // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
         innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
         insideRadius: ARCH[house.arch] ? ARCH[house.arch].radius : "0",
@@ -1159,7 +1176,7 @@ class Component extends DCLogic {
       veilClick: () => { if (st.phase !== "thinking") this.close(); },
       stop: (e) => e.stopPropagation(),
       thinkingLine: THINKING[st.think],
-      prizeIcon: prize ? prize.icon : "",
+      prizeVisual: prize ? giftOnPrizeScreen(modal) : null,
       prizeChip: prize ? "DAY " + modal + " · " + prize.supplier.toUpperCase() : "",
       prizeUrl: prize ? prize.url : "#",
       prizeHead: prize ? (prize.top ? "You've won the headline gift." : "Merry Christmas — you've won.") : "",
