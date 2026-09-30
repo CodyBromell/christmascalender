@@ -182,6 +182,8 @@
     100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.85) rotate(var(--rot))}
   }
   @keyframes x-gift{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.18);opacity:1}100%{transform:scale(1);opacity:1}}
+  @keyframes x-rattle{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px) rotate(-1deg)}40%{transform:translateX(5px) rotate(1deg)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+  @keyframes x-confetti{0%{transform:translate3d(0,-12vh,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(6vw,108vh,0) rotate(900deg);opacity:0}}
   ::selection{background:#cc0000;color:#fff}
   input:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 
@@ -240,6 +242,14 @@
     .x-door-inside{padding-left:32% !important;padding-right:5% !important}
     .x-door-label{font-size:10.5px !important}
   }
+  /* Doors you can open peek ajar on hover, showing the warm light behind */
+  @media (hover:hover){
+    .x-door[data-state=today],.x-door[data-state=open]{transition:transform .5s cubic-bezier(.34,1.4,.5,1),filter .5s !important}
+    .x-door[data-state=today]:hover,.x-door[data-state=open]:hover{transform:rotateY(-34deg) !important;box-shadow:-8px 6px 22px rgba(0,0,0,.45) !important}
+    .x-door[data-state=locked]:hover,.x-door[data-state=missed]:hover{cursor:not-allowed}
+  }
+  .x-door:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:.95em;background:rgba(0,0,0,.25);padding:1px 5px}
   /* No hover on touch — keep pressed feedback instead */
   @media (hover:none){
     .x-door:active{filter:brightness(.92)}
@@ -277,6 +287,12 @@
           <button class="x-cta" sc-camel-on-click="{{ openToday }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:15px 26px;cursor:pointer;background:#fff;color:#a00000;border:0" style-hover="background:#ffd9d9">{{ heroCta }}</button>
           <span style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#ffb3b3">{{ progress }}</span>
         </div>
+        <div class="x-pips" aria-hidden="true" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:26px">
+          <sc-for list="{{ pips }}" as="p" hint-placeholder-count="12">
+            <span title="{{ p.title }}" style="width:16px;height:16px;background:{{ p.bg }};box-shadow:{{ p.ring }};animation:{{ p.anim }}"></span>
+          </sc-for>
+        </div>
+        <p class="x-countdown" style="margin:14px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.35)">
         <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
@@ -291,13 +307,13 @@
 
     <div class="x-doors" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
       <sc-for list="{{ doors }}" as="d" hint-placeholder-count="12">
-        <div style="position:relative;aspect-ratio:1;perspective:1100px;perspective-origin:left center;z-index:{{ d.z }}">
+        <div style="position:relative;aspect-ratio:1;perspective:1100px;perspective-origin:left center;z-index:{{ d.z }};animation:{{ d.shakeAnim }}">
           <div class="x-door-inside" style="position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:10% 8% 10% {{ d.innerPadLeft }};background:{{ d.innerBg }};color:{{ d.innerFg }};box-shadow:{{ d.innerShadow }}">
             <span class="x-door-gift" style="font-size:36px;line-height:1;animation:{{ d.giftAnim }}">{{ d.prizeIcon }}</span>
             <span class="x-door-label" style="font-size:12px;font-weight:700;line-height:1.3">{{ d.innerLabel }}</span>
           </div>
           {{ d.burst }}
-          <button class="x-door" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:'Archivo',sans-serif;border:0;background:{{ d.bg }};color:{{ d.fg }};transform:{{ d.transform }};filter:{{ d.filter }};box-shadow:{{ d.shadow }}" style-hover="box-shadow:inset 0 0 0 4px #fff">
+          <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:'Archivo',sans-serif;border:0;background:{{ d.bg }};color:{{ d.fg }};transform:{{ d.transform }};filter:{{ d.filter }};box-shadow:{{ d.shadow }}" style-hover="box-shadow:inset 0 0 0 4px #fff">
             <span class="x-door-motif" style="font-size:30px;line-height:1;opacity:.9">{{ d.motif }}</span>
             <span class="x-door-num" style="font-size:44px;font-weight:800;line-height:.9;letter-spacing:-.04em;animation:{{ d.numAnim }}">{{ d.num }}</span>
             <span class="x-door-caption" style="font-size:10px;font-weight:700;letter-spacing:.16em">{{ d.caption }}</span>
@@ -309,7 +325,7 @@
 
     <footer class="x-footer" style="margin-top:56px;padding-top:22px;border-top:2px solid rgba(255,255,255,.35);font-size:12.5px;line-height:1.75;color:#ffc2c2;max-width:72ch">
       <p style="margin:0">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Doors stay open for 48 hours, then close for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route at <a href="#">northlight.example/12-days</a>.</p>
-      <p style="margin:12px 0 0;color:#ff9e9e">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501.</p>
+      <p style="margin:12px 0 0;color:#ff9e9e">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501. Add <code>?day=9</code> to the address to jump to another day, or <code>?reset</code> to start over.</p>
     </footer>
   </div>
 
@@ -324,7 +340,7 @@
             <p style="margin:10px 0 0;font-size:58px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#cc0000">DAY {{ modalDay }}</p>
             <p style="margin:6px 0 22px;font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#959595">{{ modalDate }}</p>
             <h2 style="margin:0 0 8px;font-size:25px;font-weight:800;line-height:1.15;text-transform:uppercase">{{ modalTitle }}</h2>
-            <p style="margin:0 0 18px;font-size:14.5px;line-height:1.6;color:#605d5c">Enter your order number. It's on the confirmation email for any order of £280 or more.</p>
+            <p style="margin:0 0 18px;font-size:14.5px;line-height:1.6;color:#605d5c">Enter your order number. {{ codeHint }}</p>
             <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
               <p style="margin:0 0 16px;padding:11px 13px;background:#dedede;border-left:4px solid #cc0000;font-size:13.5px;line-height:1.5">{{ error }}</p>
             </sc-if>
@@ -353,12 +369,18 @@
             <p style="margin:0;padding:13px;font-family:ui-monospace,Menlo,monospace;font-size:16px;letter-spacing:.1em;border:2px dashed #cc0000;color:#cc0000;text-align:center">{{ prizeRef }}</p>
             <p style="margin:8px 0 16px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:#959595">Keep this reference — it's on your account too.</p>
             <button sc-camel-on-click="{{ closeModal }}" style="width:100%;padding:15px;border:0;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:left" style-hover="background:#000">Back to the twelve days</button>
-            <p style="margin:16px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
+            <button sc-camel-on-click="{{ share }}" style="width:100%;margin-top:10px;padding:13px 15px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:left" style-hover="background:#f3f3f3">Share your win ↗</button>
+            <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
+              <p style="margin:18px 0 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#cc0000;margin-bottom:2px">TOMORROW'S HINT</strong>{{ nextTeaser }}</p>
+            </sc-if>
+            <p style="margin:14px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
           </div>
         </sc-if>
       </div>
     </div>
   </sc-if>
+
+  {{ confetti }}
 
   <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
     <p class="x-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:90;margin:0;background:#1a0000;color:#fff;padding:13px 22px;font-size:14px;max-width:88vw;text-align:center;animation:x-rise .22s ease-out">{{ toast }}</p>
@@ -417,6 +439,21 @@ const ORDERS = [
   {no:"NL-09980", total:700.00, status:"paid", placed:"2026-10-02"}
 ];
 
+const HINTS = [
+  "Something for a frosty morning start.",
+  "Helps you see the road ahead.",
+  "Something for cold ears.",
+  "Something for cold hands on site.",
+  "Small, six-sided, always needed.",
+  "Something for the tree.",
+  "Keeps everything straight.",
+  "Something for time off the tools.",
+  "Heat you can carry in your pocket.",
+  "A click-click-click kind of gift.",
+  "For the sofa after a long week.",
+  "The big one. Worth the wait."
+];
+
 const STEPS = [
   {n:"1", text:"Place an order of £280 or more between 1 Nov and 12 Dec."},
   {n:"2", text:"Find your order number on the confirmation email."},
@@ -425,10 +462,158 @@ const STEPS = [
 
 const THINKING = ["Checking your order number…", "Lifting the latch…", "Reaching into the door…"];
 
+// Remembered per browser so a refresh (or tomorrow's visit) keeps your doors and order number.
+const STORE_KEY = "twelve-days-2026";
+function loadSaved() {
+  try {
+    if (new URLSearchParams(location.search).has("reset")) localStorage.removeItem(STORE_KEY);
+    return JSON.parse(localStorage.getItem(STORE_KEY)) || {};
+  } catch (e) { return {}; }
+}
+function persist(data) { try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {} }
+
+// Accepts "nl-10412", "NL 10412", "NL10412" or just "10412".
+function normaliseCode(raw) {
+  const c = (raw || "").toUpperCase().replace(/\s+/g, "");
+  if (/^\d{5}$/.test(c)) return "NL-" + c;
+  if (/^NL\d{5}$/.test(c)) return "NL-" + c.slice(2);
+  return c;
+}
+
 function money(v) { return "£" + v.toFixed(2); }
+function pad(n) { return String(n).padStart(2, "0"); }
+
+const saved = loadSaved();
 
 class Component extends DCLogic {
-  state = { opened: {}, modal: null, phase: "entry", error: "", think: 0, toast: "", burstFor: null };
+  state = {
+    opened: saved.opened || {}, code: saved.code || "",
+    modal: null, phase: "entry", error: "", think: 0, toast: "",
+    burstFor: null, party: false, rattle: null, now: Date.now()
+  };
+  codeRef = React.createRef();
+
+  componentDidMount() {
+    this.clock = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this.onKeyDoc = (e) => {
+      if (e.key === "Escape" && this.state.modal && this.state.phase !== "thinking") this.close();
+    };
+    document.addEventListener("keydown", this.onKeyDoc);
+    const n = Object.keys(this.state.opened).length;
+    if (n) this.flash("Welcome back — you've opened " + n + (n === 1 ? " door" : " doors") + " so far.");
+  }
+
+  componentDidUpdate() {
+    // Focus + prefill the order number whenever the entry form appears.
+    const key = this.state.modal && this.state.phase === "entry" ? this.state.modal : null;
+    if (key !== this._entryFor) {
+      this._entryFor = key;
+      const el = this.codeRef.current;
+      if (key && el) {
+        if (!el.value) el.value = this.state.code;
+        // Don't pop the keyboard over the door on touch screens; do focus with a mouse/keyboard.
+        if (window.matchMedia("(hover: hover)").matches) el.focus();
+      }
+    }
+    document.body.style.overflow = this.state.modal ? "hidden" : "";
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.iv); clearInterval(this.clock);
+    clearTimeout(this.to); clearTimeout(this.tt); clearTimeout(this.bt); clearTimeout(this.pt); clearTimeout(this.rt);
+    document.removeEventListener("keydown", this.onKeyDoc);
+    document.body.style.overflow = "";
+  }
+
+  today() {
+    const q = parseInt(new URLSearchParams(location.search).get("day"), 10);
+    return Math.min(12, Math.max(1, q || (this.props.today ?? 6)));
+  }
+  grace() { return this.props.graceDays ?? 2; }
+  dayDate(n) { return new Date(Date.UTC(2026, 11, n)); }
+  date(n) { return this.dayDate(n).toLocaleDateString("en-GB", {weekday:"long", day:"numeric", month:"long", timeZone:"UTC"}); }
+  niceDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}); }
+  shortDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}).toUpperCase(); }
+
+  status(n) {
+    const t = this.today();
+    if (this.state.opened[n]) return "opened";
+    if (n > t) return "locked";
+    if (t - n > this.grace()) return "missed";
+    return n === t ? "today" : "open";
+  }
+
+  // Doors open at midnight — count down to the next one.
+  countdown() {
+    const t = this.today();
+    if (t >= 12) return "All twelve doors are out — merry Christmas.";
+    const now = new Date(this.state.now);
+    const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
+    const s = Math.max(0, Math.floor((midnight - now) / 1000));
+    return "Door " + (t + 1) + " opens in " + pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
+  }
+
+  flash(msg) {
+    clearTimeout(this.tt);
+    this.setState({ toast: msg });
+    this.tt = setTimeout(() => this.setState({ toast: "" }), 3400);
+  }
+
+  close() { this.setState({ modal: null, error: "" }); }
+
+  clickDoor(n) {
+    const s = this.status(n);
+    if (s === "locked" || s === "missed") {
+      clearTimeout(this.rt);
+      this.setState({ rattle: n });
+      this.rt = setTimeout(() => this.setState({ rattle: null }), 500);
+    }
+    if (s === "locked") return this.flash("🔒 " + (n - this.today() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + ". Hint: " + HINTS[n - 1].toLowerCase());
+    if (s === "missed") return this.flash("Door " + n + " closed on " + this.niceDate(Math.min(n + this.grace(), 12)) + ". Keep an eye on today's door.");
+    this.setState({ modal: n, phase: s === "opened" ? "result" : "entry", error: "" });
+  }
+
+  submit() {
+    const n = this.state.modal;
+    const code = normaliseCode(this.codeRef.current?.value);
+    const order = ORDERS.find(o => o.no === code);
+    if (!code) return this.setState({ error: "Enter the order number from your order email." });
+    if (!order) return this.setState({ error: "That order number isn't recognised. Check the email we sent with your order." });
+    if (order.status !== "paid") return this.setState({ error: "That order was refunded, so it isn't eligible." });
+    if (order.placed < "2026-11-01") return this.setState({ error: "That order was placed outside the promotion window (1 Nov – 12 Dec)." });
+    if (order.total < MIN_SPEND) return this.setState({ error: "That order is " + money(order.total) + ". You need " + money(MIN_SPEND) + " or more to enter." });
+
+    const g = DAYS[n - 1];
+    const prize = { ...g, ref: g.code + "-" + pad(n) + "-" + Math.random().toString(36).slice(2,6).toUpperCase() };
+
+    this.setState({ phase: "thinking", think: 0, error: "", code });
+    clearInterval(this.iv);
+    this.iv = setInterval(() => this.setState(s => ({ think: Math.min(s.think + 1, THINKING.length - 1) })), 620);
+    clearTimeout(this.to);
+    this.to = setTimeout(() => {
+      clearInterval(this.iv);
+      this.setState(s => {
+        const opened = { ...s.opened, [n]: prize };
+        persist({ opened, code });
+        return { opened, phase: "result", burstFor: n, party: true };
+      });
+      clearTimeout(this.bt); clearTimeout(this.pt);
+      this.bt = setTimeout(() => this.setState({ burstFor: null }), 1600);
+      this.pt = setTimeout(() => this.setState({ party: false }), 3200);
+    }, 2000);
+  }
+
+  share() {
+    const n = this.state.modal, p = this.state.opened[n];
+    if (!p) return;
+    const text = "I opened door " + n + " of the 12 Days of Christmas and got " + p.name + " 🎁";
+    const url = location.origin + location.pathname;
+    if (navigator.share) {
+      navigator.share({ title: "The 12 Days of Christmas", text, url }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text + " " + url).then(() => this.flash("Copied — paste it anywhere to share."), () => {});
+    }
+  }
 
   burstFor(n) {
     const glyphs = ["🍬", "❄", "🍭", "✦", "❅", "🎄", "⭐", "🍬", "❆", "🍭", "✧", "❄"];
@@ -448,60 +633,23 @@ class Component extends DCLogic {
       position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none"
     }}, parts);
   }
-  codeRef = React.createRef();
 
-  componentWillUnmount() { clearInterval(this.iv); clearTimeout(this.to); clearTimeout(this.tt); clearTimeout(this.bt); }
-
-  today() { return Math.min(12, Math.max(1, this.props.today ?? 6)); }
-  grace() { return this.props.graceDays ?? 2; }
-  dayDate(n) { return new Date(Date.UTC(2026, 11, n)); }
-  date(n) { return this.dayDate(n).toLocaleDateString("en-GB", {weekday:"long", day:"numeric", month:"long", timeZone:"UTC"}); }
-  shortDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}).toUpperCase(); }
-
-  status(n) {
-    const t = this.today();
-    if (this.state.opened[n]) return "opened";
-    if (n > t) return "locked";
-    if (t - n > this.grace()) return "missed";
-    return n === t ? "today" : "open";
-  }
-
-  flash(msg) {
-    clearTimeout(this.tt);
-    this.setState({ toast: msg });
-    this.tt = setTimeout(() => this.setState({ toast: "" }), 2800);
-  }
-
-  clickDoor(n) {
-    const s = this.status(n);
-    if (s === "locked") return this.flash(n - this.today() === 1 ? "Door " + n + " opens tomorrow morning." : "Door " + n + " opens on " + this.shortDate(n) + ".");
-    if (s === "missed") return this.flash("Door " + n + " closed on " + this.shortDate(Math.min(n + this.grace(), 12)) + ".");
-    this.setState({ modal: n, phase: s === "opened" ? "result" : "entry", error: "" });
-  }
-
-  submit() {
-    const n = this.state.modal;
-    const code = (this.codeRef.current?.value || "").trim().toUpperCase();
-    const order = ORDERS.find(o => o.no === code);
-    if (!code) return this.setState({ error: "Enter the order number from your order email." });
-    if (!order) return this.setState({ error: "That order number isn't recognised. Check the email we sent with your order." });
-    if (order.status !== "paid") return this.setState({ error: "That order was refunded, so it isn't eligible." });
-    if (order.placed < "2026-11-01") return this.setState({ error: "That order was placed outside the promotion window (1 Nov – 12 Dec)." });
-    if (order.total < MIN_SPEND) return this.setState({ error: "That order is " + money(order.total) + ". You need " + money(MIN_SPEND) + " or more to enter." });
-
-    const g = DAYS[n - 1];
-    const prize = { ...g, ref: g.code + "-" + String(n).padStart(2,"0") + "-" + Math.random().toString(36).slice(2,6).toUpperCase() };
-
-    this.setState({ phase: "thinking", think: 0, error: "" });
-    clearInterval(this.iv);
-    this.iv = setInterval(() => this.setState(s => ({ think: Math.min(s.think + 1, THINKING.length - 1) })), 620);
-    clearTimeout(this.to);
-    this.to = setTimeout(() => {
-      clearInterval(this.iv);
-      this.setState(s => ({ opened: { ...s.opened, [n]: prize }, phase: "result", burstFor: n }));
-      clearTimeout(this.bt);
-      this.bt = setTimeout(() => this.setState({ burstFor: null }), 1600);
-    }, 2000);
+  confettiLayer() {
+    if (this._confetti) return this._confetti;
+    const colours = ["#cc0000", "#ffffff", "#f2c14e", "#ff6b6b", "#046b3f"];
+    const bits = [];
+    for (let i = 0; i < 70; i++) {
+      bits.push(React.createElement("span", { key: i, style: {
+        position: "absolute", top: 0, left: ((i * 37) % 100) + "%",
+        width: (6 + (i % 3) * 3) + "px", height: (10 + (i % 4) * 3) + "px",
+        background: colours[i % colours.length], borderRadius: i % 5 === 0 ? "50%" : "1px",
+        animation: `x-confetti ${1.8 + (i % 7) * 0.18}s cubic-bezier(.25,.6,.4,1) ${(i % 10) * 0.07}s both`
+      }}));
+    }
+    this._confetti = React.createElement("div", { "aria-hidden": "true", style: {
+      position: "fixed", inset: 0, zIndex: 85, pointerEvents: "none", overflow: "hidden"
+    }}, bits);
+    return this._confetti;
   }
 
   snowLayer() {
@@ -525,17 +673,20 @@ class Component extends DCLogic {
   renderVals() {
     const t = this.today(), st = this.state, count = Object.keys(st.opened).length;
     const modal = st.modal, prize = modal ? st.opened[modal] : null;
+    const waiting = DAYS.filter((d, i) => ["today", "open"].includes(this.status(i + 1))).length;
 
     const doors = DAYS.map((d, i) => {
       const n = i + 1, s = this.status(n), rec = st.opened[n];
-      const won = !!rec;
+      const openable = s === "today" || s === "open";
       return {
         num: n,
+        state: s,
         motif: d.motif,
         prizeIcon: rec ? rec.icon : "",
         innerLabel: rec ? rec.name : "",
-        innerBg: !rec ? "transparent" : won ? "#046b3f" : "#f3f0e6",
-        innerFg: won ? "#fff" : "#1a1a1a",
+        // Warm light behind doors you can open — seen when the door peeks ajar on hover.
+        innerBg: rec ? "#046b3f" : openable ? "radial-gradient(70% 80% at 18% 50%,#fff1c4,#f2b33d 45%,#8a3d00)" : "transparent",
+        innerFg: "#fff",
         caption: s === "today" ? "TODAY" : s === "opened" ? "OPENED" : s === "open" ? "48H LEFT" : s === "missed" ? "CLOSED" : this.shortDate(n),
         bg: s === "today" ? "#fff" : s === "locked" ? "#7a0c0c" : s === "missed" ? "#5a0606" : "#cc0000",
         fg: s === "today" ? "#a00000" : s === "locked" ? "#ffd4d4" : s === "missed" ? "#e8a8a8" : "#fff",
@@ -545,6 +696,7 @@ class Component extends DCLogic {
         innerPadLeft: rec ? "40%" : "8%",
         innerShadow: rec ? "inset 26px 0 34px rgba(0,0,0,.42), inset 0 0 0 2px rgba(0,0,0,.18)" : "none",
         giftAnim: rec ? "x-gift .5s cubic-bezier(.2,1.5,.4,1) both" : "none",
+        shakeAnim: st.rattle === n ? "x-rattle .45s ease-in-out" : "none",
         burst: st.burstFor === n ? this.burstFor(n) : null,
         shadow: rec ? "-10px 8px 30px rgba(0,0,0,.55)" : s === "today" ? "0 0 0 4px #cc0000, 0 0 40px rgba(255,255,255,.35)" : "inset 0 0 0 2px rgba(255,255,255,.28)",
         numAnim: s === "today" ? "x-pulse 2.8s ease-in-out infinite" : "none",
@@ -554,10 +706,26 @@ class Component extends DCLogic {
       };
     });
 
+    const pips = DAYS.map((d, i) => {
+      const s = this.status(i + 1);
+      return {
+        bg: s === "opened" ? "#fff" : s === "today" || s === "open" ? "#cc0000" : "transparent",
+        ring: s === "opened" ? "none" : s === "today" || s === "open" ? "inset 0 0 0 2px #fff" : s === "missed" ? "inset 0 0 0 2px rgba(255,255,255,.18)" : "inset 0 0 0 2px rgba(255,255,255,.4)",
+        anim: s === "today" ? "x-pulse 2.8s ease-in-out infinite" : "none",
+        title: "Day " + (i + 1) + " — " + s
+      };
+    });
+
+    const next = modal && modal < 12 ? modal + 1 : null;
+
     return {
       snow: (this.props.snow ?? true) ? this.snowLayer() : null,
-      doors, steps: STEPS,
-      progress: count ? count + " OF 12 DOORS OPENED" : "NO DOORS OPENED YET",
+      confetti: st.party ? this.confettiLayer() : null,
+      doors, steps: STEPS, pips,
+      progress: count
+        ? count + " OF 12 OPENED" + (waiting ? " · " + waiting + " WAITING" : "")
+        : waiting ? waiting + (waiting === 1 ? " DOOR" : " DOORS") + " WAITING FOR YOU" : "NO DOORS OPEN YET",
+      countdown: this.countdown(),
       heroCta: st.opened[t] ? "See day " + t + " again" : "Open today's door",
       openToday: () => this.clickDoor(t),
       modalOpen: !!modal,
@@ -568,13 +736,15 @@ class Component extends DCLogic {
       modalMotif: modal ? DAYS[modal - 1].motif : "",
       modalTitle: modal ? DAYS[modal - 1].title : "",
       modalDate: modal ? this.date(modal) : "",
+      codeHint: st.code ? "We've remembered your order number from last time." : "It's on the confirmation email for any order of £280 or more.",
       error: st.error,
       codeRef: this.codeRef,
       onKey: (e) => { if (e.key === "Enter") this.submit(); },
       submit: () => this.submit(),
-      closeModal: () => this.setState({ modal: null, error: "" }),
-      veilClick: () => this.setState({ modal: null, error: "" }),
+      closeModal: () => this.close(),
+      veilClick: () => { if (st.phase !== "thinking") this.close(); },
       stop: (e) => e.stopPropagation(),
+      share: () => this.share(),
       thinkingLine: THINKING[st.think],
       prizeIcon: prize ? prize.icon : "",
       prizeChip: prize ? "DAY " + modal + " · " + prize.supplier.toUpperCase() + " · " + money(prize.price) : "",
@@ -583,9 +753,9 @@ class Component extends DCLogic {
       prizeName: prize ? prize.name : "",
       prizeSub: prize ? prize.sub : "",
       prizeRef: prize ? prize.ref : "",
-      prizeFine: prize
-        ? "Every valid entry gets that day's gift, while stocks last. Come back tomorrow for day " + Math.min(modal + 1, 12) + "."
-        : "",
+      hasNext: !!next,
+      nextTeaser: next ? "Door " + next + ", " + this.niceDate(next) + ": " + HINTS[next - 1] : "",
+      prizeFine: prize ? "Every valid entry gets that day's gift, while stocks last." : "",
       toast: st.toast
     };
   }

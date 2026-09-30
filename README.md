@@ -6,6 +6,11 @@ Twelve doors, 1–12 December 2026. Customers who spend £280+ in a single order
 
 Front-end prototype. Order validation, gift stock and unlock dates are simulated in the browser — test order numbers `NL-10412`, `NL-10488`, `NL-10501`.
 
+Opened doors and the last order number are remembered in the browser (`localStorage`). For testing:
+
+- `?day=9` — pretend it's 9 December
+- `?reset` — forget opened doors and start over
+
 ## Structure
 
 Static site, no build step — deploys to Vercel as-is.
