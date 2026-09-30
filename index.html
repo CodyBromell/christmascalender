@@ -222,7 +222,6 @@
   }
   @media (max-width:760px){
     .x-doors{grid-template-columns:repeat(3,1fr) !important;gap:12px !important}
-    .x-door-num{font-size:40px !important}
   }
 
   /* Phone */
@@ -244,27 +243,14 @@
     .x-cta-row{margin-top:24px !important;gap:14px !important}
     .x-cta{width:100%;text-align:center;padding:16px 20px !important}
     .x-doors{grid-template-columns:repeat(2,1fr) !important;gap:12px !important;padding-top:10px}
-    .x-door{gap:6px !important}
-    .x-door-motif{font-size:26px !important}
-    .x-door-num{font-size:42px !important}
-    .x-door-caption{font-size:10px !important}
-    .x-door-gift{font-size:30px !important}
-    .x-door-label{font-size:11.5px !important}
     .x-footer{padding-left:max(16px,env(safe-area-inset-left)) !important;padding-right:max(16px,env(safe-area-inset-right)) !important}
     .x-veil{padding:0 !important;align-items:flex-end !important}
     .x-dialog{width:100% !important;max-height:calc(100dvh - 32px) !important;padding:30px 20px calc(24px + env(safe-area-inset-bottom)) !important}
   }
   @media (max-width:400px){
     /* Opened door swings over the left ~third — keep the prize name readable in what is left */
-    .x-door-inside{gap:6px !important;padding-left:34% !important;padding-right:6% !important}
-    .x-door-gift{font-size:26px !important}
-    .x-door-label{font-size:11px !important;line-height:1.25 !important}
   }
   @media (max-width:360px){
-    .x-door-num{font-size:36px !important}
-    .x-door-motif{font-size:22px !important}
-    .x-door-inside{padding-left:32% !important;padding-right:5% !important}
-    .x-door-label{font-size:10.5px !important}
   }
   /* Doors you can open peek ajar on hover, showing the warm light behind */
   @media (hover:hover){
@@ -273,6 +259,11 @@
     .x-door[data-state=locked]:hover,.x-door[data-state=missed]:hover{cursor:not-allowed}
   }
   .x-door:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .x-house{container-type:inline-size}
+  .x-house-num{font-size:15cqw}
+  .x-house-gift{font-size:15cqw}
+  .x-house-caption{font-size:clamp(9px,5.4cqw,12.5px)}
+  @keyframes x-lamp-flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.55}55%{opacity:1}70%{opacity:.8}75%{opacity:1}}
   code{font-family:ui-monospace,Menlo,monospace;font-size:.95em;background:rgba(0,0,0,.25);padding:1px 5px}
   /* No hover on touch — keep pressed feedback instead */
   @media (hover:none){
@@ -327,17 +318,19 @@
 
     <div class="x-doors" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
       <sc-for list="{{ doors }}" as="d" hint-placeholder-count="12">
-        <div style="position:relative;aspect-ratio:1;perspective:1100px;perspective-origin:left center;z-index:{{ d.z }};animation:{{ d.shakeAnim }}">
-          <div class="x-door-inside" style="position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:10% 8% 10% {{ d.innerPadLeft }};background:{{ d.innerBg }};color:{{ d.innerFg }};box-shadow:{{ d.innerShadow }}">
-            <span class="x-door-gift" style="font-size:36px;line-height:1;animation:{{ d.giftAnim }}">{{ d.prizeIcon }}</span>
-            <span class="x-door-label" style="font-size:12px;font-weight:700;line-height:1.3">{{ d.innerLabel }}</span>
+        <div class="x-house" style="position:relative;aspect-ratio:4/5;z-index:{{ d.z }};animation:{{ d.shakeAnim }};filter:{{ d.houseFilter }};box-shadow:{{ d.houseShadow }}">
+          <div sc-camel-on-click="{{ d.click }}" aria-hidden="true" style="position:absolute;inset:0;cursor:pointer">{{ d.facade }}</div>
+          <div style="position:absolute;left:27%;width:46%;top:19.2%;height:54.4%;perspective:900px;perspective-origin:left center">
+            <div class="x-door-inside" style="position:absolute;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding-left:{{ d.innerPadLeft }};border-radius:{{ d.insideRadius }};background:{{ d.innerBg }};box-shadow:{{ d.innerShadow }}">
+              <span class="x-house-gift" style="line-height:1;animation:{{ d.giftAnim }}">{{ d.prizeIcon }}</span>
+            </div>
+            {{ d.burst }}
+            <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;border:0;background:none;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;transform:{{ d.transform }};filter:{{ d.filter }}">
+              {{ d.doorArt }}
+              <span class="x-house-num" style="position:absolute;left:0;right:0;top:{{ d.numTop }};text-align:center;font-family:'Archivo',sans-serif;font-weight:800;line-height:1;letter-spacing:-.03em;color:{{ d.numColor }};text-shadow:0 1px 0 rgba(0,0,0,.45);animation:{{ d.numAnim }}">{{ d.num }}</span>
+            </button>
           </div>
-          {{ d.burst }}
-          <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-family:'Archivo',sans-serif;border:0;background:{{ d.bg }};color:{{ d.fg }};transform:{{ d.transform }};filter:{{ d.filter }};box-shadow:{{ d.shadow }}" style-hover="box-shadow:inset 0 0 0 4px #fff">
-            <span class="x-door-motif" style="font-size:30px;line-height:1;opacity:.9">{{ d.motif }}</span>
-            <span class="x-door-num" style="font-size:44px;font-weight:800;line-height:.9;letter-spacing:-.04em;animation:{{ d.numAnim }}">{{ d.num }}</span>
-            <span class="x-door-caption" style="font-size:10px;font-weight:700;letter-spacing:.16em">{{ d.caption }}</span>
-          </button>
+          <p class="x-house-caption" style="position:absolute;left:5%;right:5%;top:79.5%;bottom:1.5%;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none;font-weight:700;line-height:1.2;letter-spacing:{{ d.captionSpacing }};color:{{ d.captionFg }}"><span style="background:{{ d.captionBg }};padding:{{ d.captionPad }}">{{ d.caption }}</span></p>
           <span class="x-door-star" style="position:absolute;left:50%;bottom:100%;font-size:20px;pointer-events:none;animation:x-bob 3.2s ease-in-out infinite;display:{{ d.starDisplay }}">⭐</span>
         </div>
       </sc-for>
@@ -502,6 +495,154 @@ function normaliseCode(raw) {
   if (/^\d{5}$/.test(c)) return "NL-" + c;
   if (/^NL\d{5}$/.test(c)) return "NL-" + c.slice(2);
   return c;
+}
+
+// ---------- Hand-drawn house fronts ----------
+// Each door is a little house front drawn in SVG with slightly wobbly lines, so it feels handmade.
+// The facade (wall, porch light, step) stays put; the door itself swings open to show the gift.
+const INK = "#2b1512";
+function seeded(seed) { let s = seed % 2147483647 || 1; return () => (s = s * 16807 % 2147483647) / 2147483647; }
+function wobble(pts, r, amt) {
+  return "M" + pts.map(([x, y]) => (x + (r() - .5) * amt).toFixed(2) + "," + (y + (r() - .5) * amt).toFixed(2)).join(" L") + " Z";
+}
+function roughRect(x, y, w, h, r, amt = .7) {
+  const p = [];
+  for (let i = 0; i < 3; i++) p.push([x + w * i / 3, y]);
+  for (let i = 0; i < 3; i++) p.push([x + w, y + h * i / 3]);
+  for (let i = 0; i < 3; i++) p.push([x + w - w * i / 3, y + h]);
+  for (let i = 0; i < 3; i++) p.push([x, y + h - h * i / 3]);
+  return wobble(p, r, amt);
+}
+function roughLine(x1, y1, x2, y2, r, amt = .6) {
+  const mx = (x1 + x2) / 2 + (r() - .5) * amt, my = (y1 + y2) / 2 + (r() - .5) * amt;
+  return "M" + x1.toFixed(2) + "," + y1.toFixed(2) + " Q" + mx.toFixed(2) + "," + my.toFixed(2) + " " + x2.toFixed(2) + "," + y2.toFixed(2);
+}
+function blob(cx, cy, rx, ry, r) {
+  const p = [];
+  for (let i = 0; i < 7; i++) { const a = i / 7 * Math.PI * 2; p.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]); }
+  return wobble(p, r, Math.min(rx, ry) * .5);
+}
+
+// Door opening sits at x 27–73, y 24–92 in a 100×125 house front.
+const HOUSES = [
+  { wall: "#efe2cc", texture: "render", frame: "#f8f2e7", door: "#b3121b", num: "#fff", numTop: "44%", lamp: [50, 7], deco: "wreath" },
+  { wall: "#c9cdc6", texture: "stone", frame: "#a9afa7", door: "#2f6b3a", num: "#f3e2b3", numTop: "40%", lamp: [13, 30], arch: true, deco: "cottage" },
+  { wall: "#a4432f", texture: "brick", frame: "#f4efe6", door: "#1d2c55", num: "#e8c46a", numTop: "15%", lamp: [87, 30], fanlight: true, deco: "georgian" },
+  { wall: "#f2efe6", texture: "boards", frame: "#e2dccf", door: "#3f7fa6", num: "#fff", numTop: "59%", lamp: [50, 7], pot: true, deco: "stable" }
+];
+function houseFor(n) { return HOUSES[(n - 1) % HOUSES.length]; }
+
+function facadeArt(n, house, lampOn, flicker) {
+  const flick = flicker ? { animation: "x-lamp-flicker 3.2s ease-in-out infinite" } : undefined;
+  const h = React.createElement, r = seeded(n * 97 + 13), k = [];
+  const line = { stroke: INK, strokeWidth: 1, strokeLinejoin: "round", strokeLinecap: "round" };
+  const gid = "x-glow-" + n;
+  k.push(h("defs", { key: "defs" }, h("radialGradient", { id: gid },
+    h("stop", { offset: "0%", stopColor: "#ffd27a", stopOpacity: .8 }),
+    h("stop", { offset: "100%", stopColor: "#ffd27a", stopOpacity: 0 }))));
+
+  k.push(h("path", { key: "wall", d: roughRect(1.5, 1.5, 97, 97, r, 1.2), fill: house.wall, ...line }));
+
+  // wall texture, drawn as one path each so it stays light
+  let tex = "";
+  if (house.texture === "brick") {
+    for (let y = 8, row = 0; y < 97; y += 6.5, row++) {
+      tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
+      for (let x = (row % 2 ? 8 : 14); x < 97; x += 12) tex += roughLine(x, y - 6.5, x, y, r, .4) + " ";
+    }
+    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#cf8a70", strokeWidth: .7, strokeLinecap: "round" }));
+  } else if (house.texture === "stone") {
+    [[12, 12, 7, 4.5], [30, 7, 6, 3.5], [70, 8, 8, 4], [88, 16, 6, 4.5], [9, 52, 5, 6], [90, 55, 6, 5], [12, 80, 7, 5], [88, 84, 6, 5], [20, 30, 4, 3], [80, 36, 5, 3.5]]
+      .forEach(([x, y, rx, ry], i) => k.push(h("path", { key: "st" + i, d: blob(x, y, rx, ry, r), fill: "#d6dad3", stroke: "#8f968e", strokeWidth: .6 })));
+  } else if (house.texture === "boards") {
+    for (let y = 7; y < 97; y += 5.5) tex += roughLine(2.5, y, 97.5, y, r, .7) + " ";
+    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#d3ccbd", strokeWidth: .7, strokeLinecap: "round" }));
+  } else {
+    [[10, 20, 16, 23], [80, 12, 88, 16], [84, 70, 90, 78], [8, 62, 12, 70], [30, 6, 36, 8]]
+      .forEach(([a, b, c, d]) => { tex += roughLine(a, b, c, d, r, 2) + " "; });
+    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#d6c6a9", strokeWidth: .7, strokeLinecap: "round" }));
+  }
+
+  // porch light glow on the wall
+  const [lx, ly] = house.lamp;
+  if (lampOn) k.push(h("ellipse", { key: "glow", cx: lx, cy: ly + 8, rx: 36, ry: 32, fill: "url(#" + gid + ")", style: flick }));
+
+  // door surround + dark doorway behind the door
+  if (house.arch) {
+    k.push(h("path", { key: "frame", d: "M23.5,94 L23.5,34 Q50,4 76.5,34 L76.5,94 Z", fill: house.frame, ...line }));
+    k.push(h("path", { key: "hole", d: "M27,92 L27,36 Q50,14 73,36 L73,92 Z", fill: "#1a0d0a", ...line }));
+  } else {
+    k.push(h("path", { key: "frame", d: roughRect(23.5, house.fanlight ? 11 : 20.5, 53, house.fanlight ? 83 : 73.5, r, .8), fill: house.frame, ...line }));
+    k.push(h("path", { key: "hole", d: roughRect(27, 24, 46, 68, r, .5), fill: "#1a0d0a", ...line }));
+  }
+  if (house.fanlight) {
+    k.push(h("path", { key: "fan", d: "M29,22.5 A21,9.5 0 0 1 71,22.5 Z", fill: lampOn ? "#ffd98a" : "#2c3550", ...line }));
+    let bars = "";
+    for (let i = 1; i < 6; i++) { const a = Math.PI - i * Math.PI / 6; bars += "M50,22.5 L" + (50 + Math.cos(a) * 20).toFixed(2) + "," + (22.5 - Math.sin(a) * 9).toFixed(2) + " "; }
+    k.push(h("path", { key: "fanbars", d: bars, stroke: INK, strokeWidth: .6, fill: "none" }));
+  }
+
+  // doorstep with a little snow on it
+  k.push(h("path", { key: "step", d: roughRect(19, 92, 62, 5.5, r, .6), fill: "#d8d0c2", ...line }));
+  k.push(h("path", { key: "stepsnow", d: "M19.5,92.6 Q27,88.6 35,91.4 Q43,88.8 50,91 Q58,88.4 66,91.2 Q73,89 80.5,92.6 Z", fill: "#fff", stroke: INK, strokeWidth: .6 }));
+
+  // plant pot by the stable door
+  if (house.pot) {
+    k.push(h("path", { key: "bush", d: blob(87, 80, 7, 6.5, r), fill: "#2f6b3a", stroke: INK, strokeWidth: .7 }));
+    [[84, 77], [89, 82], [86, 84], [90, 76]].forEach(([x, y], i) => k.push(h("circle", { key: "berry" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
+    k.push(h("path", { key: "pot", d: "M81,85 L93,85 L91.5,92.5 L82.5,92.5 Z", fill: "#c0663e", ...line, strokeWidth: .8 }));
+  }
+
+  // pavement strip the caption sits on
+  k.push(h("path", { key: "pave", d: roughRect(1.5, 99, 97, 24.5, r, .8), fill: "#3a1713", ...line }));
+
+  // porch light: bracket, cap, glass, base, snow on top
+  const side = lx < 30 ? -1 : lx > 70 ? 1 : 0;
+  if (side) k.push(h("path", { key: "arm", d: "M" + (lx - side * 1) + "," + (ly + 3) + " L" + (lx - side * 6) + "," + (ly + 3), stroke: "#231313", strokeWidth: 1.2 }));
+  k.push(h("path", { key: "cap", d: "M" + (lx - 4.6) + "," + ly + " L" + lx + "," + (ly - 4) + " L" + (lx + 4.6) + "," + ly + " Z", fill: "#231313", stroke: INK, strokeWidth: .5 }));
+  k.push(h("path", { key: "capsnow", d: "M" + (lx - 3.4) + "," + (ly - 1.4) + " Q" + lx + "," + (ly - 5.6) + " " + (lx + 3.4) + "," + (ly - 1.4) + " Z", fill: "#fff" }));
+  k.push(h("path", { key: "glass", d: roughRect(lx - 3.2, ly, 6.4, 8, r, .3), fill: lampOn ? "#ffe39a" : "#4a4040", ...line, strokeWidth: .7, style: flick }));
+  k.push(h("path", { key: "base", d: roughRect(lx - 4, ly + 8, 8, 1.8, r, .2), fill: "#231313" }));
+
+  return h("svg", { viewBox: "0 0 100 125", "aria-hidden": "true", style: { display: "block", width: "100%", height: "100%" } }, k);
+}
+
+function doorArt(n, house, lampOn) {
+  const h = React.createElement, r = seeded(n * 131 + 7), k = [];
+  const line = { stroke: INK, strokeWidth: .8, strokeLinejoin: "round" };
+  const panel = (x, y, w, hh, key) => h("path", { key, d: roughRect(x, y, w, hh, r, .5), fill: "rgba(0,0,0,.18)", stroke: "rgba(0,0,0,.45)", strokeWidth: .6 });
+  const brass = (cx, cy, rad, key) => h("circle", { key, cx, cy, r: rad, fill: "#e8c46a", stroke: INK, strokeWidth: .4 });
+
+  if (house.arch) k.push(h("path", { key: "slab", d: "M.5,67.5 L.5,12 Q23,-10 45.5,12 L45.5,67.5 Z", fill: house.door, ...line }));
+  else k.push(h("path", { key: "slab", d: roughRect(.5, .5, 45, 67, r, .6), fill: house.door, ...line }));
+
+  if (house.deco === "wreath") {
+    k.push(panel(6, 30, 14, 14, "p1"), panel(26, 30, 14, 14, "p2"), panel(6, 48, 14, 15, "p3"), panel(26, 48, 14, 15, "p4"));
+    k.push(h("circle", { key: "wreath", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#2e7d32", strokeWidth: 3.4 }));
+    k.push(h("circle", { key: "wreath2", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#1b5e20", strokeWidth: .6, strokeDasharray: "1.5 2" }));
+    [[18.5, 10], [27.5, 10.5], [17.5, 17], [28.5, 16.5], [23, 7.7]].forEach(([x, y], i) => k.push(h("circle", { key: "b" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
+    k.push(h("path", { key: "bow", d: "M23,20.5 L19.5,18 L19.5,23 Z M23,20.5 L26.5,18 L26.5,23 Z", fill: "#e53935", stroke: INK, strokeWidth: .4 }));
+    k.push(brass(39.5, 38, 1.7, "knob"));
+  } else if (house.deco === "cottage") {
+    let planks = "";
+    [11.5, 23, 34.5].forEach(x => { planks += roughLine(x, x === 23 ? 1.5 : 4.5, x, 67, r, .5) + " "; });
+    k.push(h("path", { key: "planks", d: planks, stroke: "rgba(0,0,0,.4)", strokeWidth: .6, fill: "none" }));
+    k.push(h("path", { key: "hinge1", d: roughRect(.5, 17, 27, 2.6, r, .3), fill: "#1d1d1d" }));
+    k.push(h("path", { key: "hinge2", d: roughRect(.5, 54, 27, 2.6, r, .3), fill: "#1d1d1d" }));
+    k.push(h("circle", { key: "knocker", cx: 23, cy: 11, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
+    k.push(h("circle", { key: "latch", cx: 39.5, cy: 40, r: 1.6, fill: "#1d1d1d" }));
+  } else if (house.deco === "georgian") {
+    k.push(panel(6, 4, 14, 20, "p1"), panel(26, 4, 14, 20, "p2"), panel(6, 26, 14, 10, "p3"), panel(26, 26, 14, 10, "p4"), panel(6, 45, 14, 18, "p5"), panel(26, 45, 14, 18, "p6"));
+    k.push(h("path", { key: "letterbox", d: roughRect(15, 38.5, 16, 3.2, r, .2), fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
+    k.push(brass(40, 42, 1.7, "knob"));
+  } else if (house.deco === "stable") {
+    k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 21, r, .4), fill: lampOn ? "#ffd98a" : "#23313b", stroke: INK, strokeWidth: .7 }));
+    k.push(h("path", { key: "bars", d: "M23,5 L23,26 M8,15.5 L38,15.5", stroke: INK, strokeWidth: .9 }));
+    k.push(h("path", { key: "ledge", d: roughRect(-.5, 32.5, 47, 3, r, .3), fill: "rgba(0,0,0,.28)", stroke: INK, strokeWidth: .6 }));
+    k.push(panel(6, 40, 14, 22, "p1"), panel(26, 40, 14, 22, "p2"));
+    k.push(brass(40, 29.5, 1.5, "knob1"), brass(40, 39, 1.5, "knob2"));
+  }
+  return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%" } }, k);
 }
 
 function money(v) { return "£" + v.toFixed(2); }
@@ -781,27 +922,34 @@ class Component extends DCLogic {
     const doors = DAYS.map((d, i) => {
       const n = i + 1, s = this.status(n), rec = st.opened[n];
       const openable = s === "today" || s === "open";
+      const lampOn = openable || s === "opened";
+      const house = houseFor(n);
       return {
         num: n,
         state: s,
-        motif: d.motif,
+        facade: facadeArt(n, house, lampOn, s === "today" && !rec),
+        doorArt: doorArt(n, house, lampOn),
+        numTop: house.numTop,
+        numColor: house.num,
         prizeIcon: rec ? rec.icon : "",
-        innerLabel: rec ? rec.name : "",
-        // Warm light behind doors you can open — seen when the door peeks ajar on hover.
-        innerBg: rec ? "#046b3f" : openable ? "radial-gradient(70% 80% at 18% 50%,#fff1c4,#f2b33d 45%,#8a3d00)" : "transparent",
-        innerFg: "#fff",
-        caption: s === "today" ? "TODAY" : s === "opened" ? "OPENED" : s === "open" ? "48H LEFT" : s === "missed" ? "CLOSED" : this.shortDate(n),
-        bg: s === "today" ? "#fff" : s === "locked" ? "#7a0c0c" : s === "missed" ? "#5a0606" : "#cc0000",
-        fg: s === "today" ? "#a00000" : s === "locked" ? "#ffd4d4" : s === "missed" ? "#e8a8a8" : "#fff",
+        // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
+        innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
+        insideRadius: house.arch ? "50% 50% 0 0 / 18% 18% 0 0" : "0",
+        innerPadLeft: rec ? "28%" : "0",
+        innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
+        caption: rec ? rec.name : s === "today" ? "TODAY" : s === "open" ? "48H LEFT" : s === "missed" ? "CLOSED" : this.shortDate(n),
+        captionFg: rec ? "#fff" : s === "today" ? "#fff" : s === "open" ? "#ffd27a" : s === "missed" ? "#b89a9a" : "#ffd4d4",
+        captionBg: s === "today" && !rec ? "#cc0000" : "transparent",
+        captionPad: s === "today" && !rec ? ".25em .7em" : "0",
+        captionSpacing: rec ? "0" : ".14em",
+        houseFilter: s === "locked" ? "brightness(.8) saturate(.8)" : s === "missed" ? "brightness(.55) saturate(.45)" : "none",
+        houseShadow: s === "today" ? "0 0 0 3px #fff, 0 0 34px rgba(255,214,140,.5)" : "0 6px 16px rgba(0,0,0,.28)",
         z: rec ? 4 : 1,
-        transform: rec ? "rotateY(-74deg)" : "rotateY(0deg)",
-        filter: rec ? "brightness(.62)" : "none",
-        innerPadLeft: rec ? "40%" : "8%",
-        innerShadow: rec ? "inset 26px 0 34px rgba(0,0,0,.42), inset 0 0 0 2px rgba(0,0,0,.18)" : "none",
+        transform: rec ? "rotateY(-80deg)" : "rotateY(0deg)",
+        filter: rec ? "brightness(.7)" : "none",
         giftAnim: rec ? "x-gift .5s cubic-bezier(.2,1.5,.4,1) both" : "none",
         shakeAnim: st.rattle === n ? "x-rattle .45s ease-in-out" : "none",
         burst: st.burstFor === n ? this.burstFor(n) : null,
-        shadow: rec ? "-10px 8px 30px rgba(0,0,0,.55)" : s === "today" ? "0 0 0 4px #cc0000, 0 0 40px rgba(255,255,255,.35)" : "inset 0 0 0 2px rgba(255,255,255,.28)",
         numAnim: s === "today" ? "x-pulse 2.8s ease-in-out infinite" : "none",
         starDisplay: s === "today" ? "block" : "none",
         aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, you got " + rec.name : s === "missed" ? "closed" : "open, enter your order number"),
