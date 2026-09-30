@@ -263,6 +263,7 @@
   .x-house-num{font-size:15cqw}
   .x-house-gift{font-size:15cqw}
   .x-house-caption{font-size:clamp(9px,5.4cqw,12.5px)}
+  @keyframes x-num-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
   @keyframes x-lamp-flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.55}55%{opacity:1}70%{opacity:.8}75%{opacity:1}}
   code{font-family:ui-monospace,Menlo,monospace;font-size:.95em;background:rgba(0,0,0,.25);padding:1px 5px}
   /* No hover on touch — keep pressed feedback instead */
@@ -327,7 +328,7 @@
             {{ d.burst }}
             <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;border:0;background:none;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;transform:{{ d.transform }};filter:{{ d.filter }}">
               {{ d.doorArt }}
-              <span class="x-house-num" style="position:absolute;left:0;right:0;top:{{ d.numTop }};text-align:center;font-family:'Archivo',sans-serif;font-weight:800;line-height:1;letter-spacing:-.03em;color:{{ d.numColor }};text-shadow:0 1px 0 rgba(0,0,0,.45);animation:{{ d.numAnim }}">{{ d.num }}</span>
+              <span class="x-house-num" style="position:absolute;left:0;right:0;top:{{ d.numTop }};text-align:center;font-family:'Archivo',sans-serif;font-weight:800;line-height:1;letter-spacing:-.03em;color:{{ d.numColor }};text-shadow:{{ d.numShadow }};animation:{{ d.numAnim }}">{{ d.num }}</span>
             </button>
           </div>
           <p class="x-house-caption" style="position:absolute;left:5%;right:5%;top:79.5%;bottom:1.5%;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none;font-weight:700;line-height:1.2;letter-spacing:{{ d.captionSpacing }};color:{{ d.captionFg }}"><span style="background:{{ d.captionBg }};padding:{{ d.captionPad }}">{{ d.caption }}</span></p>
@@ -498,9 +499,10 @@ function normaliseCode(raw) {
 }
 
 // ---------- Hand-drawn house fronts ----------
-// Each door is a little house front drawn in SVG with slightly wobbly lines, so it feels handmade.
+// Each day is its own little house front drawn in SVG with slightly wobbly lines, so it feels handmade.
 // The facade (wall, porch light, step) stays put; the door itself swings open to show the gift.
 const INK = "#2b1512";
+const WARM = "#ffd98a";
 function seeded(seed) { let s = seed % 2147483647 || 1; return () => (s = s * 16807 % 2147483647) / 2147483647; }
 function wobble(pts, r, amt) {
   return "M" + pts.map(([x, y]) => (x + (r() - .5) * amt).toFixed(2) + "," + (y + (r() - .5) * amt).toFixed(2)).join(" L") + " Z";
@@ -523,19 +525,36 @@ function blob(cx, cy, rx, ry, r) {
   return wobble(p, r, Math.min(rx, ry) * .5);
 }
 
-// Door opening sits at x 27–73, y 24–92 in a 100×125 house front.
+// One house per day. Door opening sits at x 27–73, y 24–92 in a 100×125 house front.
+// arch: "round" | "pointed" | undefined.  lamps: porch light positions.  extra: wall decoration.
 const HOUSES = [
-  { wall: "#efe2cc", texture: "render", frame: "#f8f2e7", door: "#b3121b", num: "#fff", numTop: "44%", lamp: [50, 7], deco: "wreath" },
-  { wall: "#c9cdc6", texture: "stone", frame: "#a9afa7", door: "#2f6b3a", num: "#f3e2b3", numTop: "40%", lamp: [13, 30], arch: true, deco: "cottage" },
-  { wall: "#a4432f", texture: "brick", frame: "#f4efe6", door: "#1d2c55", num: "#e8c46a", numTop: "15%", lamp: [87, 30], fanlight: true, deco: "georgian" },
-  { wall: "#f2efe6", texture: "boards", frame: "#e2dccf", door: "#3f7fa6", num: "#fff", numTop: "59%", lamp: [50, 7], pot: true, deco: "stable" }
+  { deco: "wreath",   wall: "#efe2cc", texture: "render", tex: "#d6c6a9", frame: "#f8f2e7", door: "#b3121b", num: "#fff",    numTop: "44%", lamps: [[50, 7]] },
+  { deco: "cottage",  wall: "#c9cdc6", texture: "stone",  tex: "#8f968e", frame: "#a9afa7", door: "#2f6b3a", num: "#f3e2b3", numTop: "40%", lamps: [[13, 30]], arch: "round" },
+  { deco: "georgian", wall: "#a4432f", texture: "brick",  tex: "#cf8a70", frame: "#f4efe6", door: "#1d2c55", num: "#e8c46a", numTop: "15%", lamps: [[87, 30]], fanlight: WARM },
+  { deco: "stable",   wall: "#f2efe6", texture: "boards", tex: "#d3ccbd", frame: "#e2dccf", door: "#3f7fa6", num: "#fff",    numTop: "59%", lamps: [[50, 7]], extra: "pot" },
+  { deco: "gothic",   wall: "#b9b3a8", texture: "blocks", tex: "#8d877c", frame: "#9d968a", door: "#6b3e1f", num: "#f3e2b3", numTop: "36%", lamps: [[13, 32]], arch: "pointed" },
+  { deco: "ivy",      wall: "#f1e4b8", texture: "render", tex: "#dcc98f", frame: "#f8f1dc", door: "#5d7a58", num: "#fff",    numTop: "49%", lamps: [[86, 30]], extra: "ivy" },
+  { deco: "shop",     wall: "#20553f", texture: "none",   tex: "#c9a64a", frame: "#e8c46a", door: "#4a1e3a", num: "#fff",    numTop: "74%", lamps: [[12, 34]], extra: "awning" },
+  { deco: "porthole", wall: "#f4f1ea", texture: "stripe", tex: "#c62828", frame: "#e6e1d6", door: "#1f7a7a", num: "#fff",    numTop: "50%", lamps: [[50, 7]], extra: "lifebuoy" },
+  { deco: "barn",     wall: "#8a5a3c", texture: "vboards", tex: "#6d4329", frame: "#5b371f", door: "#9c2f22", num: "#3b1a12", numTop: "9%",  lamps: [[13, 30]] },
+  { deco: "scandi",   wall: "#d9a93f", texture: "vboards", tex: "#b88a2c", frame: "#faf6ee", door: "#34506a", num: "#fff",    numTop: "34%", lamps: [[50, 7]], extra: "strawstar" },
+  { deco: "ginger",   wall: "#b9763f", texture: "icing",  tex: "#fff",    frame: "#fff",    door: "#6e3419", num: "#fff",    numTop: "30%", lamps: [[50, 7]], extra: "canes" },
+  { deco: "present",  wall: "#d9d0bf", texture: "blocks", tex: "#b5aa95", frame: "#f4efe6", door: "#7a0f1a", num: "#fff",    numTop: "69%", numShadow: "0 0 2px #3b0a0a, 0 0 4px #3b0a0a, 0 2px 0 #3b0a0a", lamps: [[12, 32], [88, 32]], fanlight: "#f2c14e", extra: "star" }
 ];
 function houseFor(n) { return HOUSES[(n - 1) % HOUSES.length]; }
 
+const ARCH = {
+  round:   { frame: "M23.5,94 L23.5,34 Q50,4 76.5,34 L76.5,94 Z", hole: "M27,92 L27,36 Q50,14 73,36 L73,92 Z",
+             door: "M.5,67.5 L.5,12 Q23,-10 45.5,12 L45.5,67.5 Z", radius: "50% 50% 0 0 / 18% 18% 0 0" },
+  pointed: { frame: "M23.5,94 L23.5,38 Q26,20 50,13 Q74,20 76.5,38 L76.5,94 Z", hole: "M27,92 L27,40 Q29,28 50,23 Q71,28 73,40 L73,92 Z",
+             door: "M.5,67.5 L.5,16 Q2,4 23,-1 Q44,4 45.5,16 L45.5,67.5 Z", radius: "50% 50% 0 0 / 26% 26% 0 0" }
+};
+
 function facadeArt(n, house, lampOn, flicker) {
-  const flick = flicker ? { animation: "x-lamp-flicker 3.2s ease-in-out infinite" } : undefined;
   const h = React.createElement, r = seeded(n * 97 + 13), k = [];
+  const flick = flicker ? { animation: "x-lamp-flicker 3.2s ease-in-out infinite" } : undefined;
   const line = { stroke: INK, strokeWidth: 1, strokeLinejoin: "round", strokeLinecap: "round" };
+  const texLine = d => h("path", { key: "tex", d, fill: "none", stroke: house.tex, strokeWidth: .7, strokeLinecap: "round" });
   const gid = "x-glow-" + n;
   k.push(h("defs", { key: "defs" }, h("radialGradient", { id: gid },
     h("stop", { offset: "0%", stopColor: "#ffd27a", stopOpacity: .8 }),
@@ -545,64 +564,137 @@ function facadeArt(n, house, lampOn, flicker) {
 
   // wall texture, drawn as one path each so it stays light
   let tex = "";
-  if (house.texture === "brick") {
-    for (let y = 8, row = 0; y < 97; y += 6.5, row++) {
-      tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
-      for (let x = (row % 2 ? 8 : 14); x < 97; x += 12) tex += roughLine(x, y - 6.5, x, y, r, .4) + " ";
+  switch (house.texture) {
+    case "brick":
+      for (let y = 8, row = 0; y < 97; y += 6.5, row++) {
+        tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
+        for (let x = (row % 2 ? 8 : 14); x < 97; x += 12) tex += roughLine(x, y - 6.5, x, y, r, .4) + " ";
+      }
+      k.push(texLine(tex)); break;
+    case "blocks":
+      for (let y = 11, row = 0; y < 97; y += 11, row++) {
+        tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
+        for (let x = (row % 2 ? 10 : 20); x < 97; x += 20) tex += roughLine(x, y - 11, x, y, r, .5) + " ";
+      }
+      k.push(texLine(tex)); break;
+    case "stone":
+      [[12, 12, 7, 4.5], [30, 7, 6, 3.5], [70, 8, 8, 4], [88, 16, 6, 4.5], [9, 52, 5, 6], [90, 55, 6, 5], [12, 80, 7, 5], [88, 84, 6, 5], [20, 30, 4, 3], [80, 36, 5, 3.5]]
+        .forEach(([x, y, rx, ry], i) => k.push(h("path", { key: "st" + i, d: blob(x, y, rx, ry, r), fill: "#d6dad3", stroke: house.tex, strokeWidth: .6 })));
+      break;
+    case "boards":
+      for (let y = 7; y < 97; y += 5.5) tex += roughLine(2.5, y, 97.5, y, r, .7) + " ";
+      k.push(texLine(tex)); break;
+    case "vboards":
+      for (let x = 7; x < 97; x += 6.5) tex += roughLine(x, 2.5, x, 97.5, r, .9) + " ";
+      [[18, 40], [59, 70], [85, 22]].forEach(([x, y]) => { tex += "M" + x + "," + y + " a1.2,1.6 0 1,0 .1,0 "; });
+      k.push(texLine(tex)); break;
+    case "stripe":
+      k.push(h("path", { key: "band", d: roughRect(1.5, 44, 97, 20, r, .8), fill: house.tex, ...line, strokeWidth: .7 }));
+      k.push(h("path", { key: "band2", d: roughRect(1.5, 4, 97, 8, r, .6), fill: house.tex, ...line, strokeWidth: .7 }));
+      break;
+    case "icing": {
+      let scallop = "M2,5";
+      for (let x = 2; x < 98; x += 8) scallop += " Q" + (x + 4) + ",12 " + (x + 8) + ",5";
+      k.push(h("path", { key: "icing", d: scallop, fill: "none", stroke: "#fff", strokeWidth: 2.2, strokeLinecap: "round" }));
+      [[10, 22, "#e53935"], [90, 20, "#43a047"], [8, 60, "#fdd835"], [92, 64, "#e53935"], [15, 86, "#1e88e5"], [86, 88, "#fdd835"]]
+        .forEach(([x, y, c], i) => k.push(h("circle", { key: "dot" + i, cx: x, cy: y, r: 2, fill: c, stroke: INK, strokeWidth: .4 })));
+      break;
     }
-    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#cf8a70", strokeWidth: .7, strokeLinecap: "round" }));
-  } else if (house.texture === "stone") {
-    [[12, 12, 7, 4.5], [30, 7, 6, 3.5], [70, 8, 8, 4], [88, 16, 6, 4.5], [9, 52, 5, 6], [90, 55, 6, 5], [12, 80, 7, 5], [88, 84, 6, 5], [20, 30, 4, 3], [80, 36, 5, 3.5]]
-      .forEach(([x, y, rx, ry], i) => k.push(h("path", { key: "st" + i, d: blob(x, y, rx, ry, r), fill: "#d6dad3", stroke: "#8f968e", strokeWidth: .6 })));
-  } else if (house.texture === "boards") {
-    for (let y = 7; y < 97; y += 5.5) tex += roughLine(2.5, y, 97.5, y, r, .7) + " ";
-    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#d3ccbd", strokeWidth: .7, strokeLinecap: "round" }));
-  } else {
-    [[10, 20, 16, 23], [80, 12, 88, 16], [84, 70, 90, 78], [8, 62, 12, 70], [30, 6, 36, 8]]
-      .forEach(([a, b, c, d]) => { tex += roughLine(a, b, c, d, r, 2) + " "; });
-    k.push(h("path", { key: "tex", d: tex, fill: "none", stroke: "#d6c6a9", strokeWidth: .7, strokeLinecap: "round" }));
+    case "render":
+      [[10, 20, 16, 23], [80, 12, 88, 16], [84, 70, 90, 78], [8, 62, 12, 70], [30, 6, 36, 8]]
+        .forEach(([a, b, c, d]) => { tex += roughLine(a, b, c, d, r, 2) + " "; });
+      k.push(texLine(tex)); break;
+    default:
+      // painted shop front: a thin gold pinstripe panel
+      k.push(h("path", { key: "pin", d: roughRect(5, 5, 90, 90, r, .6), fill: "none", stroke: house.tex, strokeWidth: .7 }));
   }
 
   // porch light glow on the wall
-  const [lx, ly] = house.lamp;
-  if (lampOn) k.push(h("ellipse", { key: "glow", cx: lx, cy: ly + 8, rx: 36, ry: 32, fill: "url(#" + gid + ")", style: flick }));
+  if (lampOn) house.lamps.forEach(([lx, ly], i) =>
+    k.push(h("ellipse", { key: "glow" + i, cx: lx, cy: ly + 8, rx: 36, ry: 32, fill: "url(#" + gid + ")", style: flick })));
 
   // door surround + dark doorway behind the door
-  if (house.arch) {
-    k.push(h("path", { key: "frame", d: "M23.5,94 L23.5,34 Q50,4 76.5,34 L76.5,94 Z", fill: house.frame, ...line }));
-    k.push(h("path", { key: "hole", d: "M27,92 L27,36 Q50,14 73,36 L73,92 Z", fill: "#1a0d0a", ...line }));
+  const arch = ARCH[house.arch];
+  if (arch) {
+    k.push(h("path", { key: "frame", d: arch.frame, fill: house.frame, ...line }));
+    k.push(h("path", { key: "hole", d: arch.hole, fill: "#1a0d0a", ...line }));
   } else {
     k.push(h("path", { key: "frame", d: roughRect(23.5, house.fanlight ? 11 : 20.5, 53, house.fanlight ? 83 : 73.5, r, .8), fill: house.frame, ...line }));
     k.push(h("path", { key: "hole", d: roughRect(27, 24, 46, 68, r, .5), fill: "#1a0d0a", ...line }));
   }
   if (house.fanlight) {
-    k.push(h("path", { key: "fan", d: "M29,22.5 A21,9.5 0 0 1 71,22.5 Z", fill: lampOn ? "#ffd98a" : "#2c3550", ...line }));
+    k.push(h("path", { key: "fan", d: "M29,22.5 A21,9.5 0 0 1 71,22.5 Z", fill: lampOn ? house.fanlight : "#2c3550", ...line }));
     let bars = "";
     for (let i = 1; i < 6; i++) { const a = Math.PI - i * Math.PI / 6; bars += "M50,22.5 L" + (50 + Math.cos(a) * 20).toFixed(2) + "," + (22.5 - Math.sin(a) * 9).toFixed(2) + " "; }
     k.push(h("path", { key: "fanbars", d: bars, stroke: INK, strokeWidth: .6, fill: "none" }));
+  }
+
+  // wall decorations
+  switch (house.extra) {
+    case "pot":
+      k.push(h("path", { key: "bush", d: blob(87, 80, 7, 6.5, r), fill: "#2f6b3a", stroke: INK, strokeWidth: .7 }));
+      [[84, 77], [89, 82], [86, 84], [90, 76]].forEach(([x, y], i) => k.push(h("circle", { key: "berry" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
+      k.push(h("path", { key: "pot", d: "M81,85 L93,85 L91.5,92.5 L82.5,92.5 Z", fill: "#c0663e", ...line, strokeWidth: .8 }));
+      break;
+    case "ivy": {
+      k.push(h("path", { key: "vine", d: "M24,92 C18,78 28,66 22,54 C17,42 26,34 30,22 C36,14 46,17 52,15 C60,13 66,19 74,17", fill: "none", stroke: "#2e5d2a", strokeWidth: .9 }));
+      [[22, 86], [25, 76], [20, 68], [24, 58], [19, 48], [25, 40], [28, 30], [33, 20], [41, 16], [50, 14], [58, 15], [66, 17], [73, 16], [21, 80], [26, 50]]
+        .forEach(([x, y], i) => k.push(h("path", { key: "leaf" + i, d: blob(x, y, 2.6, 1.9, r), fill: i % 3 ? "#43a047" : "#2e7d32", stroke: INK, strokeWidth: .4 })));
+      break;
+    }
+    case "awning": {
+      for (let i = 0; i < 8; i++) k.push(h("path", { key: "aw" + i, d: roughRect(10 + i * 10, 3, 10, 12, r, .3), fill: i % 2 ? "#fff" : "#cc0000", stroke: "none" }));
+      let edge = "M10,15";
+      for (let x = 10; x < 90; x += 5) edge += " Q" + (x + 2.5) + ",19 " + (x + 5) + ",15";
+      k.push(h("path", { key: "awedge", d: edge + " L90,3 L10,3 Z", fill: "none", ...line, strokeWidth: .8 }));
+      k.push(h("path", { key: "awscal", d: edge, fill: "none", stroke: INK, strokeWidth: .8 }));
+      break;
+    }
+    case "lifebuoy":
+      k.push(h("circle", { key: "lb", cx: 88, cy: 76, r: 6, fill: "none", stroke: "#fff", strokeWidth: 3.4 }));
+      k.push(h("circle", { key: "lbr", cx: 88, cy: 76, r: 6, fill: "none", stroke: "#c62828", strokeWidth: 3.4, strokeDasharray: "4.7 4.7" }));
+      k.push(h("circle", { key: "lbo", cx: 88, cy: 76, r: 7.8, fill: "none", stroke: INK, strokeWidth: .5 }));
+      k.push(h("circle", { key: "lbi", cx: 88, cy: 76, r: 4.2, fill: "none", stroke: INK, strokeWidth: .5 }));
+      break;
+    case "strawstar": {
+      let star = "";
+      for (let i = 0; i < 4; i++) { const a = i * Math.PI / 4; star += "M" + (88 + Math.cos(a) * 7).toFixed(2) + "," + (60 + Math.sin(a) * 7).toFixed(2) + " L" + (88 - Math.cos(a) * 7).toFixed(2) + "," + (60 - Math.sin(a) * 7).toFixed(2) + " "; }
+      k.push(h("path", { key: "string", d: "M88,40 L88,53", stroke: INK, strokeWidth: .4 }));
+      k.push(h("path", { key: "star", d: star, stroke: "#f6e3a1", strokeWidth: 1.3, strokeLinecap: "round" }));
+      k.push(h("path", { key: "starink", d: star, stroke: "#8a6a1f", strokeWidth: .3 }));
+      break;
+    }
+    case "canes":
+      [[11, 1], [89, -1]].forEach(([x, dir], i) => {
+        const d = "M" + x + ",92 L" + x + ",42 Q" + x + ",34 " + (x + dir * 5) + ",34 Q" + (x + dir * 10) + ",34 " + (x + dir * 10) + ",40";
+        k.push(h("path", { key: "cane" + i, d, fill: "none", stroke: "#fff", strokeWidth: 3.2, strokeLinecap: "round" }));
+        k.push(h("path", { key: "stripe" + i, d, fill: "none", stroke: "#e53935", strokeWidth: 3.2, strokeDasharray: "2.4 2.4" }));
+      });
+      break;
+    case "star": {
+      let p = "";
+      for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 2.8 : 6.5; p += (i ? " L" : "M") + (50 + Math.cos(a) * rr).toFixed(2) + "," + (5.5 + Math.sin(a) * rr).toFixed(2); }
+      k.push(h("path", { key: "star", d: p + " Z", fill: "#f2c14e", stroke: INK, strokeWidth: .6, strokeLinejoin: "round" }));
+      break;
+    }
   }
 
   // doorstep with a little snow on it
   k.push(h("path", { key: "step", d: roughRect(19, 92, 62, 5.5, r, .6), fill: "#d8d0c2", ...line }));
   k.push(h("path", { key: "stepsnow", d: "M19.5,92.6 Q27,88.6 35,91.4 Q43,88.8 50,91 Q58,88.4 66,91.2 Q73,89 80.5,92.6 Z", fill: "#fff", stroke: INK, strokeWidth: .6 }));
 
-  // plant pot by the stable door
-  if (house.pot) {
-    k.push(h("path", { key: "bush", d: blob(87, 80, 7, 6.5, r), fill: "#2f6b3a", stroke: INK, strokeWidth: .7 }));
-    [[84, 77], [89, 82], [86, 84], [90, 76]].forEach(([x, y], i) => k.push(h("circle", { key: "berry" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
-    k.push(h("path", { key: "pot", d: "M81,85 L93,85 L91.5,92.5 L82.5,92.5 Z", fill: "#c0663e", ...line, strokeWidth: .8 }));
-  }
-
   // pavement strip the caption sits on
   k.push(h("path", { key: "pave", d: roughRect(1.5, 99, 97, 24.5, r, .8), fill: "#3a1713", ...line }));
 
-  // porch light: bracket, cap, glass, base, snow on top
-  const side = lx < 30 ? -1 : lx > 70 ? 1 : 0;
-  if (side) k.push(h("path", { key: "arm", d: "M" + (lx - side * 1) + "," + (ly + 3) + " L" + (lx - side * 6) + "," + (ly + 3), stroke: "#231313", strokeWidth: 1.2 }));
-  k.push(h("path", { key: "cap", d: "M" + (lx - 4.6) + "," + ly + " L" + lx + "," + (ly - 4) + " L" + (lx + 4.6) + "," + ly + " Z", fill: "#231313", stroke: INK, strokeWidth: .5 }));
-  k.push(h("path", { key: "capsnow", d: "M" + (lx - 3.4) + "," + (ly - 1.4) + " Q" + lx + "," + (ly - 5.6) + " " + (lx + 3.4) + "," + (ly - 1.4) + " Z", fill: "#fff" }));
-  k.push(h("path", { key: "glass", d: roughRect(lx - 3.2, ly, 6.4, 8, r, .3), fill: lampOn ? "#ffe39a" : "#4a4040", ...line, strokeWidth: .7, style: flick }));
-  k.push(h("path", { key: "base", d: roughRect(lx - 4, ly + 8, 8, 1.8, r, .2), fill: "#231313" }));
+  // porch lights: bracket, cap, glass, base, snow on top
+  house.lamps.forEach(([lx, ly], i) => {
+    const side = lx < 30 ? -1 : lx > 70 ? 1 : 0;
+    if (side) k.push(h("path", { key: "arm" + i, d: "M" + (lx - side) + "," + (ly + 3) + " L" + (lx - side * 6) + "," + (ly + 3), stroke: "#231313", strokeWidth: 1.2 }));
+    k.push(h("path", { key: "cap" + i, d: "M" + (lx - 4.6) + "," + ly + " L" + lx + "," + (ly - 4) + " L" + (lx + 4.6) + "," + ly + " Z", fill: "#231313", stroke: INK, strokeWidth: .5 }));
+    k.push(h("path", { key: "capsnow" + i, d: "M" + (lx - 3.4) + "," + (ly - 1.4) + " Q" + lx + "," + (ly - 5.6) + " " + (lx + 3.4) + "," + (ly - 1.4) + " Z", fill: "#fff" }));
+    k.push(h("path", { key: "glass" + i, d: roughRect(lx - 3.2, ly, 6.4, 8, r, .3), fill: lampOn ? "#ffe39a" : "#4a4040", ...line, strokeWidth: .7, style: flick }));
+    k.push(h("path", { key: "base" + i, d: roughRect(lx - 4, ly + 8, 8, 1.8, r, .2), fill: "#231313" }));
+  });
 
   return h("svg", { viewBox: "0 0 100 125", "aria-hidden": "true", style: { display: "block", width: "100%", height: "100%" } }, k);
 }
@@ -610,39 +702,114 @@ function facadeArt(n, house, lampOn, flicker) {
 function doorArt(n, house, lampOn) {
   const h = React.createElement, r = seeded(n * 131 + 7), k = [];
   const line = { stroke: INK, strokeWidth: .8, strokeLinejoin: "round" };
+  const glass = lampOn ? WARM : "#23313b";
   const panel = (x, y, w, hh, key) => h("path", { key, d: roughRect(x, y, w, hh, r, .5), fill: "rgba(0,0,0,.18)", stroke: "rgba(0,0,0,.45)", strokeWidth: .6 });
   const brass = (cx, cy, rad, key) => h("circle", { key, cx, cy, r: rad, fill: "#e8c46a", stroke: INK, strokeWidth: .4 });
+  const planks = (xs, top) => { let d = ""; xs.forEach(x => { d += roughLine(x, top, x, 67, r, .5) + " "; }); return h("path", { key: "planks", d, stroke: "rgba(0,0,0,.4)", strokeWidth: .6, fill: "none" }); };
 
-  if (house.arch) k.push(h("path", { key: "slab", d: "M.5,67.5 L.5,12 Q23,-10 45.5,12 L45.5,67.5 Z", fill: house.door, ...line }));
-  else k.push(h("path", { key: "slab", d: roughRect(.5, .5, 45, 67, r, .6), fill: house.door, ...line }));
+  const arch = ARCH[house.arch];
+  k.push(h("path", { key: "slab", d: arch ? arch.door : roughRect(.5, .5, 45, 67, r, .6), fill: house.door, ...line }));
 
-  if (house.deco === "wreath") {
-    k.push(panel(6, 30, 14, 14, "p1"), panel(26, 30, 14, 14, "p2"), panel(6, 48, 14, 15, "p3"), panel(26, 48, 14, 15, "p4"));
-    k.push(h("circle", { key: "wreath", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#2e7d32", strokeWidth: 3.4 }));
-    k.push(h("circle", { key: "wreath2", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#1b5e20", strokeWidth: .6, strokeDasharray: "1.5 2" }));
-    [[18.5, 10], [27.5, 10.5], [17.5, 17], [28.5, 16.5], [23, 7.7]].forEach(([x, y], i) => k.push(h("circle", { key: "b" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
-    k.push(h("path", { key: "bow", d: "M23,20.5 L19.5,18 L19.5,23 Z M23,20.5 L26.5,18 L26.5,23 Z", fill: "#e53935", stroke: INK, strokeWidth: .4 }));
-    k.push(brass(39.5, 38, 1.7, "knob"));
-  } else if (house.deco === "cottage") {
-    let planks = "";
-    [11.5, 23, 34.5].forEach(x => { planks += roughLine(x, x === 23 ? 1.5 : 4.5, x, 67, r, .5) + " "; });
-    k.push(h("path", { key: "planks", d: planks, stroke: "rgba(0,0,0,.4)", strokeWidth: .6, fill: "none" }));
-    k.push(h("path", { key: "hinge1", d: roughRect(.5, 17, 27, 2.6, r, .3), fill: "#1d1d1d" }));
-    k.push(h("path", { key: "hinge2", d: roughRect(.5, 54, 27, 2.6, r, .3), fill: "#1d1d1d" }));
-    k.push(h("circle", { key: "knocker", cx: 23, cy: 11, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
-    k.push(h("circle", { key: "latch", cx: 39.5, cy: 40, r: 1.6, fill: "#1d1d1d" }));
-  } else if (house.deco === "georgian") {
-    k.push(panel(6, 4, 14, 20, "p1"), panel(26, 4, 14, 20, "p2"), panel(6, 26, 14, 10, "p3"), panel(26, 26, 14, 10, "p4"), panel(6, 45, 14, 18, "p5"), panel(26, 45, 14, 18, "p6"));
-    k.push(h("path", { key: "letterbox", d: roughRect(15, 38.5, 16, 3.2, r, .2), fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
-    k.push(brass(40, 42, 1.7, "knob"));
-  } else if (house.deco === "stable") {
-    k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 21, r, .4), fill: lampOn ? "#ffd98a" : "#23313b", stroke: INK, strokeWidth: .7 }));
-    k.push(h("path", { key: "bars", d: "M23,5 L23,26 M8,15.5 L38,15.5", stroke: INK, strokeWidth: .9 }));
-    k.push(h("path", { key: "ledge", d: roughRect(-.5, 32.5, 47, 3, r, .3), fill: "rgba(0,0,0,.28)", stroke: INK, strokeWidth: .6 }));
-    k.push(panel(6, 40, 14, 22, "p1"), panel(26, 40, 14, 22, "p2"));
-    k.push(brass(40, 29.5, 1.5, "knob1"), brass(40, 39, 1.5, "knob2"));
+  switch (house.deco) {
+    case "wreath":
+      k.push(panel(6, 30, 14, 14, "p1"), panel(26, 30, 14, 14, "p2"), panel(6, 48, 14, 15, "p3"), panel(26, 48, 14, 15, "p4"));
+      k.push(h("circle", { key: "wreath", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#2e7d32", strokeWidth: 3.4 }));
+      k.push(h("circle", { key: "wreath2", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#1b5e20", strokeWidth: .6, strokeDasharray: "1.5 2" }));
+      [[18.5, 10], [27.5, 10.5], [17.5, 17], [28.5, 16.5], [23, 7.7]].forEach(([x, y], i) => k.push(h("circle", { key: "b" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
+      k.push(h("path", { key: "bow", d: "M23,20.5 L19.5,18 L19.5,23 Z M23,20.5 L26.5,18 L26.5,23 Z", fill: "#e53935", stroke: INK, strokeWidth: .4 }));
+      k.push(brass(39.5, 38, 1.7, "knob"));
+      break;
+    case "cottage":
+      k.push(planks([11.5, 23, 34.5], 3));
+      k.push(h("path", { key: "hinge1", d: roughRect(.5, 17, 27, 2.6, r, .3), fill: "#1d1d1d" }));
+      k.push(h("path", { key: "hinge2", d: roughRect(.5, 54, 27, 2.6, r, .3), fill: "#1d1d1d" }));
+      k.push(h("circle", { key: "knocker", cx: 23, cy: 11, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
+      k.push(h("circle", { key: "latch", cx: 39.5, cy: 40, r: 1.6, fill: "#1d1d1d" }));
+      break;
+    case "georgian":
+      k.push(panel(6, 4, 14, 20, "p1"), panel(26, 4, 14, 20, "p2"), panel(6, 26, 14, 10, "p3"), panel(26, 26, 14, 10, "p4"), panel(6, 45, 14, 18, "p5"), panel(26, 45, 14, 18, "p6"));
+      k.push(h("path", { key: "letterbox", d: roughRect(15, 38.5, 16, 3.2, r, .2), fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
+      k.push(brass(40, 42, 1.7, "knob"));
+      break;
+    case "stable":
+      k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 21, r, .4), fill: glass, stroke: INK, strokeWidth: .7 }));
+      k.push(h("path", { key: "bars", d: "M23,5 L23,26 M8,15.5 L38,15.5", stroke: INK, strokeWidth: .9 }));
+      k.push(h("path", { key: "ledge", d: roughRect(-.5, 32.5, 47, 3, r, .3), fill: "rgba(0,0,0,.28)", stroke: INK, strokeWidth: .6 }));
+      k.push(panel(6, 40, 14, 22, "p1"), panel(26, 40, 14, 22, "p2"));
+      k.push(brass(40, 29.5, 1.5, "knob1"), brass(40, 39, 1.5, "knob2"));
+      break;
+    case "gothic": {
+      k.push(planks([8, 15.5, 23, 30.5, 38], 3));
+      const strap = y => "M.5," + y + " L33," + y + " Q36," + (y - 2.2) + " 38," + y + " Q36," + (y + 2.2) + " 33," + (y + .01) + " Z";
+      k.push(h("path", { key: "strap1", d: strap(20), fill: "#1d1d1d", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinejoin: "round" }));
+      k.push(h("path", { key: "strap2", d: strap(54), fill: "#1d1d1d", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinejoin: "round" }));
+      [12, 44, 63].forEach((y, row) => [8, 15.5, 23, 30.5, 38].forEach((x, i) => k.push(h("circle", { key: "stud" + row + i, cx: x, cy: y, r: .8, fill: "#2a2a2a" }))));
+      k.push(h("circle", { key: "ring", cx: 37, cy: 38, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
+      break;
+    }
+    case "ivy":
+      k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 18, r, .4), fill: glass, stroke: INK, strokeWidth: .7 }));
+      k.push(h("path", { key: "lead", d: "M18,5 L18,23 M28,5 L28,23 M8,14 L38,14", stroke: INK, strokeWidth: .5 }));
+      k.push(panel(6, 44, 14, 19, "p1"), panel(26, 44, 14, 19, "p2"));
+      k.push(brass(40, 38, 1.6, "knob"));
+      break;
+    case "shop":
+      k.push(h("path", { key: "glass", d: roughRect(6, 5, 34, 40, r, .4), fill: glass, stroke: INK, strokeWidth: .8 }));
+      k.push(h("path", { key: "cord", d: "M17,5 L20.5,11 M29,5 L25.5,11", stroke: INK, strokeWidth: .4 }));
+      k.push(h("path", { key: "sign", d: roughRect(14.5, 11, 17, 7, r, .2), fill: "#fff", stroke: INK, strokeWidth: .5 }));
+      k.push(h("text", { key: "open", x: 23, y: 16.2, textAnchor: "middle", fontSize: 4.2, fontWeight: 800, fontFamily: "Archivo, sans-serif", fill: "#cc0000" }, "OPEN"));
+      k.push(h("path", { key: "bell", d: "M21,.5 Q23,-1 25,.5 L26,3.5 L20,3.5 Z", fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
+      k.push(h("path", { key: "kick", d: roughRect(6, 49, 34, 15, r, .4), fill: "rgba(0,0,0,.25)", stroke: "rgba(0,0,0,.5)", strokeWidth: .6 }));
+      k.push(h("path", { key: "handle", d: "M41.5,24 L41.5,36", stroke: "#e8c46a", strokeWidth: 1.6, strokeLinecap: "round" }));
+      break;
+    case "porthole":
+      k.push(h("circle", { key: "port", cx: 23, cy: 17, r: 8.5, fill: glass, stroke: "#e8c46a", strokeWidth: 2.2 }));
+      k.push(h("circle", { key: "portink", cx: 23, cy: 17, r: 9.7, fill: "none", stroke: INK, strokeWidth: .5 }));
+      for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; k.push(h("circle", { key: "rv" + i, cx: 23 + Math.cos(a) * 11.4, cy: 17 + Math.sin(a) * 11.4, r: .6, fill: "#e8c46a" })); }
+      k.push(panel(6, 32, 34, 31, "p1"));
+      k.push(brass(40, 40, 1.7, "knob"));
+      break;
+    case "barn": {
+      k.push(planks([9, 18, 27, 36], 1));
+      const white = { stroke: "#f3efe6", strokeWidth: 2.6, fill: "none", strokeLinecap: "square" };
+      k.push(h("path", { key: "brace", d: roughRect(3, 3, 40, 62, r, .4), ...white }));
+      k.push(h("path", { key: "brace2", d: "M3,34 L43,34 M4,64 L42,35 M4,33 L42,21", ...white }));
+      k.push(h("path", { key: "plaque", d: roughRect(12, 4.5, 22, 13, r, .4), fill: "#f3efe6", stroke: INK, strokeWidth: .6 }));
+      k.push(h("path", { key: "handle", d: "M38,40 L38,48", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinecap: "round" }));
+      break;
+    }
+    case "scandi": {
+      k.push(h("path", { key: "heart", d: "M23,22 C14,15 15,7 20,7.5 C22,7.7 23,9.5 23,10.5 C23,9.5 24,7.7 26,7.5 C31,7 32,15 23,22 Z", fill: glass, stroke: INK, strokeWidth: .7 }));
+      k.push(panel(6, 40, 34, 23, "p1"));
+      k.push(h("path", { key: "diamonds", d: "M6,40 L17.3,51.5 L6,63 M17.3,51.5 L28.6,40 M17.3,51.5 L28.6,63 M28.6,40 L40,51.5 L28.6,63", stroke: "rgba(255,255,255,.35)", strokeWidth: .7, fill: "none" }));
+      k.push(brass(40, 35, 1.6, "knob"));
+      break;
+    }
+    case "ginger": {
+      k.push(h("path", { key: "icing", d: roughRect(3, 3, 40, 62, r, .6), fill: "none", stroke: "#fff", strokeWidth: 1.6 }));
+      let zig = "M5,16";
+      for (let x = 5; x < 41; x += 4) zig += " L" + (x + 2) + ",19 L" + (x + 4) + ",16";
+      k.push(h("path", { key: "zig", d: zig, stroke: "#fff", strokeWidth: 1.1, fill: "none", strokeLinejoin: "round" }));
+      [["#e53935", 9], ["#fdd835", 17.5], ["#43a047", 26], ["#1e88e5", 34.5]].forEach(([c, x], i) =>
+        k.push(h("path", { key: "gum" + i, d: "M" + (x - 2.6) + ",11 Q" + (x - 2.6) + ",6.5 " + x + ",6.5 Q" + (x + 2.6) + ",6.5 " + (x + 2.6) + ",11 Z", fill: c, stroke: INK, strokeWidth: .4 })));
+      k.push(h("circle", { key: "mint", cx: 23, cy: 52, r: 7, fill: "#fff", stroke: INK, strokeWidth: .5 }));
+      let wedges = "";
+      for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3; wedges += "M23,52 L" + (23 + Math.cos(a) * 6.6).toFixed(2) + "," + (52 + Math.sin(a) * 6.6).toFixed(2) + " "; }
+      k.push(h("path", { key: "mintw", d: wedges, stroke: "#e53935", strokeWidth: 1.6 }));
+      k.push(h("circle", { key: "knob", cx: 39.5, cy: 38, r: 1.8, fill: "#e53935", stroke: INK, strokeWidth: .4 }));
+      break;
+    }
+    case "present":
+      k.push(panel(4, 5, 16, 22, "p1"), panel(26, 5, 16, 22, "p2"), panel(4, 42, 16, 21, "p3"), panel(26, 42, 16, 21, "p4"));
+      k.push(h("path", { key: "split", d: "M23,.5 L23,67.5", stroke: INK, strokeWidth: 1 }));
+      k.push(h("path", { key: "ribv", d: roughRect(20.5, .5, 5, 67, r, .2), fill: "#f2c14e", stroke: INK, strokeWidth: .5 }));
+      k.push(h("path", { key: "ribh", d: roughRect(.5, 31, 45, 5, r, .2), fill: "#f2c14e", stroke: INK, strokeWidth: .5 }));
+      k.push(h("path", { key: "bow", d: "M23,31 C15,22 11,30 16,33 C18,34 21,33 23,31 C25,33 28,34 30,33 C35,30 31,22 23,31 Z", fill: "#f2c14e", stroke: INK, strokeWidth: .6 }));
+      k.push(h("path", { key: "tails", d: "M23,33 L19,41 M23,33 L27,41", stroke: "#c9971f", strokeWidth: 1.4, strokeLinecap: "round" }));
+      k.push(brass(18.5, 46, 1.5, "k1"), brass(27.5, 46, 1.5, "k2"));
+      break;
   }
-  return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%" } }, k);
+  return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" } }, k);
 }
 
 function money(v) { return "£" + v.toFixed(2); }
@@ -931,10 +1098,11 @@ class Component extends DCLogic {
         doorArt: doorArt(n, house, lampOn),
         numTop: house.numTop,
         numColor: house.num,
+        numShadow: house.numShadow || "0 1px 0 rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.35)",
         prizeIcon: rec ? rec.icon : "",
         // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
         innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
-        insideRadius: house.arch ? "50% 50% 0 0 / 18% 18% 0 0" : "0",
+        insideRadius: ARCH[house.arch] ? ARCH[house.arch].radius : "0",
         innerPadLeft: rec ? "28%" : "0",
         innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
         caption: rec ? rec.name : s === "today" ? "TODAY" : s === "open" ? "48H LEFT" : s === "missed" ? "CLOSED" : this.shortDate(n),
@@ -950,7 +1118,7 @@ class Component extends DCLogic {
         giftAnim: rec ? "x-gift .5s cubic-bezier(.2,1.5,.4,1) both" : "none",
         shakeAnim: st.rattle === n ? "x-rattle .45s ease-in-out" : "none",
         burst: st.burstFor === n ? this.burstFor(n) : null,
-        numAnim: s === "today" ? "x-pulse 2.8s ease-in-out infinite" : "none",
+        numAnim: s === "today" ? "x-num-pulse 2.4s ease-in-out infinite" : "none",
         starDisplay: s === "today" ? "block" : "none",
         aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, you got " + rec.name : s === "missed" ? "closed" : "open, enter your order number"),
         click: () => this.clickDoor(n)
