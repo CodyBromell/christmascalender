@@ -262,7 +262,7 @@
   .x-door:focus-visible{outline:3px solid #fff;outline-offset:3px}
   .x-house{container-type:inline-size}
   .x-house-num{font-size:15cqw}
-  .x-house-gift{font-size:15cqw}
+  .x-house-gift{font-size:26cqw}
   .x-house-caption{font-size:clamp(9px,5.4cqw,12.5px)}
   @keyframes x-knock{0%,100%{transform:rotate(0) scale(1)}15%{transform:rotate(-2deg) scale(1.03)}35%{transform:rotate(2deg) scale(1.04)}55%{transform:rotate(-1.5deg) scale(1.03)}75%{transform:rotate(1deg) scale(1.02)}}
   @keyframes x-beam{0%{opacity:1;transform:translate(-50%,-50%) scale(.15)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6)}}
@@ -398,40 +398,40 @@
 
 const DAYS = [
   {motif:"🎄",title:"A frost-free windscreen",icon:"🧴",name:"Super de-icer spray, 500ml",
-   sub:"Dispatched with your next order.",code:"WU-DEICE",img:"images/prizes/day-01.jpg",supplier:"Würth",
+   sub:"Dispatched with your next order.",code:"WU-DEICE",img:"images/prizes/day-01.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Super-de-icer-spray-DEICESPR-SUPER-500ML/0892331201.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0892331201"},
   {motif:"🔔",title:"Two clear screens",icon:"💧",name:"Winter screenwash, 5 litres",
-   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",img:"images/prizes/day-02.jpg",supplier:"Würth",
+   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",img:"images/prizes/day-02.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Windscreen-cleaner-with-frost-protection-down-to-8-C-WSCRNCLNR-ANTIFREZ-BLUE-5LTR/0892332105.sku/en/GB/GBP/?CampaignName=SR001"},
   {motif:"⛄",title:"Three warm heads",icon:"🧢",name:"Würth Thinsulate beanie",
-   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",img:"images/prizes/day-03.jpg",supplier:"Würth",
+   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",img:"images/prizes/day-03.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Thinsulate-knitted-hat-with-lining/31080504070702.cyid/3108.cgid/en/GB/GBP/?CampaignName=CS016"},
   {motif:"🧤",title:"Four hands working",icon:"🧤",name:"TIGERFLEX THERMO DRY W-350 winter gloves",
-   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",img:"images/prizes/day-04.jpg",supplier:"Würth",
+   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",img:"images/prizes/day-04.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Protective-glove-winter-TIGERFLEX-THERMO-DRY-W-350/310805040907124.cyid/3108.cgid/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🕯️",title:"Five allen keys",icon:"🔧",name:"Allen key set, 9 pieces",
-   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",img:"images/prizes/day-05.jpg",supplier:"Würth",
+   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",img:"images/prizes/day-05.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Allen-key-set-9-pieces-ALLENKEY-SET-LONG-15-10MM-9PCS/071531%20120.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🎄",title:"Six ornaments hanging",icon:"🎅",name:"Würth Christmas ornaments",
    sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/"},
   {motif:"📏",title:"Seven things made level",icon:"📏",name:"Magnetic spirit level",
-   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",img:"images/prizes/day-07.jpg",supplier:"Würth",
+   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",img:"images/prizes/day-07.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Small-spirit-level-with-magnet-LEVL-LMET-PLA-MAGN-74X41X34/0714644505.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0714644505"},
   {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",
-   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",img:"images/prizes/day-08.jpg",supplier:"Amazon",
+   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",img:"images/prizes/day-08.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Xbox-Ultimate-Console-Month-Membership/dp/B07SBBC7Q2"},
   {motif:"🔥",title:"Nine warm fingers",icon:"🔥",name:"Rechargeable electric hand warmers",
-   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",img:"images/prizes/day-09.jpg",supplier:"Amazon",
+   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",img:"images/prizes/day-09.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Rechargeable-Electric-Portable-Reusable-Handwarmers/dp/B0DBLX2HS7"},
   {motif:"⭐",title:"Ten bits at the ready",icon:"🪛",name:"Pistol ratchet multi-bit screwdriver set",
-   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",img:"images/prizes/day-10.jpg",supplier:"Würth",
+   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",img:"images/prizes/day-10.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Pistol-ratchet-multi-bit-screwdriver-set-3-8-pieces-SCRDRIV-MULTIBIT-PIST-RTCH-LED-VAR3-8PCS/06136403.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🛏️",title:"Eleven cosy evenings",icon:"🛏️",name:"Heated honeycomb overblanket",
-   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",img:"images/prizes/day-11.jpg",supplier:"Amazon",
+   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",img:"images/prizes/day-11.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Schallen-Electric-Honeycomb-Overblanket-Settings/dp/B00D8WVY2K"},
   {motif:"🎁",title:"Twelve days, the big one",icon:"🧰",name:"1/4\" socket wrench assortment, 40 pieces",
-   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",img:"images/prizes/day-12.jpg",supplier:"Würth",top:true,
+   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",img:"images/prizes/day-12.webp",supplier:"Würth",top:true,
    url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
@@ -460,8 +460,8 @@ const ESHOP_URL = "https://eshop.wurth.co.uk/";
 
 // Remembered per browser so a refresh (or tomorrow's visit) keeps your opened doors.
 // Bump the version to close every door for everyone (e.g. after testing).
-const STORE_KEY = "twelve-days-2026-v2";
-try { localStorage.removeItem("twelve-days-2026"); } catch (e) {}
+const STORE_KEY = "twelve-days-2026-v3";
+try { ["twelve-days-2026", "twelve-days-2026-v2"].forEach(k => localStorage.removeItem(k)); } catch (e) {}
 function loadSaved() {
   try {
     if (new URLSearchParams(location.search).has("reset")) localStorage.removeItem(STORE_KEY);
@@ -625,8 +625,8 @@ function giftInDoor(n, anim) {
   const d = DAYS[n - 1], h = React.createElement;
   if (!d.img) return h("span", { className: "x-house-gift", style: { lineHeight: 1, animation: anim } }, d.icon);
   return h("img", { src: d.img, alt: d.name, decoding: "async", style: {
-    display: "block", width: "88%", aspectRatio: "1", objectFit: "contain", background: "#fff", padding: "5%",
-    boxSizing: "border-box", borderRadius: "4px", boxShadow: "0 4px 10px rgba(80,30,0,.35)", animation: anim } });
+    display: "block", width: "100%", height: "88%", objectFit: "contain",
+    filter: "drop-shadow(0 5px 6px rgba(70,25,0,.45))", animation: anim } });
 }
 function giftOnPrizeScreen(n) {
   const d = DAYS[n - 1], h = React.createElement;
@@ -941,7 +941,7 @@ class Component extends DCLogic {
         // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
         innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
         insideRadius: "0",
-        innerPadLeft: rec ? "28%" : "0",
+        innerPadLeft: rec ? "22%" : "0",
         innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
         caption: rec ? d.name : s === "today" ? (this.isLastDay(n) ? "LAST DAY" : "OPEN NOW") : s === "missed" ? "LOCKED" : this.shortDate(n),
         captionFg: rec ? "#fff" : s === "today" ? "#fff" : s === "open" ? "#ffd27a" : s === "missed" ? "#b89a9a" : "#ffd4d4",
