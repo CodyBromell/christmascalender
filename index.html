@@ -244,7 +244,8 @@
     .x-cta{width:100%;text-align:center;padding:16px 20px !important}
     .x-doors{grid-template-columns:repeat(2,1fr) !important;gap:12px !important;padding-top:10px}
     .x-footer{padding-left:max(16px,env(safe-area-inset-left)) !important;padding-right:max(16px,env(safe-area-inset-right)) !important}
-    .x-veil{padding:0 !important;align-items:flex-end !important}
+    .x-reveal{padding:12px !important}
+    .x-shop-hero{width:100%;text-align:center;box-sizing:border-box}
     .x-dialog{width:100% !important;max-height:calc(100dvh - 32px) !important;padding:30px 20px calc(24px + env(safe-area-inset-bottom)) !important}
   }
   @media (max-width:400px){
@@ -263,6 +264,13 @@
   .x-house-num{font-size:15cqw}
   .x-house-gift{font-size:15cqw}
   .x-house-caption{font-size:clamp(9px,5.4cqw,12.5px)}
+  @keyframes x-knock{0%,100%{transform:rotate(0) scale(1)}15%{transform:rotate(-2deg) scale(1.03)}35%{transform:rotate(2deg) scale(1.04)}55%{transform:rotate(-1.5deg) scale(1.03)}75%{transform:rotate(1deg) scale(1.02)}}
+  @keyframes x-beam{0%{opacity:1;transform:translate(-50%,-50%) scale(.15)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6)}}
+  @keyframes x-fade{from{opacity:0}to{opacity:1}}
+  @keyframes x-card-in{0%{opacity:0;transform:translateY(60px) scale(.6) rotate(-3deg)}60%{opacity:1;transform:translateY(-6px) scale(1.04) rotate(1deg)}100%{transform:none}}
+  @keyframes x-gift-big{0%{opacity:0;transform:scale(.15) rotate(-16deg)}55%{opacity:1;transform:scale(1.14) rotate(5deg)}75%{transform:scale(.96) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
+  @keyframes x-shop-pulse{0%,100%{box-shadow:0 0 0 0 rgba(204,0,0,.45)}50%{box-shadow:0 0 0 8px rgba(204,0,0,0)}}
+  @keyframes x-tool-fall{0%{transform:translate3d(0,-12vh,0) rotate(0)}100%{transform:translate3d(-3vw,108vh,0) rotate(540deg)}}
   @keyframes x-num-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
   @keyframes x-lamp-flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.55}55%{opacity:1}70%{opacity:.8}75%{opacity:1}}
   code{font-family:ui-monospace,Menlo,monospace;font-size:.95em;background:rgba(0,0,0,.25);padding:1px 5px}
@@ -288,7 +296,7 @@
       <a class="x-logo" href="https://eshop.wurth.co.uk/" aria-label="Würth UK" style="display:inline-flex;align-items:center;background:#fff;padding:10px 14px;line-height:0">
         <img src="images/wurth-logo.png" alt="Würth" width="118" height="25" style="display:block;width:118px;height:auto">
       </a>
-      <span class="x-topbar-meta" style="font-size:12px;font-weight:600;letter-spacing:.2em;color:#ffc9c9">THE 12 DAYS · 1—12 DEC 2026</span>
+      <span class="x-topbar-meta" style="font-size:12px;font-weight:600;letter-spacing:.2em;color:#ffc9c9">THE 12 DOORS · 1—24 DEC 2026</span>
     </div>
 
     {{ lights }}
@@ -296,15 +304,16 @@
     <header class="x-hero" style="display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:end;padding:28px 0 44px">
       <div>
         <p style="margin:0 0 18px;display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;color:#ffc9c9">
-          <span style="font-size:15px">❄</span>01 DEC — 12 DEC
+          <span style="font-size:15px">❄</span>01 DEC — 24 DEC
         </p>
         <h1 style="margin:0;font-size:clamp(46px,6.2vw,84px);font-weight:800;line-height:.9;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance">The twelve<br>days of<br>Christmas.</h1>
-        <p class="x-lede" style="margin:26px 0 0;max-width:46ch;font-size:17px;line-height:1.6;color:#ffd4d4">Twelve doors, twelve days, one gift behind each. Spend £280 or more in a single order and your order number unlocks that day's door — open today's and see what's behind it.</p>
+        <p class="x-lede" style="margin:26px 0 0;max-width:46ch;font-size:17px;line-height:1.6;color:#ffd4d4">Twelve doors, a new one every two days from 1 to 24 December, and a gift behind each. Open the door to see what's inside — spend £280 or more in a single order while it's open and the gift is yours.</p>
         <div class="x-cta-row" style="display:flex;gap:20px;align-items:center;margin-top:32px;flex-wrap:wrap">
           <button class="x-cta" sc-camel-on-click="{{ openToday }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:15px 26px;cursor:pointer;background:#fff;color:#a00000;border:0" style-hover="background:#ffd9d9">{{ heroCta }}</button>
-          <span style="font-size:12px;font-weight:600;letter-spacing:.14em;color:#ffb3b3">{{ progress }}</span>
+          <a class="x-cta x-shop-hero" href="{{ eshopUrl }}" target="_blank" rel="noopener" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:13px 24px;color:#fff;border:2px solid #fff;text-decoration:none" style-hover="background:rgba(255,255,255,.14)">Shop the eshop →</a>
         </div>
-        <p class="x-countdown" style="margin:20px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
+        <p style="margin:18px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;color:#ffb3b3">{{ progress }}</p>
+        <p class="x-countdown" style="margin:8px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
       </div>
       <div style="border-top:2px solid rgba(255,255,255,.35)">
         <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
@@ -313,7 +322,7 @@
             <span style="font-size:14.5px;line-height:1.5;color:#fff">{{ s.text }}</span>
           </div>
         </sc-for>
-        <p style="margin:0;padding:16px 0 0;font-size:12.5px;line-height:1.6;color:#ffc9c9">One qualifying order of £280 or more. One entry per order number, per door.</p>
+        <p style="margin:0;padding:16px 0 0;font-size:12.5px;line-height:1.6;color:#ffc9c9">One gift per door, per customer, while stocks last.</p>
       </div>
     </header>
 
@@ -326,6 +335,7 @@
               {{ d.gift }}
             </div>
             {{ d.burst }}
+            {{ d.beam }}
             <button class="x-door" data-state="{{ d.state }}" sc-camel-on-click="{{ d.click }}" aria-label="{{ d.aria }}" style="position:absolute;inset:0;padding:0;border:0;background:none;cursor:pointer;transform-origin:left center;backface-visibility:hidden;transition:transform 1s cubic-bezier(.34,1.06,.3,1),filter 1s;transform:{{ d.transform }};filter:{{ d.filter }}">
               {{ d.doorArt }}
               <span class="x-house-num" style="position:absolute;left:0;right:0;top:{{ d.numTop }};text-align:center;font-family:'Archivo',sans-serif;font-weight:800;line-height:1;letter-spacing:-.03em;color:{{ d.numColor }};text-shadow:{{ d.numShadow }};animation:{{ d.numAnim }}">{{ d.num }}</span>
@@ -342,58 +352,36 @@
     {{ snowbank }}
     <div style="position:relative;background:#fff;margin-top:-3px">
       <footer class="x-footer" style="max-width:1180px;margin:0 auto;box-sizing:border-box;padding:4px 40px calc(40px + env(safe-area-inset-bottom));font-size:12.5px;line-height:1.75;color:#6e5a5c">
-        <p style="margin:0;max-width:72ch">Open to orders of £280 or more placed between 1 November and 12 December 2026. One entry per order number, per door. Each door opens on its day and stays open for two days (that day and the next), then locks for good. Every valid entry receives that day's gift while stocks last; substitutions of equal value may apply. Full terms and free entry route in the <a href="#">promotion terms</a>.</p>
-        <p style="margin:12px 0 0;max-width:72ch;color:#a23b3b">Prototype — validation, gift stock and unlock dates are simulated in the browser. Try order number NL-10412, NL-10488 or NL-10501. Add <code>?day=9</code> to the address to jump to another day, or <code>?reset</code> to start over.</p>
+        <p style="margin:0;max-width:72ch">The doors open one at a time between 1 and 24 December 2026: each stays open for two days, then locks for good and the next door opens (door 1 on 1–2 Dec, door 2 on 3–4 Dec, through to door 12 on 23–24 Dec). Spend £280 or more in a single order on eshop.wurth.co.uk while a door is open to receive that door's gift. One gift per door, per customer, while stocks last; substitutions of equal value may apply. Full terms in the <a href="#">promotion terms</a>.</p>
+        <p style="margin:12px 0 0;max-width:72ch;color:#a23b3b">Prototype — dates are simulated in the browser. Add <code>?day=9</code> to the address to pretend it's 9 December, or <code>?reset</code> to start over.</p>
       </footer>
     </div>
   </div>
 
-  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
-    <div class="x-veil" sc-camel-on-click="{{ veilClick }}" style="position:fixed;inset:0;z-index:80;background:rgba(30,0,0,.8);display:flex;align-items:center;justify-content:center;padding:24px">
-      <div sc-camel-on-click="{{ stop }}" class="x-dialog" role="dialog" aria-modal="true" style="position:relative;width:min(440px,100%);max-height:92vh;overflow-y:auto;background:#fff;color:#000;padding:34px 32px 28px;border-top:10px solid #cc0000;animation:x-rise .28s ease-out">
+  <sc-if value="{{ revealOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="x-reveal" sc-camel-on-click="{{ veilClick }}" style="position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:24px;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(150,12,12,.94),rgba(24,0,0,.97) 72%);animation:x-fade .35s ease-out both">
+      <div aria-hidden="true" style="position:absolute;left:50%;top:44%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;border-radius:50%;pointer-events:none;background:repeating-conic-gradient(from 0deg,rgba(255,214,130,.17) 0deg 8deg,rgba(255,214,130,0) 8deg 16deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 58%);mask:radial-gradient(circle,#000 0,transparent 58%);animation:x-spin 40s linear infinite"></div>
+      <div sc-camel-on-click="{{ stop }}" class="x-dialog" role="dialog" aria-modal="true" aria-label="{{ revealLabel }}" style="position:relative;z-index:2;width:min(420px,100%);max-height:calc(100dvh - 48px);overflow-y:auto;background:#fff;color:#000;text-align:center;padding:28px 28px 24px;border-top:10px solid #cc0000;box-shadow:0 30px 90px rgba(0,0,0,.55);animation:x-card-in .75s cubic-bezier(.2,1.4,.4,1) both">
         <button class="x-close" sc-camel-on-click="{{ closeModal }}" aria-label="Close" style="position:absolute;top:10px;right:12px;background:none;border:0;font-size:26px;line-height:1;color:#959595;cursor:pointer" style-hover="color:#cc0000">×</button>
-
-        <sc-if value="{{ isEntry }}" hint-placeholder-val="{{ true }}">
-          <div>
-            <p style="margin:0;font-size:34px;line-height:1">{{ modalMotif }}</p>
-            <p style="margin:10px 0 0;font-size:58px;font-weight:800;line-height:1;letter-spacing:-.04em;color:#cc0000">DAY {{ modalDay }}</p>
-            <p style="margin:6px 0 22px;font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#959595">{{ modalDate }}</p>
-            <h2 style="margin:0 0 8px;font-size:25px;font-weight:800;line-height:1.15;text-transform:uppercase">{{ modalTitle }}</h2>
-            <p style="margin:0 0 18px;font-size:14.5px;line-height:1.6;color:#605d5c">Enter your order number. {{ codeHint }}</p>
-            <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
-              <p style="margin:0 0 16px;padding:11px 13px;background:#dedede;border-left:4px solid #cc0000;font-size:13.5px;line-height:1.5">{{ error }}</p>
-            </sc-if>
-            <label for="xCode" style="display:block;font-size:12px;font-weight:600;letter-spacing:.1em;color:#605d5c;margin-bottom:6px">ORDER NUMBER</label>
-            <input class="x-input" id="xCode" inputmode="text" autocapitalize="characters" autocorrect="off" enterkeyhint="go" type="text" ref="{{ codeRef }}" placeholder="Order number" autocomplete="off" spellcheck="false" sc-camel-on-key-down="{{ onKey }}" style="width:100%;box-sizing:border-box;padding:13px;font-size:15px;font-family:ui-monospace,Menlo,monospace;border:2px solid #000;margin-bottom:16px">
-            <button sc-camel-on-click="{{ submit }}" style="width:100%;padding:15px;border:0;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:left" style-hover="background:#000">Open door {{ modalDay }}</button>
-            <p style="margin:18px 0 0;font-size:11.5px;line-height:1.6;color:#959595">One entry per order number, per door. By entering you accept the <a href="#">promotion terms</a>. No purchase necessary — <a href="#">free entry route</a>.</p>
-          </div>
+        <p style="margin:0;font-size:12px;font-weight:800;letter-spacing:.22em;color:#cc0000;animation:x-rise .4s .1s both">BEHIND DOOR {{ revealDay }}…</p>
+        <div style="position:relative;width:220px;height:200px;margin:12px auto 8px">
+          <span aria-hidden="true" style="position:absolute;left:-6%;top:8%;font-size:22px;color:#f2c14e;animation:x-twinkle 1.6s ease-in-out .9s infinite both">✦</span>
+          <span aria-hidden="true" style="position:absolute;right:-4%;top:2%;font-size:16px;color:#cc0000;animation:x-twinkle 1.9s ease-in-out 1.1s infinite both">✦</span>
+          <span aria-hidden="true" style="position:absolute;right:-8%;top:55%;font-size:24px;color:#f2c14e;animation:x-twinkle 1.5s ease-in-out 1.3s infinite both">✦</span>
+          <span aria-hidden="true" style="position:absolute;left:-2%;bottom:6%;font-size:15px;color:#2e7d32;animation:x-twinkle 1.8s ease-in-out 1s infinite both">✦</span>
+          <span aria-hidden="true" style="position:absolute;left:44%;top:-8%;font-size:13px;color:#f2c14e;animation:x-twinkle 1.4s ease-in-out 1.2s infinite both">✦</span>
+          {{ prizeVisual }}
+        </div>
+        <p style="margin:0 0 6px;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#cc0000;animation:x-rise .4s .55s both">{{ prizeHead }}</p>
+        <h2 style="margin:0 0 6px;font-size:24px;font-weight:800;line-height:1.15;text-transform:uppercase;animation:x-rise .45s .65s both">{{ prizeName }}</h2>
+        <p style="margin:0;font-size:14.5px;line-height:1.55;color:#605d5c;animation:x-rise .45s .75s both">{{ prizeSub }}</p>
+        <p style="margin:16px 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;text-align:left;font-size:14px;line-height:1.5;color:#1a1a1a;animation:x-rise .45s .85s both">{{ claimText }}</p>
+        <a class="x-shop" href="{{ eshopUrl }}" target="_blank" rel="noopener" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
+        <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the twelve days</button>
+        <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR'S HINT</strong>{{ nextTeaser }}</p>
         </sc-if>
-
-        <sc-if value="{{ isThinking }}" hint-placeholder-val="{{ false }}">
-          <div style="text-align:center;padding:38px 0">
-            <div style="width:46px;height:46px;margin:0 auto 20px;border:3px solid #dedede;border-top-color:#cc0000;border-radius:50%;animation:x-spin .85s linear infinite"></div>
-            <p style="margin:0;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#605d5c">{{ thinkingLine }}</p>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
-          <div>
-            {{ prizeVisual }}
-            <p style="margin:12px 0 14px;display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;padding:5px 10px;background:#dedede">{{ prizeChip }}</p>
-            <h2 style="margin:0 0 10px;font-size:27px;font-weight:800;line-height:1.15;text-transform:uppercase">{{ prizeHead }}</h2>
-            <p style="margin:0 0 4px;font-size:18px;font-weight:700">{{ prizeName }}</p>
-            <p style="margin:0 0 6px;font-size:14.5px;line-height:1.6;color:#605d5c">{{ prizeSub }}</p>
-            <p style="margin:0 0 18px;font-size:13px;font-weight:600"><a href="{{ prizeUrl }}" target="_blank" rel="noopener" style="color:#cc0000">View the product</a></p>
-            <p style="margin:0;padding:13px;font-family:ui-monospace,Menlo,monospace;font-size:16px;letter-spacing:.1em;border:2px dashed #cc0000;color:#cc0000;text-align:center">{{ prizeRef }}</p>
-            <p style="margin:8px 0 16px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:#959595">Keep this reference — it's on your account too.</p>
-            <button sc-camel-on-click="{{ closeModal }}" style="width:100%;padding:15px;border:0;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-align:left" style-hover="background:#000">Back to the twelve days</button>
-            <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
-              <p style="margin:18px 0 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#cc0000;margin-bottom:2px">TOMORROW'S HINT</strong>{{ nextTeaser }}</p>
-            </sc-if>
-            <p style="margin:14px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
-          </div>
-        </sc-if>
+        <p style="margin:12px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
       </div>
     </div>
   </sc-if>
@@ -406,8 +394,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260},&quot;today&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;graceDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;snow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;}}">
-const MIN_SPEND = 280;
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260},&quot;today&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:11,&quot;min&quot;:1,&quot;max&quot;:24,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulate&quot;},&quot;snow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;}}">
 
 const DAYS = [
   {motif:"🎄",title:"A frost-free windscreen",icon:"🧴",name:"Super de-icer spray, 500ml",
@@ -448,15 +435,6 @@ const DAYS = [
    url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
-const ORDERS = [
-  {no:"NL-10412", total:312.40, status:"paid", placed:"2026-11-14"},
-  {no:"NL-10488", total:284.00, status:"paid", placed:"2026-11-22"},
-  {no:"NL-10501", total:612.00, status:"paid", placed:"2026-11-28"},
-  {no:"NL-10333", total:180.00, status:"paid", placed:"2026-11-09"},
-  {no:"NL-10460", total:520.00, status:"refunded", placed:"2026-11-19"},
-  {no:"NL-09980", total:700.00, status:"paid", placed:"2026-10-02"}
-];
-
 const HINTS = [
   "Something for a frosty morning start.",
   "Helps you see the road ahead.",
@@ -473,14 +451,14 @@ const HINTS = [
 ];
 
 const STEPS = [
-  {n:"1", text:"Place an order of £280 or more between 1 Nov and 12 Dec."},
-  {n:"2", text:"Find your order number on the confirmation email."},
-  {n:"3", text:"Open that day's door within two days, before it locks — every valid entry gets the gift behind it."}
+  {n:"1", text:"A new door opens every two days. Open it to see the gift behind it."},
+  {n:"2", text:"Spend £280 or more in a single order on the eshop while that door is open."},
+  {n:"3", text:"The gift is yours. After two days the door locks and the next one opens."}
 ];
 
-const THINKING = ["Checking your order number…", "Lifting the latch…", "Reaching into the door…"];
+const ESHOP_URL = "https://eshop.wurth.co.uk/";
 
-// Remembered per browser so a refresh (or tomorrow's visit) keeps your doors and order number.
+// Remembered per browser so a refresh (or tomorrow's visit) keeps your opened doors.
 const STORE_KEY = "twelve-days-2026";
 function loadSaved() {
   try {
@@ -489,14 +467,6 @@ function loadSaved() {
   } catch (e) { return {}; }
 }
 function persist(data) { try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {} }
-
-// Accepts "nl-10412", "NL 10412", "NL10412" or just "10412".
-function normaliseCode(raw) {
-  const c = (raw || "").toUpperCase().replace(/\s+/g, "");
-  if (/^\d{5}$/.test(c)) return "NL-" + c;
-  if (/^NL\d{5}$/.test(c)) return "NL-" + c.slice(2);
-  return c;
-}
 
 // ---------- Hand-drawn house fronts ----------
 // Each day is its own little house front drawn in SVG with slightly wobbly lines, so it feels handmade.
@@ -527,292 +497,128 @@ function blob(cx, cy, rx, ry, r) {
 
 // One house per day. Door opening sits at x 27–73, y 24–92 in a 100×125 house front.
 // arch: "round" | "pointed" | undefined.  lamps: porch light positions.  extra: wall decoration.
-const HOUSES = [
-  { deco: "wreath",   wall: "#efe2cc", texture: "render", tex: "#d6c6a9", frame: "#f8f2e7", door: "#b3121b", num: "#fff",    numTop: "44%", lamps: [[50, 7]] },
-  { deco: "cottage",  wall: "#c9cdc6", texture: "stone",  tex: "#8f968e", frame: "#a9afa7", door: "#2f6b3a", num: "#f3e2b3", numTop: "40%", lamps: [[13, 30]], arch: "round" },
-  { deco: "georgian", wall: "#a4432f", texture: "brick",  tex: "#cf8a70", frame: "#f4efe6", door: "#1d2c55", num: "#e8c46a", numTop: "15%", lamps: [[87, 30]], fanlight: WARM },
-  { deco: "stable",   wall: "#f2efe6", texture: "boards", tex: "#d3ccbd", frame: "#e2dccf", door: "#3f7fa6", num: "#fff",    numTop: "59%", lamps: [[50, 7]], extra: "pot" },
-  { deco: "gothic",   wall: "#b9b3a8", texture: "blocks", tex: "#8d877c", frame: "#9d968a", door: "#6b3e1f", num: "#f3e2b3", numTop: "36%", lamps: [[13, 32]], arch: "pointed" },
-  { deco: "ivy",      wall: "#f1e4b8", texture: "render", tex: "#dcc98f", frame: "#f8f1dc", door: "#5d7a58", num: "#fff",    numTop: "49%", lamps: [[86, 30]], extra: "ivy" },
-  { deco: "shop",     wall: "#20553f", texture: "none",   tex: "#c9a64a", frame: "#e8c46a", door: "#4a1e3a", num: "#fff",    numTop: "74%", lamps: [[12, 34]], extra: "awning" },
-  { deco: "porthole", wall: "#f4f1ea", texture: "stripe", tex: "#c62828", frame: "#e6e1d6", door: "#1f7a7a", num: "#fff",    numTop: "50%", lamps: [[50, 7]], extra: "lifebuoy" },
-  { deco: "barn",     wall: "#8a5a3c", texture: "vboards", tex: "#6d4329", frame: "#5b371f", door: "#9c2f22", num: "#3b1a12", numTop: "9%",  lamps: [[13, 30]] },
-  { deco: "scandi",   wall: "#d9a93f", texture: "vboards", tex: "#b88a2c", frame: "#faf6ee", door: "#34506a", num: "#fff",    numTop: "34%", lamps: [[50, 7]], extra: "strawstar" },
-  { deco: "ginger",   wall: "#b9763f", texture: "icing",  tex: "#fff",    frame: "#fff",    door: "#6e3419", num: "#fff",    numTop: "30%", lamps: [[50, 7]], extra: "canes" },
-  { deco: "present",  wall: "#d9d0bf", texture: "blocks", tex: "#b5aa95", frame: "#f4efe6", door: "#7a0f1a", num: "#fff",    numTop: "69%", numShadow: "0 0 2px #3b0a0a, 0 0 4px #3b0a0a, 0 2px 0 #3b0a0a", lamps: [[12, 32], [88, 32]], fanlight: "#f2c14e", extra: "star" }
+
+// ---------- The doors: one festive house front, a different colour door each day ----------
+const DOOR_COLOURS = [
+  { door: "#b3121b", num: "#fff" }, { door: "#1f5f3a", num: "#fff" }, { door: "#1d2c55", num: "#f2d27a" },
+  { door: "#0f6b6b", num: "#fff" }, { door: "#5b1f4a", num: "#fff" }, { door: "#d39b1f", num: "#3b1a12" },
+  { door: "#7a0f1a", num: "#f2d27a" }, { door: "#2e7d32", num: "#fff" }, { door: "#1e4fa3", num: "#fff" },
+  { door: "#2b2b2b", num: "#f2d27a" }, { door: "#a3123a", num: "#fff" }, { door: "#0b4d3c", num: "#f2d27a" }
 ];
-function houseFor(n) { return HOUSES[(n - 1) % HOUSES.length]; }
+const LIGHT_COLOURS = ["#ff5252", "#ffd24a", "#6cc6ff", "#7ee081"];
 
-const ARCH = {
-  round:   { frame: "M23.5,94 L23.5,34 Q50,4 76.5,34 L76.5,94 Z", hole: "M27,92 L27,36 Q50,14 73,36 L73,92 Z",
-             door: "M.5,67.5 L.5,12 Q23,-10 45.5,12 L45.5,67.5 Z", radius: "50% 50% 0 0 / 18% 18% 0 0" },
-  pointed: { frame: "M23.5,94 L23.5,38 Q26,20 50,13 Q74,20 76.5,38 L76.5,94 Z", hole: "M27,92 L27,40 Q29,28 50,23 Q71,28 73,40 L73,92 Z",
-             door: "M.5,67.5 L.5,16 Q2,4 23,-1 Q44,4 45.5,16 L45.5,67.5 Z", radius: "50% 50% 0 0 / 26% 26% 0 0" }
-};
+// Points along the garland: up the left of the door frame, over the top, down the right.
+function garlandPoints() {
+  const pts = [];
+  for (let y = 62; y > 16; y -= 7) pts.push([20.5, y]);
+  for (let i = 0; i <= 8; i++) { const t = i / 8; pts.push([20.5 + 59 * t, 16 - 26 * t * (1 - t)]); }
+  for (let y = 23; y <= 62; y += 7) pts.push([79.5, y]);
+  return pts;
+}
+const GARLAND = garlandPoints();
 
-function facadeArt(n, house, lampOn, flicker) {
+function houseFront(n, lampOn, twinkle) {
   const h = React.createElement, r = seeded(n * 97 + 13), k = [];
-  const flick = flicker ? { animation: "x-lamp-flicker 3.2s ease-in-out infinite" } : undefined;
   const line = { stroke: INK, strokeWidth: 1, strokeLinejoin: "round", strokeLinecap: "round" };
-  const texLine = d => h("path", { key: "tex", d, fill: "none", stroke: house.tex, strokeWidth: .7, strokeLinecap: "round" });
   const gid = "x-glow-" + n;
   k.push(h("defs", { key: "defs" }, h("radialGradient", { id: gid },
-    h("stop", { offset: "0%", stopColor: "#ffd27a", stopOpacity: .8 }),
+    h("stop", { offset: "0%", stopColor: "#ffd27a", stopOpacity: .75 }),
     h("stop", { offset: "100%", stopColor: "#ffd27a", stopOpacity: 0 }))));
 
-  k.push(h("path", { key: "wall", d: roughRect(1.5, 1.5, 97, 97, r, 1.2), fill: house.wall, ...line }));
-
-  // wall texture, drawn as one path each so it stays light
+  // painted brick wall, the same on every house
+  k.push(h("path", { key: "wall", d: roughRect(1.5, 1.5, 97, 97, r, 1.2), fill: "#f2e8da", ...line }));
   let tex = "";
-  switch (house.texture) {
-    case "brick":
-      for (let y = 8, row = 0; y < 97; y += 6.5, row++) {
-        tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
-        for (let x = (row % 2 ? 8 : 14); x < 97; x += 12) tex += roughLine(x, y - 6.5, x, y, r, .4) + " ";
-      }
-      k.push(texLine(tex)); break;
-    case "blocks":
-      for (let y = 11, row = 0; y < 97; y += 11, row++) {
-        tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
-        for (let x = (row % 2 ? 10 : 20); x < 97; x += 20) tex += roughLine(x, y - 11, x, y, r, .5) + " ";
-      }
-      k.push(texLine(tex)); break;
-    case "stone":
-      [[12, 12, 7, 4.5], [30, 7, 6, 3.5], [70, 8, 8, 4], [88, 16, 6, 4.5], [9, 52, 5, 6], [90, 55, 6, 5], [12, 80, 7, 5], [88, 84, 6, 5], [20, 30, 4, 3], [80, 36, 5, 3.5]]
-        .forEach(([x, y, rx, ry], i) => k.push(h("path", { key: "st" + i, d: blob(x, y, rx, ry, r), fill: "#d6dad3", stroke: house.tex, strokeWidth: .6 })));
-      break;
-    case "boards":
-      for (let y = 7; y < 97; y += 5.5) tex += roughLine(2.5, y, 97.5, y, r, .7) + " ";
-      k.push(texLine(tex)); break;
-    case "vboards":
-      for (let x = 7; x < 97; x += 6.5) tex += roughLine(x, 2.5, x, 97.5, r, .9) + " ";
-      [[18, 40], [59, 70], [85, 22]].forEach(([x, y]) => { tex += "M" + x + "," + y + " a1.2,1.6 0 1,0 .1,0 "; });
-      k.push(texLine(tex)); break;
-    case "stripe":
-      k.push(h("path", { key: "band", d: roughRect(1.5, 44, 97, 20, r, .8), fill: house.tex, ...line, strokeWidth: .7 }));
-      k.push(h("path", { key: "band2", d: roughRect(1.5, 4, 97, 8, r, .6), fill: house.tex, ...line, strokeWidth: .7 }));
-      break;
-    case "icing": {
-      let scallop = "M2,5";
-      for (let x = 2; x < 98; x += 8) scallop += " Q" + (x + 4) + ",12 " + (x + 8) + ",5";
-      k.push(h("path", { key: "icing", d: scallop, fill: "none", stroke: "#fff", strokeWidth: 2.2, strokeLinecap: "round" }));
-      [[10, 22, "#e53935"], [90, 20, "#43a047"], [8, 60, "#fdd835"], [92, 64, "#e53935"], [15, 86, "#1e88e5"], [86, 88, "#fdd835"]]
-        .forEach(([x, y, c], i) => k.push(h("circle", { key: "dot" + i, cx: x, cy: y, r: 2, fill: c, stroke: INK, strokeWidth: .4 })));
-      break;
-    }
-    case "render":
-      [[10, 20, 16, 23], [80, 12, 88, 16], [84, 70, 90, 78], [8, 62, 12, 70], [30, 6, 36, 8]]
-        .forEach(([a, b, c, d]) => { tex += roughLine(a, b, c, d, r, 2) + " "; });
-      k.push(texLine(tex)); break;
-    default:
-      // painted shop front: a thin gold pinstripe panel
-      k.push(h("path", { key: "pin", d: roughRect(5, 5, 90, 90, r, .6), fill: "none", stroke: house.tex, strokeWidth: .7 }));
+  for (let y = 14, row = 0; y < 97; y += 6.5, row++) {
+    tex += roughLine(2.5, y, 97.5, y, r, .8) + " ";
+    for (let x = (row % 2 ? 8 : 14); x < 97; x += 12) tex += roughLine(x, y - 6.5, x, y, r, .4) + " ";
   }
+  k.push(h("path", { key: "brick", d: tex, fill: "none", stroke: "#e2d3bf", strokeWidth: .7, strokeLinecap: "round" }));
 
-  // porch light glow on the wall
-  if (lampOn) house.lamps.forEach(([lx, ly], i) =>
-    k.push(h("ellipse", { key: "glow" + i, cx: lx, cy: ly + 8, rx: 36, ry: 32, fill: "url(#" + gid + ")", style: flick })));
+  // snow along the top with icicles
+  let roof = "M1.5,1.5 L98.5,1.5 L98.5,7";
+  for (let x = 98.5; x > 2; x -= 8) roof += " Q" + (x - 4).toFixed(1) + "," + (11 + (r() - .5) * 2).toFixed(1) + " " + (x - 8).toFixed(1) + ",7";
+  k.push(h("path", { key: "roof", d: roof + " Z", fill: "#fff", ...line, strokeWidth: .7 }));
+  [9, 31, 58, 88].forEach((x, i) => k.push(h("path", { key: "ice" + i, d: "M" + x + ",8.5 L" + (x + 1.6) + ",8.5 L" + (x + .8) + "," + (14 + (i % 2) * 3) + " Z", fill: "#eef6ff", stroke: INK, strokeWidth: .4 })));
 
-  // door surround + dark doorway behind the door
-  const arch = ARCH[house.arch];
-  if (arch) {
-    k.push(h("path", { key: "frame", d: arch.frame, fill: house.frame, ...line }));
-    k.push(h("path", { key: "hole", d: arch.hole, fill: "#1a0d0a", ...line }));
-  } else {
-    k.push(h("path", { key: "frame", d: roughRect(23.5, house.fanlight ? 11 : 20.5, 53, house.fanlight ? 83 : 73.5, r, .8), fill: house.frame, ...line }));
-    k.push(h("path", { key: "hole", d: roughRect(27, 24, 46, 68, r, .5), fill: "#1a0d0a", ...line }));
-  }
-  if (house.fanlight) {
-    k.push(h("path", { key: "fan", d: "M29,22.5 A21,9.5 0 0 1 71,22.5 Z", fill: lampOn ? house.fanlight : "#2c3550", ...line }));
-    let bars = "";
-    for (let i = 1; i < 6; i++) { const a = Math.PI - i * Math.PI / 6; bars += "M50,22.5 L" + (50 + Math.cos(a) * 20).toFixed(2) + "," + (22.5 - Math.sin(a) * 9).toFixed(2) + " "; }
-    k.push(h("path", { key: "fanbars", d: bars, stroke: INK, strokeWidth: .6, fill: "none" }));
-  }
+  // warm glow on the wall when the door can be (or has been) opened
+  if (lampOn) k.push(h("ellipse", { key: "glow", cx: 50, cy: 34, rx: 46, ry: 40, fill: "url(#" + gid + ")" }));
 
-  // wall decorations
-  switch (house.extra) {
-    case "pot":
-      k.push(h("path", { key: "bush", d: blob(87, 80, 7, 6.5, r), fill: "#2f6b3a", stroke: INK, strokeWidth: .7 }));
-      [[84, 77], [89, 82], [86, 84], [90, 76]].forEach(([x, y], i) => k.push(h("circle", { key: "berry" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
-      k.push(h("path", { key: "pot", d: "M81,85 L93,85 L91.5,92.5 L82.5,92.5 Z", fill: "#c0663e", ...line, strokeWidth: .8 }));
-      break;
-    case "ivy": {
-      k.push(h("path", { key: "vine", d: "M24,92 C18,78 28,66 22,54 C17,42 26,34 30,22 C36,14 46,17 52,15 C60,13 66,19 74,17", fill: "none", stroke: "#2e5d2a", strokeWidth: .9 }));
-      [[22, 86], [25, 76], [20, 68], [24, 58], [19, 48], [25, 40], [28, 30], [33, 20], [41, 16], [50, 14], [58, 15], [66, 17], [73, 16], [21, 80], [26, 50]]
-        .forEach(([x, y], i) => k.push(h("path", { key: "leaf" + i, d: blob(x, y, 2.6, 1.9, r), fill: i % 3 ? "#43a047" : "#2e7d32", stroke: INK, strokeWidth: .4 })));
-      break;
-    }
-    case "awning": {
-      for (let i = 0; i < 8; i++) k.push(h("path", { key: "aw" + i, d: roughRect(10 + i * 10, 3, 10, 12, r, .3), fill: i % 2 ? "#fff" : "#cc0000", stroke: "none" }));
-      let edge = "M10,15";
-      for (let x = 10; x < 90; x += 5) edge += " Q" + (x + 2.5) + ",19 " + (x + 5) + ",15";
-      k.push(h("path", { key: "awedge", d: edge + " L90,3 L10,3 Z", fill: "none", ...line, strokeWidth: .8 }));
-      k.push(h("path", { key: "awscal", d: edge, fill: "none", stroke: INK, strokeWidth: .8 }));
-      break;
-    }
-    case "lifebuoy":
-      k.push(h("circle", { key: "lb", cx: 88, cy: 76, r: 6, fill: "none", stroke: "#fff", strokeWidth: 3.4 }));
-      k.push(h("circle", { key: "lbr", cx: 88, cy: 76, r: 6, fill: "none", stroke: "#c62828", strokeWidth: 3.4, strokeDasharray: "4.7 4.7" }));
-      k.push(h("circle", { key: "lbo", cx: 88, cy: 76, r: 7.8, fill: "none", stroke: INK, strokeWidth: .5 }));
-      k.push(h("circle", { key: "lbi", cx: 88, cy: 76, r: 4.2, fill: "none", stroke: INK, strokeWidth: .5 }));
-      break;
-    case "strawstar": {
-      let star = "";
-      for (let i = 0; i < 4; i++) { const a = i * Math.PI / 4; star += "M" + (88 + Math.cos(a) * 7).toFixed(2) + "," + (60 + Math.sin(a) * 7).toFixed(2) + " L" + (88 - Math.cos(a) * 7).toFixed(2) + "," + (60 - Math.sin(a) * 7).toFixed(2) + " "; }
-      k.push(h("path", { key: "string", d: "M88,40 L88,53", stroke: INK, strokeWidth: .4 }));
-      k.push(h("path", { key: "star", d: star, stroke: "#f6e3a1", strokeWidth: 1.3, strokeLinecap: "round" }));
-      k.push(h("path", { key: "starink", d: star, stroke: "#8a6a1f", strokeWidth: .3 }));
-      break;
-    }
-    case "canes":
-      [[11, 1], [89, -1]].forEach(([x, dir], i) => {
-        const d = "M" + x + ",92 L" + x + ",42 Q" + x + ",34 " + (x + dir * 5) + ",34 Q" + (x + dir * 10) + ",34 " + (x + dir * 10) + ",40";
-        k.push(h("path", { key: "cane" + i, d, fill: "none", stroke: "#fff", strokeWidth: 3.2, strokeLinecap: "round" }));
-        k.push(h("path", { key: "stripe" + i, d, fill: "none", stroke: "#e53935", strokeWidth: 3.2, strokeDasharray: "2.4 2.4" }));
-      });
-      break;
-    case "star": {
-      let p = "";
-      for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 2.8 : 6.5; p += (i ? " L" : "M") + (50 + Math.cos(a) * rr).toFixed(2) + "," + (5.5 + Math.sin(a) * rr).toFixed(2); }
-      k.push(h("path", { key: "star", d: p + " Z", fill: "#f2c14e", stroke: INK, strokeWidth: .6, strokeLinejoin: "round" }));
-      break;
-    }
-  }
+  // door surround, fanlight and dark doorway
+  k.push(h("path", { key: "frame", d: roughRect(23.5, 11, 53, 83, r, .8), fill: "#fbf7f0", ...line }));
+  k.push(h("path", { key: "hole", d: roughRect(27, 24, 46, 68, r, .5), fill: "#1a0d0a", ...line }));
+  k.push(h("path", { key: "fan", d: "M29,22.5 A21,9.5 0 0 1 71,22.5 Z", fill: lampOn ? WARM : "#2c3550", ...line }));
+  let bars = "";
+  for (let i = 1; i < 6; i++) { const a = Math.PI - i * Math.PI / 6; bars += "M50,22.5 L" + (50 + Math.cos(a) * 20).toFixed(2) + "," + (22.5 - Math.sin(a) * 9).toFixed(2) + " "; }
+  k.push(h("path", { key: "fanbars", d: bars, stroke: INK, strokeWidth: .6, fill: "none" }));
 
-  // doorstep with a little snow on it
-  k.push(h("path", { key: "step", d: roughRect(19, 92, 62, 5.5, r, .6), fill: "#d8d0c2", ...line }));
-  k.push(h("path", { key: "stepsnow", d: "M19.5,92.6 Q27,88.6 35,91.4 Q43,88.8 50,91 Q58,88.4 66,91.2 Q73,89 80.5,92.6 Z", fill: "#fff", stroke: INK, strokeWidth: .6 }));
-
-  // pavement strip the caption sits on
-  k.push(h("path", { key: "pave", d: roughRect(1.5, 99, 97, 24.5, r, .8), fill: "#3a1713", ...line }));
-
-  // porch lights: bracket, cap, glass, base, snow on top
-  house.lamps.forEach(([lx, ly], i) => {
-    const side = lx < 30 ? -1 : lx > 70 ? 1 : 0;
-    if (side) k.push(h("path", { key: "arm" + i, d: "M" + (lx - side) + "," + (ly + 3) + " L" + (lx - side * 6) + "," + (ly + 3), stroke: "#231313", strokeWidth: 1.2 }));
-    k.push(h("path", { key: "cap" + i, d: "M" + (lx - 4.6) + "," + ly + " L" + lx + "," + (ly - 4) + " L" + (lx + 4.6) + "," + ly + " Z", fill: "#231313", stroke: INK, strokeWidth: .5 }));
-    k.push(h("path", { key: "capsnow" + i, d: "M" + (lx - 3.4) + "," + (ly - 1.4) + " Q" + lx + "," + (ly - 5.6) + " " + (lx + 3.4) + "," + (ly - 1.4) + " Z", fill: "#fff" }));
-    k.push(h("path", { key: "glass" + i, d: roughRect(lx - 3.2, ly, 6.4, 8, r, .3), fill: lampOn ? "#ffe39a" : "#4a4040", ...line, strokeWidth: .7, style: flick }));
-    k.push(h("path", { key: "base" + i, d: roughRect(lx - 4, ly + 8, 8, 1.8, r, .2), fill: "#231313" }));
+  // evergreen garland round the frame, with fairy lights and red bows
+  const gd = "M" + GARLAND.map(([x, y]) => x.toFixed(1) + "," + y.toFixed(1)).join(" L");
+  k.push(h("path", { key: "garland", d: gd, fill: "none", stroke: "#1d4d1f", strokeWidth: 6.4, strokeLinecap: "round", strokeLinejoin: "round" }));
+  k.push(h("path", { key: "garland2", d: gd, fill: "none", stroke: "#2f7a33", strokeWidth: 4.6, strokeLinecap: "round", strokeLinejoin: "round", strokeDasharray: "1.6 1.4" }));
+  GARLAND.forEach(([x, y], i) => {
+    if (i % 2) return;
+    const c = LIGHT_COLOURS[(i / 2) % LIGHT_COLOURS.length];
+    k.push(h("circle", { key: "gl" + i, cx: x + (r() - .5) * 2, cy: y + 1.8, r: 1.5, fill: lampOn ? c : "#7a6f6a", stroke: INK, strokeWidth: .3,
+      style: twinkle ? { animation: "x-bulb-twinkle 1.4s ease-in-out " + (i * .09).toFixed(2) + "s infinite" } : undefined }));
   });
+  const bow = (x, y, key) => h("path", { key, d: "M" + x + "," + y + " l-4,-2.6 l0,5.2 Z M" + x + "," + y + " l4,-2.6 l0,5.2 Z M" + x + "," + y + " l-2,5 M" + x + "," + y + " l2,5",
+    fill: "#d32f2f", stroke: "#8e1515", strokeWidth: .6, strokeLinejoin: "round" });
+  k.push(bow(20.5, 16, "bowL"), bow(50, 9.6, "bowT"), bow(79.5, 16, "bowR"));
+
+  // little Christmas tree in a pot on the right
+  k.push(h("path", { key: "tree", d: "M91,58 L98,75 L94.5,75 L99,88 L83,88 L87.5,75 L84,75 Z", fill: "#2e7d32", ...line, strokeWidth: .7 }));
+  [[90, 70, "#ff5252"], [93, 80, "#ffd24a"], [88, 83, "#6cc6ff"], [92.5, 66, "#ffd24a"]].forEach(([x, y, c], i) =>
+    k.push(h("circle", { key: "bb" + i, cx: x, cy: y, r: 1.2, fill: c, stroke: INK, strokeWidth: .3 })));
+  k.push(h("path", { key: "treestar", d: "M91,54.5 L92,57 L94.6,57 L92.5,58.6 L93.3,61.2 L91,59.6 L88.7,61.2 L89.5,58.6 L87.4,57 L90,57 Z", fill: "#f2c14e", stroke: INK, strokeWidth: .3 }));
+  k.push(h("path", { key: "pot", d: "M85,88 L97,88 L95.6,97.5 L86.4,97.5 Z", fill: "#c0663e", ...line, strokeWidth: .7 }));
+
+  // presents waiting by the door on the left
+  k.push(h("path", { key: "gift1", d: roughRect(4, 84, 12, 13.5, r, .3), fill: "#cc0000", ...line, strokeWidth: .7 }));
+  k.push(h("path", { key: "rib1", d: "M10,84 L10,97.5 M4,89.5 L16,89.5", stroke: "#f2c14e", strokeWidth: 1.4 }));
+  k.push(h("path", { key: "bow1", d: "M10,84 q-3,-4 -4.5,-1 q1,2 4.5,1 q3,-4 4.5,-1 q-1,2 -4.5,1 Z", fill: "#f2c14e", stroke: INK, strokeWidth: .4 }));
+  k.push(h("path", { key: "gift2", d: roughRect(13, 89.5, 8.5, 8, r, .3), fill: "#2e7d32", ...line, strokeWidth: .7 }));
+  k.push(h("path", { key: "rib2", d: "M17.2,89.5 L17.2,97.5", stroke: "#fff", strokeWidth: 1.2 }));
+
+  // doorstep with snow, then the pavement the caption sits on
+  k.push(h("path", { key: "step", d: roughRect(21, 92, 58, 5.5, r, .6), fill: "#d8d0c2", ...line }));
+  k.push(h("path", { key: "stepsnow", d: "M21.5,92.6 Q29,88.6 37,91.4 Q44,88.8 50,91 Q57,88.4 64,91.2 Q72,89 78.5,92.6 Z", fill: "#fff", stroke: INK, strokeWidth: .6 }));
+  k.push(h("path", { key: "pave", d: roughRect(1.5, 99, 97, 24.5, r, .8), fill: "#3a1713", ...line }));
 
   return h("svg", { viewBox: "0 0 100 125", "aria-hidden": "true", style: { display: "block", width: "100%", height: "100%" } }, k);
 }
 
-function doorArt(n, house, lampOn) {
+function doorFace(n, colour) {
   const h = React.createElement, r = seeded(n * 131 + 7), k = [];
-  const line = { stroke: INK, strokeWidth: .8, strokeLinejoin: "round" };
-  const glass = lampOn ? WARM : "#23313b";
   const panel = (x, y, w, hh, key) => h("path", { key, d: roughRect(x, y, w, hh, r, .5), fill: "rgba(0,0,0,.18)", stroke: "rgba(0,0,0,.45)", strokeWidth: .6 });
-  const brass = (cx, cy, rad, key) => h("circle", { key, cx, cy, r: rad, fill: "#e8c46a", stroke: INK, strokeWidth: .4 });
-  const planks = (xs, top) => { let d = ""; xs.forEach(x => { d += roughLine(x, top, x, 67, r, .5) + " "; }); return h("path", { key: "planks", d, stroke: "rgba(0,0,0,.4)", strokeWidth: .6, fill: "none" }); };
-
-  const arch = ARCH[house.arch];
-  k.push(h("path", { key: "slab", d: arch ? arch.door : roughRect(.5, .5, 45, 67, r, .6), fill: house.door, ...line }));
-
-  switch (house.deco) {
-    case "wreath":
-      k.push(panel(6, 30, 14, 14, "p1"), panel(26, 30, 14, 14, "p2"), panel(6, 48, 14, 15, "p3"), panel(26, 48, 14, 15, "p4"));
-      k.push(h("circle", { key: "wreath", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#2e7d32", strokeWidth: 3.4 }));
-      k.push(h("circle", { key: "wreath2", cx: 23, cy: 14, r: 6.4, fill: "none", stroke: "#1b5e20", strokeWidth: .6, strokeDasharray: "1.5 2" }));
-      [[18.5, 10], [27.5, 10.5], [17.5, 17], [28.5, 16.5], [23, 7.7]].forEach(([x, y], i) => k.push(h("circle", { key: "b" + i, cx: x, cy: y, r: .9, fill: "#e53935" })));
-      k.push(h("path", { key: "bow", d: "M23,20.5 L19.5,18 L19.5,23 Z M23,20.5 L26.5,18 L26.5,23 Z", fill: "#e53935", stroke: INK, strokeWidth: .4 }));
-      k.push(brass(39.5, 38, 1.7, "knob"));
-      break;
-    case "cottage":
-      k.push(planks([11.5, 23, 34.5], 3));
-      k.push(h("path", { key: "hinge1", d: roughRect(.5, 17, 27, 2.6, r, .3), fill: "#1d1d1d" }));
-      k.push(h("path", { key: "hinge2", d: roughRect(.5, 54, 27, 2.6, r, .3), fill: "#1d1d1d" }));
-      k.push(h("circle", { key: "knocker", cx: 23, cy: 11, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
-      k.push(h("circle", { key: "latch", cx: 39.5, cy: 40, r: 1.6, fill: "#1d1d1d" }));
-      break;
-    case "georgian":
-      k.push(panel(6, 4, 14, 20, "p1"), panel(26, 4, 14, 20, "p2"), panel(6, 26, 14, 10, "p3"), panel(26, 26, 14, 10, "p4"), panel(6, 45, 14, 18, "p5"), panel(26, 45, 14, 18, "p6"));
-      k.push(h("path", { key: "letterbox", d: roughRect(15, 38.5, 16, 3.2, r, .2), fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
-      k.push(brass(40, 42, 1.7, "knob"));
-      break;
-    case "stable":
-      k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 21, r, .4), fill: glass, stroke: INK, strokeWidth: .7 }));
-      k.push(h("path", { key: "bars", d: "M23,5 L23,26 M8,15.5 L38,15.5", stroke: INK, strokeWidth: .9 }));
-      k.push(h("path", { key: "ledge", d: roughRect(-.5, 32.5, 47, 3, r, .3), fill: "rgba(0,0,0,.28)", stroke: INK, strokeWidth: .6 }));
-      k.push(panel(6, 40, 14, 22, "p1"), panel(26, 40, 14, 22, "p2"));
-      k.push(brass(40, 29.5, 1.5, "knob1"), brass(40, 39, 1.5, "knob2"));
-      break;
-    case "gothic": {
-      k.push(planks([8, 15.5, 23, 30.5, 38], 3));
-      const strap = y => "M.5," + y + " L33," + y + " Q36," + (y - 2.2) + " 38," + y + " Q36," + (y + 2.2) + " 33," + (y + .01) + " Z";
-      k.push(h("path", { key: "strap1", d: strap(20), fill: "#1d1d1d", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinejoin: "round" }));
-      k.push(h("path", { key: "strap2", d: strap(54), fill: "#1d1d1d", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinejoin: "round" }));
-      [12, 44, 63].forEach((y, row) => [8, 15.5, 23, 30.5, 38].forEach((x, i) => k.push(h("circle", { key: "stud" + row + i, cx: x, cy: y, r: .8, fill: "#2a2a2a" }))));
-      k.push(h("circle", { key: "ring", cx: 37, cy: 38, r: 2.6, fill: "none", stroke: "#1d1d1d", strokeWidth: 1.1 }));
-      break;
-    }
-    case "ivy":
-      k.push(h("path", { key: "win", d: roughRect(8, 5, 30, 18, r, .4), fill: glass, stroke: INK, strokeWidth: .7 }));
-      k.push(h("path", { key: "lead", d: "M18,5 L18,23 M28,5 L28,23 M8,14 L38,14", stroke: INK, strokeWidth: .5 }));
-      k.push(panel(6, 44, 14, 19, "p1"), panel(26, 44, 14, 19, "p2"));
-      k.push(brass(40, 38, 1.6, "knob"));
-      break;
-    case "shop":
-      k.push(h("path", { key: "glass", d: roughRect(6, 5, 34, 40, r, .4), fill: glass, stroke: INK, strokeWidth: .8 }));
-      k.push(h("path", { key: "cord", d: "M17,5 L20.5,11 M29,5 L25.5,11", stroke: INK, strokeWidth: .4 }));
-      k.push(h("path", { key: "sign", d: roughRect(14.5, 11, 17, 7, r, .2), fill: "#fff", stroke: INK, strokeWidth: .5 }));
-      k.push(h("text", { key: "open", x: 23, y: 16.2, textAnchor: "middle", fontSize: 4.2, fontWeight: 800, fontFamily: "Archivo, sans-serif", fill: "#cc0000" }, "OPEN"));
-      k.push(h("path", { key: "bell", d: "M21,.5 Q23,-1 25,.5 L26,3.5 L20,3.5 Z", fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
-      k.push(h("path", { key: "kick", d: roughRect(6, 49, 34, 15, r, .4), fill: "rgba(0,0,0,.25)", stroke: "rgba(0,0,0,.5)", strokeWidth: .6 }));
-      k.push(h("path", { key: "handle", d: "M41.5,24 L41.5,36", stroke: "#e8c46a", strokeWidth: 1.6, strokeLinecap: "round" }));
-      break;
-    case "porthole":
-      k.push(h("circle", { key: "port", cx: 23, cy: 17, r: 8.5, fill: glass, stroke: "#e8c46a", strokeWidth: 2.2 }));
-      k.push(h("circle", { key: "portink", cx: 23, cy: 17, r: 9.7, fill: "none", stroke: INK, strokeWidth: .5 }));
-      for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; k.push(h("circle", { key: "rv" + i, cx: 23 + Math.cos(a) * 11.4, cy: 17 + Math.sin(a) * 11.4, r: .6, fill: "#e8c46a" })); }
-      k.push(panel(6, 32, 34, 31, "p1"));
-      k.push(brass(40, 40, 1.7, "knob"));
-      break;
-    case "barn": {
-      k.push(planks([9, 18, 27, 36], 1));
-      const white = { stroke: "#f3efe6", strokeWidth: 2.6, fill: "none", strokeLinecap: "square" };
-      k.push(h("path", { key: "brace", d: roughRect(3, 3, 40, 62, r, .4), ...white }));
-      k.push(h("path", { key: "brace2", d: "M3,34 L43,34 M4,64 L42,35 M4,33 L42,21", ...white }));
-      k.push(h("path", { key: "plaque", d: roughRect(12, 4.5, 22, 13, r, .4), fill: "#f3efe6", stroke: INK, strokeWidth: .6 }));
-      k.push(h("path", { key: "handle", d: "M38,40 L38,48", stroke: "#1d1d1d", strokeWidth: 1.8, strokeLinecap: "round" }));
-      break;
-    }
-    case "scandi": {
-      k.push(h("path", { key: "heart", d: "M23,22 C14,15 15,7 20,7.5 C22,7.7 23,9.5 23,10.5 C23,9.5 24,7.7 26,7.5 C31,7 32,15 23,22 Z", fill: glass, stroke: INK, strokeWidth: .7 }));
-      k.push(panel(6, 40, 34, 23, "p1"));
-      k.push(h("path", { key: "diamonds", d: "M6,40 L17.3,51.5 L6,63 M17.3,51.5 L28.6,40 M17.3,51.5 L28.6,63 M28.6,40 L40,51.5 L28.6,63", stroke: "rgba(255,255,255,.35)", strokeWidth: .7, fill: "none" }));
-      k.push(brass(40, 35, 1.6, "knob"));
-      break;
-    }
-    case "ginger": {
-      k.push(h("path", { key: "icing", d: roughRect(3, 3, 40, 62, r, .6), fill: "none", stroke: "#fff", strokeWidth: 1.6 }));
-      let zig = "M5,16";
-      for (let x = 5; x < 41; x += 4) zig += " L" + (x + 2) + ",19 L" + (x + 4) + ",16";
-      k.push(h("path", { key: "zig", d: zig, stroke: "#fff", strokeWidth: 1.1, fill: "none", strokeLinejoin: "round" }));
-      [["#e53935", 9], ["#fdd835", 17.5], ["#43a047", 26], ["#1e88e5", 34.5]].forEach(([c, x], i) =>
-        k.push(h("path", { key: "gum" + i, d: "M" + (x - 2.6) + ",11 Q" + (x - 2.6) + ",6.5 " + x + ",6.5 Q" + (x + 2.6) + ",6.5 " + (x + 2.6) + ",11 Z", fill: c, stroke: INK, strokeWidth: .4 })));
-      k.push(h("circle", { key: "mint", cx: 23, cy: 52, r: 7, fill: "#fff", stroke: INK, strokeWidth: .5 }));
-      let wedges = "";
-      for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3; wedges += "M23,52 L" + (23 + Math.cos(a) * 6.6).toFixed(2) + "," + (52 + Math.sin(a) * 6.6).toFixed(2) + " "; }
-      k.push(h("path", { key: "mintw", d: wedges, stroke: "#e53935", strokeWidth: 1.6 }));
-      k.push(h("circle", { key: "knob", cx: 39.5, cy: 38, r: 1.8, fill: "#e53935", stroke: INK, strokeWidth: .4 }));
-      break;
-    }
-    case "present":
-      k.push(panel(4, 5, 16, 22, "p1"), panel(26, 5, 16, 22, "p2"), panel(4, 42, 16, 21, "p3"), panel(26, 42, 16, 21, "p4"));
-      k.push(h("path", { key: "split", d: "M23,.5 L23,67.5", stroke: INK, strokeWidth: 1 }));
-      k.push(h("path", { key: "ribv", d: roughRect(20.5, .5, 5, 67, r, .2), fill: "#f2c14e", stroke: INK, strokeWidth: .5 }));
-      k.push(h("path", { key: "ribh", d: roughRect(.5, 31, 45, 5, r, .2), fill: "#f2c14e", stroke: INK, strokeWidth: .5 }));
-      k.push(h("path", { key: "bow", d: "M23,31 C15,22 11,30 16,33 C18,34 21,33 23,31 C25,33 28,34 30,33 C35,30 31,22 23,31 Z", fill: "#f2c14e", stroke: INK, strokeWidth: .6 }));
-      k.push(h("path", { key: "tails", d: "M23,33 L19,41 M23,33 L27,41", stroke: "#c9971f", strokeWidth: 1.4, strokeLinecap: "round" }));
-      k.push(brass(18.5, 46, 1.5, "k1"), brass(27.5, 46, 1.5, "k2"));
-      break;
-  }
-  return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" } }, k);
+  k.push(h("path", { key: "slab", d: roughRect(.5, .5, 45, 67, r, .6), fill: colour, stroke: INK, strokeWidth: .8, strokeLinejoin: "round" }));
+  k.push(panel(6, 36, 14, 12, "p1"), panel(26, 36, 14, 12, "p2"), panel(6, 51, 14, 13, "p3"), panel(26, 51, 14, 13, "p4"));
+  // holly wreath with berries and a bow
+  k.push(h("circle", { key: "wreath", cx: 23, cy: 14, r: 7, fill: "none", stroke: "#2e7d32", strokeWidth: 3.8 }));
+  k.push(h("circle", { key: "wreath2", cx: 23, cy: 14, r: 7, fill: "none", stroke: "#1b5e20", strokeWidth: .7, strokeDasharray: "1.5 2" }));
+  // ink outline + bright leaves so the wreath still reads on green doors
+  k.push(h("circle", { key: "wreathOut", cx: 23, cy: 14, r: 9, fill: "none", stroke: INK, strokeWidth: .7 }));
+  k.push(h("circle", { key: "wreathIn", cx: 23, cy: 14, r: 5, fill: "none", stroke: INK, strokeWidth: .6 }));
+  k.push(h("circle", { key: "wreath3", cx: 23, cy: 14, r: 7, fill: "none", stroke: "#66bb6a", strokeWidth: 1.2, strokeDasharray: "1 3.2" }));
+  [[18, 9.5], [28, 10], [17, 17.5], [29, 17], [23, 7], [23, 21]].forEach(([x, y], i) => k.push(h("circle", { key: "b" + i, cx: x, cy: y, r: 1, fill: "#e53935" })));
+  k.push(h("path", { key: "bow", d: "M23,21.5 L19,18.8 L19,24.2 Z M23,21.5 L27,18.8 L27,24.2 Z", fill: "#e53935", stroke: INK, strokeWidth: .4 }));
+  k.push(h("path", { key: "letterbox", d: roughRect(15, 30, 16, 3, r, .2), fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
+  k.push(h("circle", { key: "knob", cx: 40, cy: 43, r: 1.7, fill: "#e8c46a", stroke: INK, strokeWidth: .4 }));
+  return h("svg", { viewBox: "0 0 46 68", preserveAspectRatio: "none", "aria-hidden": "true", style: { position: "absolute", inset: 0, width: "100%", height: "100%" } }, k);
 }
 
-// Product photo for a day, falling back to the emoji. Uses DAYS so doors opened before photos existed still get one.
+// ---------- Tools that fall with the snow ----------
+const TOOL_ICONS = [
+  // spanner
+  "M15.5 2.5a5.5 5.5 0 0 0-5.3 7L2.6 17.1a2 2 0 0 0 0 2.8l1.5 1.5a2 2 0 0 0 2.8 0l7.6-7.6a5.5 5.5 0 0 0 7-5.3l-3.3 3.3-3.2-.8-.8-3.2z",
+  // hammer
+  "M13.6 3.2l6.8 6.8-2.3 2.3-1.7-1.7-9.9 9.9a1.6 1.6 0 0 1-2.3 0l-.7-.7a1.6 1.6 0 0 1 0-2.3l9.9-9.9-1.4-1.4 1.6-3z",
+  // screwdriver
+  "M19.6 2.3l2.1 2.1-3.2 4.4-1.4.4-6.6 6.6.7.7-2.1 2.1-.7-.7-4.6 4.6-1.4-1.4 4.6-4.6-.7-.7 2.1-2.1.7.7 6.6-6.6.4-1.4z",
+  // nut
+  "M12 2l8.7 5v10L12 22l-8.7-5V7z M12 8.4a3.6 3.6 0 1 0 0 7.2a3.6 3.6 0 1 0 0-7.2z"
+];
+
+// Product photo for a day, falling back to the emoji when there's no photo.
 function giftInDoor(n, anim) {
   const d = DAYS[n - 1], h = React.createElement;
   if (!d.img) return h("span", { className: "x-house-gift", style: { lineHeight: 1, animation: anim } }, d.icon);
@@ -822,85 +628,78 @@ function giftInDoor(n, anim) {
 }
 function giftOnPrizeScreen(n) {
   const d = DAYS[n - 1], h = React.createElement;
-  const pop = "x-gift .5s cubic-bezier(.2,1.5,.4,1) both";
-  if (!d.img) return h("p", { style: { margin: 0, fontSize: "62px", lineHeight: 1, animation: pop } }, d.icon);
+  const pop = "x-gift-big .9s cubic-bezier(.2,1.5,.4,1) .25s both";
+  if (!d.img) return h("p", { style: { margin: 0, fontSize: "96px", lineHeight: "200px", animation: pop } }, d.icon);
   return h("img", { src: d.img, alt: d.name, style: {
-    display: "block", width: "100%", maxWidth: "240px", height: "200px", objectFit: "contain", margin: "0 0 4px", animation: pop } });
+    display: "block", width: "100%", height: "100%", objectFit: "contain", position: "relative", animation: pop } });
 }
 
-function money(v) { return "£" + v.toFixed(2); }
 function pad(n) { return String(n).padStart(2, "0"); }
 
 const saved = loadSaved();
 
 class Component extends DCLogic {
   state = {
-    opened: saved.opened || {}, code: saved.code || "",
-    modal: null, phase: "entry", error: "", think: 0, toast: "",
-    burstFor: null, party: false, rattle: null, now: Date.now(),
+    opened: saved.opened || {},
+    modal: null, toast: "", opening: null,
+    burstFor: null, beamFor: null, party: false, rattle: null, now: Date.now(),
     newLight: null, lightPop: null
   };
-  codeRef = React.createRef();
 
   componentDidMount() {
     this.clock = setInterval(() => this.setState({ now: Date.now() }), 1000);
-    this.onKeyDoc = (e) => {
-      if (e.key === "Escape" && this.state.modal && this.state.phase !== "thinking") this.close();
-    };
+    this.onKeyDoc = (e) => { if (e.key === "Escape" && this.state.modal) this.close(); };
     document.addEventListener("keydown", this.onKeyDoc);
     const n = Object.keys(this.state.opened).length;
     if (n) this.flash("Welcome back — " + n + " of your 12 lights " + (n === 1 ? "is" : "are") + " on.");
   }
 
   componentDidUpdate() {
-    // Focus + prefill the order number whenever the entry form appears.
-    const key = this.state.modal && this.state.phase === "entry" ? this.state.modal : null;
-    if (key !== this._entryFor) {
-      this._entryFor = key;
-      const el = this.codeRef.current;
-      if (key && el) {
-        if (!el.value) el.value = this.state.code;
-        // Don't pop the keyboard over the door on touch screens; do focus with a mouse/keyboard.
-        if (window.matchMedia("(hover: hover)").matches) el.focus();
-      }
-    }
     document.body.style.overflow = this.state.modal ? "hidden" : "";
   }
 
   componentWillUnmount() {
-    clearInterval(this.iv); clearInterval(this.clock);
-    clearTimeout(this.to); clearTimeout(this.tt); clearTimeout(this.bt); clearTimeout(this.pt); clearTimeout(this.rt); clearTimeout(this.lt);
+    clearInterval(this.clock);
+    [this.to, this.tt, this.bt, this.pt, this.rt, this.lt, this.ro, this.st].forEach(clearTimeout);
     document.removeEventListener("keydown", this.onKeyDoc);
     document.body.style.overflow = "";
   }
 
-  today() {
+  // The doors take turns: door n is open on 2n−1 and 2n December, then locks and the next opens.
+  // So door 1 = 1–2 Dec … door 12 = 23–24 Dec, and only one door is open at a time.
+  // calDay() is the date in December (?day=N simulates it, 1–24).
+  calDay() {
     const q = parseInt(new URLSearchParams(location.search).get("day"), 10);
-    return Math.min(12, Math.max(1, q || (this.props.today ?? 6)));
+    return Math.min(24, Math.max(1, q || (this.props.today ?? 11)));
   }
-  // Each door is open for two days (its own day + the next), then locks.
-  grace() { return this.props.graceDays ?? 1; }
-  dayDate(n) { return new Date(Date.UTC(2026, 11, n)); }
-  date(n) { return this.dayDate(n).toLocaleDateString("en-GB", {weekday:"long", day:"numeric", month:"long", timeZone:"UTC"}); }
-  niceDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}); }
-  shortDate(n) { return this.dayDate(n).toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"}).toUpperCase(); }
+  today() { return Math.ceil(this.calDay() / 2); }          // the door that's open right now
+  opensOn(n) { return 2 * n - 1; }
+  locksAfter(n) { return 2 * n; }
+  isLastDay(n) { return this.calDay() === this.locksAfter(n); }
+  decDate(d, opts) { return new Date(Date.UTC(2026, 11, d)).toLocaleDateString("en-GB", { ...opts, timeZone: "UTC" }); }
+  niceDate(n) { return this.decDate(this.opensOn(n), { day: "numeric", month: "short" }); }   // when door n opens
+  shortDate(n) { return this.niceDate(n).toUpperCase(); }
+  niceDay(d) { return this.decDate(d, { day: "numeric", month: "short" }); }
+  longDay(d) { return this.decDate(d, { weekday: "long", day: "numeric", month: "long" }); }
 
   status(n) {
     const t = this.today();
     if (this.state.opened[n]) return "opened";
     if (n > t) return "locked";
-    if (t - n > this.grace()) return "missed";
-    return n === t ? "today" : "open";
+    if (n < t) return "missed";
+    return "today";
   }
 
-  // Doors open at midnight — count down to the next one.
+  // Doors open at midnight — count down to the next one (may be more than a day away).
   countdown() {
     const t = this.today();
-    if (t >= 12) return "All twelve doors are out — merry Christmas.";
+    if (t >= 12) return "Door 12 is the last one — merry Christmas.";
     const now = new Date(this.state.now);
     const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
+    const days = this.opensOn(t + 1) - this.calDay() - 1;
     const s = Math.max(0, Math.floor((midnight - now) / 1000));
-    return "Door " + (t + 1) + " opens in " + pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
+    return "Door " + (t + 1) + " opens in " + (days > 0 ? days + (days === 1 ? " day, " : " days, ") : "") +
+      pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
   }
 
   flash(msg) {
@@ -910,9 +709,9 @@ class Component extends DCLogic {
   }
 
   close() {
-    // Closing the prize screen switches that day's fairy light on with a little pop.
+    // Closing the reveal switches that day's fairy light on with a little pop.
     const n = this.state.newLight;
-    this.setState({ modal: null, error: "", newLight: null, lightPop: n || this.state.lightPop });
+    this.setState({ modal: null, party: false, newLight: null, lightPop: n || this.state.lightPop });
     if (n) {
       clearTimeout(this.lt);
       this.lt = setTimeout(() => this.setState({ lightPop: null }), 1300);
@@ -928,40 +727,49 @@ class Component extends DCLogic {
       this.setState({ rattle: n });
       this.rt = setTimeout(() => this.setState({ rattle: null }), 500);
     }
-    if (s === "locked") return this.flash("🔒 " + (n - this.today() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
-    if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDate(n + this.grace()) + ". Each door is open for two days" + (this.state.opened[this.today()] ? "." : " — today's is still waiting."));
-    this.setState({ modal: n, phase: s === "opened" ? "result" : "entry", error: "" });
-  }
+    if (s === "locked") return this.flash("🔒 " + (this.opensOn(n) - this.calDay() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
+    if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDay(this.locksAfter(n)) + ". Each door is open for two days" + (this.state.opened[this.today()] ? "." : " — door " + this.today() + " is open now."));
+    if (s === "opened") return this.setState({ modal: n });
+    if (this.state.opening) return;
 
-  submit() {
-    const n = this.state.modal;
-    const code = normaliseCode(this.codeRef.current?.value);
-    const order = ORDERS.find(o => o.no === code);
-    if (!code) return this.setState({ error: "Enter the order number from your order email." });
-    if (!order) return this.setState({ error: "That order number isn't recognised. Check the email we sent with your order." });
-    if (order.status !== "paid") return this.setState({ error: "That order was refunded, so it isn't eligible." });
-    if (order.placed < "2026-11-01") return this.setState({ error: "That order was placed outside the promotion window (1 Nov – 12 Dec)." });
-    if (order.total < MIN_SPEND) return this.setState({ error: "That order is " + money(order.total) + ". You need " + money(MIN_SPEND) + " or more to enter." });
-
+    // The big moment: a knock-knock wiggle, the door flies open with a burst of light,
+    // then the gift is revealed full-screen with confetti.
     const g = DAYS[n - 1];
-    if (g.img) new Image().src = g.img; // warm the cache while the "thinking" spinner runs
-    const prize = { ...g, ref: g.code + "-" + pad(n) + "-" + Math.random().toString(36).slice(2,6).toUpperCase() };
-
-    this.setState({ phase: "thinking", think: 0, error: "", code });
-    clearInterval(this.iv);
-    this.iv = setInterval(() => this.setState(s => ({ think: Math.min(s.think + 1, THINKING.length - 1) })), 620);
+    if (g.img) new Image().src = g.img;
+    this.setState({ opening: n });
     clearTimeout(this.to);
     this.to = setTimeout(() => {
-      clearInterval(this.iv);
-      this.setState(s => {
-        const opened = { ...s.opened, [n]: prize };
-        persist({ opened, code });
-        return { opened, phase: "result", burstFor: n, party: true, newLight: n };
+      this.setState(st => {
+        const opened = { ...st.opened, [n]: { name: g.name, icon: g.icon } };
+        persist({ opened });
+        return { opened, opening: null, burstFor: n, beamFor: n, newLight: n };
       });
-      clearTimeout(this.bt); clearTimeout(this.pt);
-      this.bt = setTimeout(() => this.setState({ burstFor: null }), 1600);
-      this.pt = setTimeout(() => this.setState({ party: false }), 3200);
-    }, 2000);
+      clearTimeout(this.bt); clearTimeout(this.ro); clearTimeout(this.pt);
+      this.bt = setTimeout(() => this.setState({ burstFor: null, beamFor: null }), 1700);
+      this.ro = setTimeout(() => {
+        this.setState({ modal: n, party: true });
+        this.pt = setTimeout(() => this.setState({ party: false }), 3600);
+      }, 1050);
+    }, 560);
+  }
+
+  // From the hero button: bring today's door into view first so people see it open.
+  openToday() {
+    const t = this.today(), s = this.status(t);
+    const el = document.querySelectorAll(".x-house")[t - 1];
+    if ((s === "today" || s === "open") && el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      clearTimeout(this.st);
+      this.st = setTimeout(() => this.clickDoor(t), 650);
+    } else this.clickDoor(t);
+  }
+
+  beamFor() {
+    return React.createElement("div", { "aria-hidden": "true", style: {
+      position: "absolute", left: "50%", top: "50%", width: "260%", aspectRatio: "1", zIndex: 6, pointerEvents: "none",
+      borderRadius: "50%", background: "radial-gradient(circle, rgba(255,250,225,.95) 0, rgba(255,214,120,.6) 30%, rgba(255,214,120,0) 68%)",
+      animation: "x-beam 1.3s ease-out both"
+    }});
   }
 
   burstFor(n) {
@@ -1083,68 +891,79 @@ class Component extends DCLogic {
 
   snowLayer() {
     if (this._snow) return this._snow;
+    const h = React.createElement;
     const glyphs = ["❄","❅","✦","❆"];
-    const flakes = [];
-    for (let i = 0; i < 40; i++) {
-      flakes.push(React.createElement("span", { key: i, style: {
+    const items = [];
+    for (let i = 0; i < 36; i++) {
+      items.push(h("span", { key: "s" + i, style: {
         position: "absolute", top: 0, left: ((i * 41) % 100) + "%",
         fontSize: (9 + (i % 5) * 4) + "px",
         color: i % 3 === 0 ? "rgba(255,255,255,.75)" : "rgba(255,190,190,.6)",
         animation: `x-fall ${10 + (i % 10)}s linear ${-(i % 14)}s infinite`
       }}, glyphs[i % 4]));
     }
-    this._snow = React.createElement("div", { className: "x-snow", "aria-hidden": "true", style: {
+    // Würth tools tumbling down with the snow
+    for (let i = 0; i < 12; i++) {
+      const size = 16 + (i % 4) * 5;
+      items.push(h("svg", { key: "t" + i, viewBox: "0 0 24 24", width: size, height: size, style: {
+        position: "absolute", top: 0, left: ((i * 53 + 11) % 100) + "%",
+        fill: i % 3 === 0 ? "rgba(255,255,255,.7)" : "rgba(255,205,205,.55)",
+        animation: `x-tool-fall ${13 + (i % 6) * 2}s linear ${-(i * 2.3).toFixed(1)}s infinite`
+      }}, h("path", { d: TOOL_ICONS[i % TOOL_ICONS.length], fillRule: "evenodd" })));
+    }
+    this._snow = h("div", { className: "x-snow", "aria-hidden": "true", style: {
       position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden"
-    }}, flakes);
+    }}, items);
     return this._snow;
   }
 
   renderVals() {
     const t = this.today(), st = this.state, count = Object.keys(st.opened).length;
-    const modal = st.modal, prize = modal ? st.opened[modal] : null;
+    const modal = st.modal, gift = modal ? DAYS[modal - 1] : null;
     const waiting = DAYS.filter((d, i) => ["today", "open"].includes(this.status(i + 1))).length;
 
     const doors = DAYS.map((d, i) => {
       const n = i + 1, s = this.status(n), rec = st.opened[n];
       const openable = s === "today" || s === "open";
       const lampOn = openable || s === "opened";
-      const house = houseFor(n);
+      const colour = DOOR_COLOURS[i];
       return {
         num: n,
         state: s,
-        facade: facadeArt(n, house, lampOn, s === "today" && !rec),
-        doorArt: doorArt(n, house, lampOn),
-        numTop: house.numTop,
-        numColor: house.num,
-        numShadow: house.numShadow || "0 1px 0 rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.35)",
+        facade: houseFront(n, lampOn, s === "today"),
+        doorArt: doorFace(n, colour.door),
+        numTop: "52%",
+        numColor: colour.num,
+        numShadow: "0 1px 0 rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.35)",
         gift: rec ? giftInDoor(n, "x-gift .5s cubic-bezier(.2,1.5,.4,1) both") : null,
         // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
         innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
-        insideRadius: ARCH[house.arch] ? ARCH[house.arch].radius : "0",
+        insideRadius: "0",
         innerPadLeft: rec ? "28%" : "0",
         innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
-        caption: rec ? rec.name : s === "today" ? "TODAY" : s === "open" ? "LAST DAY" : s === "missed" ? "LOCKED" : this.shortDate(n),
+        caption: rec ? d.name : s === "today" ? (this.isLastDay(n) ? "LAST DAY" : "OPEN NOW") : s === "missed" ? "LOCKED" : this.shortDate(n),
         captionFg: rec ? "#fff" : s === "today" ? "#fff" : s === "open" ? "#ffd27a" : s === "missed" ? "#b89a9a" : "#ffd4d4",
         captionBg: s === "today" && !rec ? "#cc0000" : "transparent",
         captionPad: s === "today" && !rec ? ".25em .7em" : "0",
         captionSpacing: rec ? "0" : ".14em",
-        houseFilter: s === "locked" ? "brightness(.8) saturate(.8)" : s === "missed" ? "brightness(.55) saturate(.45)" : "none",
+        houseFilter: s === "locked" ? "brightness(.82) saturate(.8)" : s === "missed" ? "brightness(.55) saturate(.45)" : "none",
         houseShadow: s === "today" ? "0 0 0 3px #fff, 0 0 34px rgba(255,214,140,.5)" : "0 6px 16px rgba(0,0,0,.28)",
-        z: rec ? 4 : 1,
+        z: rec || st.beamFor === n ? 4 : 1,
         transform: rec ? "rotateY(-80deg)" : "rotateY(0deg)",
         filter: rec ? "brightness(.7)" : "none",
-        giftAnim: rec ? "x-gift .5s cubic-bezier(.2,1.5,.4,1) both" : "none",
-        shakeAnim: st.rattle === n ? "x-rattle .45s ease-in-out" : "none",
+        shakeAnim: st.opening === n ? "x-knock .56s ease-in-out" : st.rattle === n ? "x-rattle .45s ease-in-out" : "none",
         burst: st.burstFor === n ? this.burstFor(n) : null,
+        beam: st.beamFor === n ? this.beamFor() : null,
         numAnim: s === "today" ? "x-num-pulse 2.4s ease-in-out infinite" : "none",
         starDisplay: s === "today" ? "block" : "none",
-        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, you got " + rec.name : s === "missed" ? "locked, no longer open" : s === "open" ? "open, last day to enter your order number" : "open, enter your order number"),
+        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, " + d.name : s === "missed" ? "locked, no longer open" : this.isLastDay(n) ? "open, last day — tap to see the gift" : "open — tap to see the gift"),
         click: () => this.clickDoor(n)
       };
     });
 
-
     const next = modal && modal < 12 ? modal + 1 : null;
+    const lastDay = modal ? this.locksAfter(modal) : 0;
+    const stillOpen = modal && this.calDay() <= lastDay;
 
     return {
       snow: (this.props.snow ?? true) ? this.snowLayer() : null,
@@ -1157,35 +976,25 @@ class Component extends DCLogic {
         ? count + " OF 12 OPENED" + (waiting ? " · " + waiting + " WAITING" : "")
         : waiting ? waiting + (waiting === 1 ? " DOOR" : " DOORS") + " WAITING FOR YOU" : "NO DOORS OPEN YET",
       countdown: this.countdown(),
-      heroCta: st.opened[t] ? "See day " + t + " again" : "Open today's door",
-      openToday: () => this.clickDoor(t),
-      modalOpen: !!modal,
-      isEntry: !!modal && st.phase === "entry",
-      isThinking: !!modal && st.phase === "thinking",
-      isResult: !!modal && st.phase === "result" && !!prize,
-      modalDay: modal || "",
-      modalMotif: modal ? DAYS[modal - 1].motif : "",
-      modalTitle: modal ? DAYS[modal - 1].title : "",
-      modalDate: modal ? this.date(modal) : "",
-      codeHint: st.code ? "We've remembered your order number from last time." : "It's on the confirmation email for any order of £280 or more.",
-      error: st.error,
-      codeRef: this.codeRef,
-      onKey: (e) => { if (e.key === "Enter") this.submit(); },
-      submit: () => this.submit(),
+      heroCta: st.opened[t] ? "See door " + t + " again" : "Open door " + t,
+      openToday: () => this.openToday(),
+      eshopUrl: ESHOP_URL,
+      revealOpen: !!modal,
+      revealDay: modal || "",
+      revealLabel: gift ? "Door " + modal + ": " + gift.name : "",
+      prizeVisual: gift ? giftOnPrizeScreen(modal) : null,
+      prizeHead: gift ? (gift.top ? "The headline gift!" : "Merry Christmas!") : "",
+      prizeName: gift ? gift.name : "",
+      prizeSub: gift ? gift.sub : "",
+      claimText: !gift ? "" : stillOpen
+        ? "Spend £280 or more in a single order on the eshop by the end of " + this.longDay(lastDay) + " and this gift is yours."
+        : "This door's offer ended on " + this.longDay(lastDay) + ". Door " + t + " is open now.",
       closeModal: () => this.close(),
-      veilClick: () => { if (st.phase !== "thinking") this.close(); },
+      veilClick: () => this.close(),
       stop: (e) => e.stopPropagation(),
-      thinkingLine: THINKING[st.think],
-      prizeVisual: prize ? giftOnPrizeScreen(modal) : null,
-      prizeChip: prize ? "DAY " + modal + " · " + prize.supplier.toUpperCase() : "",
-      prizeUrl: prize ? prize.url : "#",
-      prizeHead: prize ? (prize.top ? "You've won the headline gift." : "Merry Christmas — you've won.") : "",
-      prizeName: prize ? prize.name : "",
-      prizeSub: prize ? prize.sub : "",
-      prizeRef: prize ? prize.ref : "",
       hasNext: !!next,
-      nextTeaser: next ? "Door " + next + ", " + this.niceDate(next) + ": " + HINTS[next - 1] : "",
-      prizeFine: prize ? "Every valid entry gets that day's gift, while stocks last." : "",
+      nextTeaser: next ? "Door " + next + " opens " + this.niceDate(next) + ": " + HINTS[next - 1] : "",
+      prizeFine: gift ? "One gift per door, per customer, while stocks last." : "",
       toast: st.toast
     };
   }
