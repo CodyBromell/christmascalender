@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#6d0000">
-<title>The 12 Days of Christmas | Würth UK</title>
+<title>Christmas Calendar | Würth UK</title>
 <!-- Serve React from this repo instead of unpkg; dc-runtime checks window.__resources first. -->
 <script>window.__resources = {
   "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js",
@@ -306,7 +306,7 @@
         <p style="margin:0 0 18px;display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.22em;color:#ffc9c9">
           <span style="font-size:15px">❄</span>01 DEC — 24 DEC
         </p>
-        <h1 style="margin:0;font-size:clamp(46px,6.2vw,84px);font-weight:800;line-height:.9;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance">The twelve<br>days of<br>Christmas.</h1>
+        <h1 style="margin:0;font-size:clamp(46px,6.2vw,84px);font-weight:800;line-height:.9;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance">Christmas<br>calendar.</h1>
         <p class="x-lede" style="margin:26px 0 0;max-width:46ch;font-size:17px;line-height:1.6;color:#ffd4d4">Twelve doors, a new one every two days from 1 to 24 December, and a gift behind each. Open the door to see what's inside — spend £280 or more in a single order while it's open and the gift is yours.</p>
         <div class="x-cta-row" style="display:flex;gap:20px;align-items:center;margin-top:32px;flex-wrap:wrap">
           <button class="x-cta" sc-camel-on-click="{{ openToday }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:15px 26px;cursor:pointer;background:#fff;color:#a00000;border:0" style-hover="background:#ffd9d9">{{ heroCta }}</button>
@@ -377,7 +377,7 @@
         <p style="margin:0;font-size:14.5px;line-height:1.55;color:#605d5c;animation:x-rise .45s .75s both">{{ prizeSub }}</p>
         <p style="margin:16px 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;text-align:left;font-size:14px;line-height:1.5;color:#1a1a1a;animation:x-rise .45s .85s both">{{ claimText }}</p>
         <a class="x-shop" href="{{ eshopUrl }}" target="_blank" rel="noopener" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
-        <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the twelve days</button>
+        <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the calendar</button>
         <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
           <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR'S HINT</strong>{{ nextTeaser }}</p>
         </sc-if>
