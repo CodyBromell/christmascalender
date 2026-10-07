@@ -676,7 +676,7 @@ class Component extends DCLogic {
     opened: saved.opened || {},
     modal: null, toast: "", opening: null,
     burstFor: null, beamFor: null, party: false, rattle: null, now: Date.now(),
-    newLight: null, lightPop: null, rolling: null
+    newLight: null, lightPop: null, rolling: null, pending: null
   };
 
   componentDidMount() {
@@ -717,7 +717,7 @@ class Component extends DCLogic {
 
   status(n) {
     const t = this.today();
-    if (this.state.opened[n]) return "opened";
+    if (this.state.opened[n] && this.state.pending !== n) return "opened";
     if (n > t) return "locked";
     if (n < t) return "missed";
     return "today";
@@ -742,11 +742,15 @@ class Component extends DCLogic {
   }
 
   close() {
-    // Closing the reveal switches that day's fairy light on with a little pop.
+    // Closing the reveal swings the door open (burst of light, gift in the doorway)
+    // and switches that day's fairy light on with a little pop.
     const n = this.state.newLight;
     clearTimeout(this.pt);
-    this.setState({ modal: null, party: false, rolling: null, newLight: null, lightPop: n || this.state.lightPop });
+    this.setState({ modal: null, party: false, rolling: null, newLight: null, pending: null,
+      lightPop: n || this.state.lightPop, burstFor: n || null, beamFor: n || null });
     if (n) {
+      clearTimeout(this.bt);
+      this.bt = setTimeout(() => this.setState({ burstFor: null, beamFor: null }), 1700);
       clearTimeout(this.lt);
       this.lt = setTimeout(() => this.setState({ lightPop: null }), 1300);
       const lit = Object.keys(this.state.opened).length;
@@ -766,30 +770,20 @@ class Component extends DCLogic {
     if (s === "opened") return this.setState({ modal: n, rolling: null });
     if (this.state.opening) return;
 
-    // The big moment: a knock-knock wiggle, the door flies open with a burst of light,
-    // then the gift is revealed full-screen with confetti.
+    // The big moment: straight to the slot-machine reveal (confetti as the reel lands).
+    // It's saved as opened right away, but the door stays shut until the reveal closes.
     const g = DAYS[n - 1];
     DAYS.forEach(d => { if (d.img) new Image().src = d.img; });
-    this.setState({ opening: n });
-    clearTimeout(this.to);
-    this.to = setTimeout(() => {
-      this.setState(st => {
-        const opened = { ...st.opened, [n]: { name: g.name, icon: g.icon } };
-        persist({ opened });
-        return { opened, opening: null, burstFor: n, beamFor: n, newLight: n };
-      });
-      clearTimeout(this.bt); clearTimeout(this.ro); clearTimeout(this.pt);
-      this.bt = setTimeout(() => this.setState({ burstFor: null, beamFor: null }), 1700);
-      this.ro = setTimeout(() => {
-        // Reveal opens with the reel spinning; confetti fires as it lands.
-        DAYS.forEach(d => { if (d.img) new Image().src = d.img; });
-        this.setState({ modal: n, rolling: n });
-        this.pt = setTimeout(() => {
-          this.setState({ party: true });
-          this.pt = setTimeout(() => this.setState({ party: false }), 3400);
-        }, (REEL_SPIN + .15) * 1000);
-      }, 1050);
-    }, 560);
+    this.setState(st => {
+      const opened = { ...st.opened, [n]: { name: g.name, icon: g.icon } };
+      persist({ opened });
+      return { opened, pending: n, newLight: n, modal: n, rolling: n };
+    });
+    clearTimeout(this.pt);
+    this.pt = setTimeout(() => {
+      this.setState({ party: true });
+      this.pt = setTimeout(() => this.setState({ party: false }), 3400);
+    }, (REEL_SPIN + .15) * 1000);
   }
 
   // From the hero button: bring today's door into view first so people see it open.
@@ -962,7 +956,7 @@ class Component extends DCLogic {
     const waiting = DAYS.filter((d, i) => ["today", "open"].includes(this.status(i + 1))).length;
 
     const doors = DAYS.map((d, i) => {
-      const n = i + 1, s = this.status(n), rec = st.opened[n];
+      const n = i + 1, shut = st.pending === n, s = shut ? "today" : this.status(n), rec = shut ? null : st.opened[n];
       const openable = s === "today" || s === "open";
       const lampOn = openable || s === "opened";
       const colour = DOOR_COLOURS[i];
