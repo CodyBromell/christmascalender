@@ -271,6 +271,9 @@
   @keyframes x-gift-big{0%{opacity:0;transform:scale(.15) rotate(-16deg)}55%{opacity:1;transform:scale(1.14) rotate(5deg)}75%{transform:scale(.96) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
   @keyframes x-shop-pulse{0%,100%{box-shadow:0 0 0 0 rgba(204,0,0,.45)}50%{box-shadow:0 0 0 8px rgba(204,0,0,0)}}
   @keyframes x-tool-fall{0%{transform:translate3d(0,-12vh,0) rotate(0)}100%{transform:translate3d(-3vw,108vh,0) rotate(540deg)}}
+  @keyframes x-reel{from{transform:translateY(0)}to{transform:translateY(var(--reel-end))}}
+  @keyframes x-reel-blur{0%{filter:blur(0)}10%{filter:blur(3px)}70%{filter:blur(1.4px)}92%,100%{filter:blur(0)}}
+  @keyframes x-land{0%{box-shadow:0 0 0 0 rgba(242,193,78,.95),inset 0 6px 14px rgba(0,0,0,.12)}100%{box-shadow:0 0 0 22px rgba(242,193,78,0),inset 0 6px 14px rgba(0,0,0,.12)}}
   @keyframes x-num-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
   @keyframes x-lamp-flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.55}55%{opacity:1}70%{opacity:.8}75%{opacity:1}}
   code{font-family:ui-monospace,Menlo,monospace;font-size:.95em;background:rgba(0,0,0,.25);padding:1px 5px}
@@ -372,6 +375,7 @@
           <span aria-hidden="true" style="position:absolute;left:44%;top:-8%;font-size:13px;color:#f2c14e;animation:x-twinkle 1.4s ease-in-out 1.2s infinite both">✦</span>
           {{ prizeVisual }}
         </div>
+        <div style="animation:{{ afterReel }}">
         <p style="margin:0 0 6px;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#cc0000;animation:x-rise .4s .55s both">{{ prizeHead }}</p>
         <h2 style="margin:0 0 6px;font-size:24px;font-weight:800;line-height:1.15;text-transform:uppercase;animation:x-rise .45s .65s both">{{ prizeName }}</h2>
         <p style="margin:0;font-size:14.5px;line-height:1.55;color:#605d5c;animation:x-rise .45s .75s both">{{ prizeSub }}</p>
@@ -382,6 +386,7 @@
           <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR'S HINT</strong>{{ nextTeaser }}</p>
         </sc-if>
         <p style="margin:12px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
+        </div>
       </div>
     </div>
   </sc-if>
@@ -628,12 +633,38 @@ function giftInDoor(n, anim) {
     display: "block", width: "100%", height: "88%", objectFit: "contain",
     filter: "drop-shadow(0 5px 6px rgba(70,25,0,.45))", animation: anim } });
 }
-function giftOnPrizeScreen(n) {
-  const d = DAYS[n - 1], h = React.createElement;
-  const pop = "x-gift-big .9s cubic-bezier(.2,1.5,.4,1) .25s both";
-  if (!d.img) return h("p", { style: { margin: 0, fontSize: "96px", lineHeight: "200px", animation: pop } }, d.icon);
-  return h("img", { src: d.img, alt: d.name, style: {
-    display: "block", width: "100%", height: "100%", objectFit: "contain", position: "relative", animation: pop } });
+const REEL_TILE = 200;      // px, matches the reveal's picture window
+const REEL_SPIN = 3;      // seconds the reel spins before landing
+function reelTile(day, isWinner) {
+  const g = DAYS[day - 1], h = React.createElement;
+  return h("div", { key: isWinner ? "win" : undefined, style: { height: REEL_TILE + "px", display: "flex", alignItems: "center", justifyContent: "center" } },
+    g.img
+      ? h("img", { src: g.img, alt: isWinner ? g.name : "", style: { width: "86%", height: "86%", objectFit: "contain", filter: "drop-shadow(0 4px 6px rgba(70,25,0,.35))" } })
+      : h("span", { style: { fontSize: "96px", lineHeight: 1 } }, g.icon));
+}
+// The gift picture on the reveal. When a door has just been opened it spins like a
+// slot-machine reel through the other gifts and lands on this door's one.
+function giftOnPrizeScreen(n, roll) {
+  const h = React.createElement;
+  if (!roll) return h("div", { style: { height: "100%", animation: "x-gift-big .9s cubic-bezier(.2,1.5,.4,1) .25s both" } }, reelTile(n, true));
+  const r = seeded(n * 7 + 3), others = DAYS.map((_, i) => i + 1).filter(x => x !== n), seq = [];
+  for (let loop = 0; loop < 2; loop++) {
+    const s = others.slice();
+    for (let i = s.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [s[i], s[j]] = [s[j], s[i]]; }
+    seq.push(...s);
+  }
+  seq.push(n);
+  const strip = h("div", { style: {
+    "--reel-end": (-(seq.length - 1) * REEL_TILE) + "px",
+    animation: "x-reel " + REEL_SPIN + "s cubic-bezier(.3,.62,.32,1.03) .15s both, x-reel-blur " + REEL_SPIN + "s ease-out .15s both"
+  }}, seq.map((day, i) => h("div", { key: i }, reelTile(day, i === seq.length - 1))));
+  const fade = (side) => h("div", { "aria-hidden": "true", style: { position: "absolute", left: 0, right: 0, [side]: 0, height: "26%", zIndex: 2, pointerEvents: "none",
+    background: "linear-gradient(to " + (side === "top" ? "bottom" : "top") + ", #fff8e6, rgba(255,248,230,0))" } });
+  const pointer = (side) => h("div", { "aria-hidden": "true", style: { position: "absolute", top: "50%", [side]: "-2px", zIndex: 3, width: 0, height: 0, marginTop: "-9px",
+    borderTop: "9px solid transparent", borderBottom: "9px solid transparent", [side === "left" ? "borderLeft" : "borderRight"]: "12px solid #cc0000" } });
+  return h("div", { style: { position: "absolute", inset: 0, overflow: "hidden", borderRadius: "14px", background: "#fff8e6",
+    border: "4px solid #f2c14e", boxShadow: "inset 0 6px 14px rgba(0,0,0,.12), inset 0 -6px 14px rgba(0,0,0,.12)",
+    animation: "x-land .9s ease-out " + (REEL_SPIN + .1) + "s both" } }, strip, fade("top"), fade("bottom"), pointer("left"), pointer("right"));
 }
 
 function pad(n) { return String(n).padStart(2, "0"); }
@@ -645,7 +676,7 @@ class Component extends DCLogic {
     opened: saved.opened || {},
     modal: null, toast: "", opening: null,
     burstFor: null, beamFor: null, party: false, rattle: null, now: Date.now(),
-    newLight: null, lightPop: null
+    newLight: null, lightPop: null, rolling: null
   };
 
   componentDidMount() {
@@ -713,7 +744,8 @@ class Component extends DCLogic {
   close() {
     // Closing the reveal switches that day's fairy light on with a little pop.
     const n = this.state.newLight;
-    this.setState({ modal: null, party: false, newLight: null, lightPop: n || this.state.lightPop });
+    clearTimeout(this.pt);
+    this.setState({ modal: null, party: false, rolling: null, newLight: null, lightPop: n || this.state.lightPop });
     if (n) {
       clearTimeout(this.lt);
       this.lt = setTimeout(() => this.setState({ lightPop: null }), 1300);
@@ -731,13 +763,13 @@ class Component extends DCLogic {
     }
     if (s === "locked") return this.flash("🔒 " + (this.opensOn(n) - this.calDay() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
     if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDay(this.locksAfter(n)) + ". Each door is open for two days" + (this.state.opened[this.today()] ? "." : " — door " + this.today() + " is open now."));
-    if (s === "opened") return this.setState({ modal: n });
+    if (s === "opened") return this.setState({ modal: n, rolling: null });
     if (this.state.opening) return;
 
     // The big moment: a knock-knock wiggle, the door flies open with a burst of light,
     // then the gift is revealed full-screen with confetti.
     const g = DAYS[n - 1];
-    if (g.img) new Image().src = g.img;
+    DAYS.forEach(d => { if (d.img) new Image().src = d.img; });
     this.setState({ opening: n });
     clearTimeout(this.to);
     this.to = setTimeout(() => {
@@ -749,8 +781,13 @@ class Component extends DCLogic {
       clearTimeout(this.bt); clearTimeout(this.ro); clearTimeout(this.pt);
       this.bt = setTimeout(() => this.setState({ burstFor: null, beamFor: null }), 1700);
       this.ro = setTimeout(() => {
-        this.setState({ modal: n, party: true });
-        this.pt = setTimeout(() => this.setState({ party: false }), 3600);
+        // Reveal opens with the reel spinning; confetti fires as it lands.
+        DAYS.forEach(d => { if (d.img) new Image().src = d.img; });
+        this.setState({ modal: n, rolling: n });
+        this.pt = setTimeout(() => {
+          this.setState({ party: true });
+          this.pt = setTimeout(() => this.setState({ party: false }), 3400);
+        }, (REEL_SPIN + .15) * 1000);
       }, 1050);
     }, 560);
   }
@@ -984,7 +1021,8 @@ class Component extends DCLogic {
       revealOpen: !!modal,
       revealDay: modal || "",
       revealLabel: gift ? "Door " + modal + ": " + gift.name : "",
-      prizeVisual: gift ? giftOnPrizeScreen(modal) : null,
+      prizeVisual: gift ? giftOnPrizeScreen(modal, st.rolling === modal) : null,
+      afterReel: st.rolling === modal ? "x-rise .5s " + (REEL_SPIN + .35) + "s both" : "none",
       prizeHead: gift ? (gift.top ? "The headline gift!" : "Merry Christmas!") : "",
       prizeName: gift ? gift.name : "",
       prizeSub: gift ? gift.sub : "",
