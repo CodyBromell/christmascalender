@@ -1,13 +1,27 @@
 <!--
   Würth Christmas Calendar: FirstSpirit embed
-  Paste everything below this comment into a FirstSpirit HTML / code section.
-  The calendar itself is hosted on Vercel; this frame shows it inside the eshop page.
+  Paste everything below this comment into the "code" template (System folder),
+  the same way as the MS1 page, so the tags aren't stripped.
+  - Full width: breaks out of the content column (set by embed.js)
+  - No inner scrollbar: the frame grows to the calendar's height
+  - Hides the breadcrumb on this page only
+  The calendar and embed.js are hosted on Vercel, so updates never need a CMS change.
 -->
-<div class="wurth-xmas-calendar" style="position:relative;width:100%;height:100vh;height:100dvh;min-height:640px;background:#560000;">
-  <iframe
-    src="https://xmastestpage.vercel.app/"
-    title="Würth Christmas Calendar"
-    loading="lazy"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block;">
-  </iframe>
+<div id="wurth-xmas">
+  <style>
+    body:has(#wurth-xmas) .header-breadcrumb,
+    body.wurth-xmas-host .header-breadcrumb { display: none; }
+    body:has(#wurth-xmas) #col3_content,
+    body.wurth-xmas-host #col3_content { padding-top: 0; margin-top: 0; }
+    #wurth-xmas {
+      width: var(--wx-vw, 100%);
+      margin-left: calc(50% - (var(--wx-vw, 100%) / 2));
+      margin-right: calc(50% - (var(--wx-vw, 100%) / 2));
+      background: #560000;
+      line-height: 0;
+    }
+    #wurth-xmas iframe { display: block; width: 100%; height: 1500px; border: 0; }
+  </style>
+  <iframe id="wurth-xmas-frame" src="https://xmastestpage.vercel.app/" title="Würth Christmas Calendar" scrolling="no"></iframe>
 </div>
+<script src="https://xmastestpage.vercel.app/embed.js" defer></script>

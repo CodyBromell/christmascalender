@@ -1,14 +1,14 @@
 # Putting the Christmas Calendar on the eshop (FirstSpirit)
 
-The calendar stays hosted on Vercel and is shown inside an eshop page with an iframe.
+The calendar stays hosted on Vercel and is shown inside an eshop page with an iframe. A small helper script (`embed.js`, also on Vercel) makes it full width, sizes the frame to the calendar's height (no inner scrollbar) and keeps the gift reveal on screen. This follows the same approach as the MS1 page.
 Every update pushed to GitHub `main` goes live automatically, so you never need to touch the CMS again after the first setup.
 
 ## 1. Add it in FirstSpirit
 
 1. Open **FirstSpirit ContentCreator** and go to the page where the calendar should appear. You can also create a new page, for example "Christmas Calendar", in the right menu area.
-2. **Add a section** and choose the template your project uses for raw HTML or embedded code. It's often called *HTML*, *Code*, *Free HTML* or *iFrame*, but the name depends on how Würth's FirstSpirit project is set up.
+2. **Add a section** using the **"code" template in the System folder**, the same one the MS1 page uses, so the `<style>`, `<iframe>` and `<script>` tags aren't stripped.
    - If there's no such template, or iframes are stripped out, ask your FirstSpirit admin or agency to enable one. That's the only CMS-side requirement.
-   - If the section can be set to **full width**, use that.
+   - No full-width setting is needed: the embed breaks out of the content column itself, and hides the breadcrumb on this page only.
 3. Paste the contents of [`firstspirit-embed.html`](firstspirit-embed.html) into it and **save**.
 4. **Preview** the page on desktop and on a phone.
 5. **Release** the page (and its menu entry, if it's a new page).

@@ -282,6 +282,12 @@
     .x-door:active{filter:brightness(.92)}
     .x-cta:active{background:#ffd9d9 !important}
   }
+  /* Embedded in the eshop: page height follows the content; overlays sit in the visible part */
+  .x-embed .x-bg{min-height:0 !important}
+  .x-embed .x-reveal{top:var(--x-vt,0px) !important;bottom:auto !important;height:var(--x-vh,100vh) !important}
+  .x-embed .x-dialog{max-height:calc(var(--x-vh,100vh) - 48px) !important}
+  .x-embed .x-toast{top:calc(var(--x-vt,0px) + var(--x-vh,100vh) - 90px) !important;bottom:auto !important}
+  .x-embed .x-confetti{top:var(--x-vt,0px) !important;bottom:auto !important;height:var(--x-vh,100vh) !important}
   @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important}.x-snow{display:none !important}}
 </style>
 </helmet>
@@ -475,6 +481,32 @@ function ukCalDay(nowMs) {
   new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "numeric", day: "numeric" })
     .formatToParts(new Date(nowMs)).forEach(x => { p[x.type] = +x.value; });
   return Math.round((Date.UTC(p.year, p.month - 1, p.day) - Date.UTC(2026, 11, 1)) / 86400000) + 1;
+}
+
+// ---------- Embedded in the eshop (iframe + embed.js on the parent page) ----------
+// The frame grows to the full height of the calendar (no inner scrollbar), so the
+// parent tells us which part is on screen; overlays (reveal, toast, confetti) sit there.
+const EMBED = window.parent !== window;
+function toParent(msg) { if (EMBED) { try { window.parent.postMessage(Object.assign({ wurthXmas: 1 }, msg), "*"); } catch (e) {} } }
+if (EMBED) {
+  document.documentElement.classList.add("x-embed");
+  let lastH = 0;
+  const report = () => {
+    const h = Math.ceil(document.body ? document.body.getBoundingClientRect().height : 0);
+    if (h > 0 && Math.abs(h - lastH) > 1) { lastH = h; toParent({ type: "height", h }); }
+  };
+  const start = () => { try { new ResizeObserver(report).observe(document.body); } catch (e) {} report(); };
+  if (document.body) start(); else addEventListener("DOMContentLoaded", start);
+  addEventListener("load", report);
+  setInterval(report, 1500);
+  addEventListener("message", e => {
+    const d = e.data;
+    if (!d || !d.wurthXmas || d.type !== "view") return;
+    const s = document.documentElement.style;
+    s.setProperty("--x-vt", Math.max(0, d.top) + "px");
+    s.setProperty("--x-vh", Math.max(200, d.height) + "px");
+  });
+  toParent({ type: "ready" });
 }
 
 // Remembered per browser so a refresh (or tomorrow's visit) keeps your opened doors.
@@ -703,6 +735,7 @@ class Component extends DCLogic {
 
   componentDidUpdate() {
     document.body.style.overflow = this.state.modal ? "hidden" : "";
+    if (EMBED && this._locked !== !!this.state.modal) { this._locked = !!this.state.modal; toParent({ type: "lock", on: this._locked }); }
   }
 
   componentWillUnmount() {
@@ -812,7 +845,8 @@ class Component extends DCLogic {
     const s = this.status(t);
     const el = document.querySelectorAll(".x-house")[t - 1];
     if ((s === "today" || s === "open") && el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (EMBED) { const r = el.getBoundingClientRect(); toParent({ type: "scrollTo", y: r.top + r.height / 2 }); }
+      else el.scrollIntoView({ behavior: "smooth", block: "center" });
       clearTimeout(this.st);
       this.st = setTimeout(() => this.clickDoor(t), 650);
     } else this.clickDoor(t);
@@ -857,7 +891,7 @@ class Component extends DCLogic {
         animation: `x-confetti ${1.8 + (i % 7) * 0.18}s cubic-bezier(.25,.6,.4,1) ${(i % 10) * 0.07}s both`
       }}));
     }
-    this._confetti = React.createElement("div", { "aria-hidden": "true", style: {
+    this._confetti = React.createElement("div", { className: "x-confetti", "aria-hidden": "true", style: {
       position: "fixed", inset: 0, zIndex: 85, pointerEvents: "none", overflow: "hidden"
     }}, bits);
     return this._confetti;
