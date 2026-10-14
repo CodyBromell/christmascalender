@@ -386,6 +386,15 @@
         <h2 style="margin:0 0 6px;font-size:24px;font-weight:800;line-height:1.15;text-transform:uppercase;animation:x-rise .45s .65s both">{{ prizeName }}</h2>
         <p style="margin:0;font-size:14.5px;line-height:1.55;color:#605d5c;animation:x-rise .45s .75s both">{{ prizeSub }}</p>
         <p style="margin:16px 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;text-align:left;font-size:14px;line-height:1.5;color:#1a1a1a;animation:x-rise .45s .85s both">{{ claimText }}</p>
+        <sc-if value="{{ hasCode }}" hint-placeholder-val="{{ false }}">
+          <div style="margin:-4px 0 16px;padding:12px;border:2px dashed #cc0000;background:#fffaf0;text-align:left">
+            <p style="margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:.16em;color:#cc0000">YOUR CODE</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span class="x-code" style="display:block;padding:11px 10px;background:#fff;border:1px solid #e3d7c2;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(15px,5vw,21px);font-weight:700;letter-spacing:.05em;color:#1a1a1a;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:clip;user-select:all;-webkit-user-select:all">{{ giftCode }}</span>
+              <button sc-camel-on-click="{{ copyCode }}" style="width:100%;padding:12px 16px;border:0;background:{{ copyBg }};color:#fff;font-family:'Archivo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;transition:background .2s">{{ copyLabel }}</button>
+            </div>
+          </div>
+        </sc-if>
         <a class="x-shop" href="{{ eshopUrl }}" target="_top" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
         <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the calendar</button>
         <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
@@ -409,40 +418,40 @@
 
 const DAYS = [
   {motif:"🎄",title:"A frost-free windscreen",icon:"🧴",name:"Super de-icer spray, 500ml",
-   sub:"Dispatched with your next order.",code:"WU-DEICE",img:"images/prizes/day-01.webp",supplier:"Würth",
+   sub:"Dispatched with your next order.",code:"WU-DEICE",promo:"UkVDSUVEU0FNWA==",img:"images/prizes/day-01.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Super-de-icer-spray-DEICESPR-SUPER-500ML/0892331201.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0892331201"},
   {motif:"🔔",title:"Two clear screens",icon:"💧",name:"Winter screenwash, 5 litres",
-   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",img:"images/prizes/day-02.webp",supplier:"Würth",
+   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",promo:"SFNBV05FRVJDU1NBTVg=",img:"images/prizes/day-02.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Windscreen-cleaner-with-frost-protection-down-to-8-C-WSCRNCLNR-ANTIFREZ-BLUE-5LTR/0892332105.sku/en/GB/GBP/?CampaignName=SR001"},
   {motif:"⛄",title:"Three warm heads",icon:"🧢",name:"Würth Thinsulate beanie",
-   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",img:"images/prizes/day-03.webp",supplier:"Würth",
+   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",promo:"RUlOQUVCU0FNWA==",img:"images/prizes/day-03.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Thinsulate-knitted-hat-with-lining/31080504070702.cyid/3108.cgid/en/GB/GBP/?CampaignName=CS016"},
   {motif:"🧤",title:"Four hands working",icon:"🧤",name:"TIGERFLEX THERMO DRY W-350 winter gloves",
-   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",img:"images/prizes/day-04.webp",supplier:"Würth",
+   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",promo:"U0VWT0xHU0FNWA==",img:"images/prizes/day-04.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Protective-glove-winter-TIGERFLEX-THERMO-DRY-W-350/310805040907124.cyid/3108.cgid/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🕯️",title:"Five allen keys",icon:"🔧",name:"Allen key set, 9 pieces",
-   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",img:"images/prizes/day-05.webp",supplier:"Würth",
+   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",promo:"WUVLTkVMTEFTQU1Y",img:"images/prizes/day-05.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Allen-key-set-9-pieces-ALLENKEY-SET-LONG-15-10MM-9PCS/071531%20120.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🎄",title:"Six ornaments hanging",icon:"🎅",name:"Würth Christmas ornaments",
-   sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",supplier:"Würth",
+   sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",promo:"Tk9JVEFST0NFRFNBTVg=",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/"},
   {motif:"📏",title:"Seven things made level",icon:"📏",name:"Magnetic spirit level",
-   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",img:"images/prizes/day-07.webp",supplier:"Würth",
+   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",promo:"TEVWRUxUSVJJUFNTQU1Y",img:"images/prizes/day-07.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Small-spirit-level-with-magnet-LEVL-LMET-PLA-MAGN-74X41X34/0714644505.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0714644505"},
   {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",
-   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",img:"images/prizes/day-08.webp",supplier:"Amazon",
+   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",promo:"Q0dYT0JYU0FNWA==",img:"images/prizes/day-08.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Xbox-Ultimate-Console-Month-Membership/dp/B07SBBC7Q2"},
   {motif:"🔥",title:"Nine warm fingers",icon:"🔥",name:"Rechargeable electric hand warmers",
-   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",img:"images/prizes/day-09.webp",supplier:"Amazon",
+   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",promo:"UkVNUkFXRE5BSFNBTVg=",img:"images/prizes/day-09.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Rechargeable-Electric-Portable-Reusable-Handwarmers/dp/B0DBLX2HS7"},
   {motif:"⭐",title:"Ten bits at the ready",icon:"🪛",name:"Pistol ratchet multi-bit screwdriver set",
-   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",img:"images/prizes/day-10.webp",supplier:"Würth",
+   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",promo:"UkVWSVJEV0VSQ1NTQU1Y",img:"images/prizes/day-10.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Pistol-ratchet-multi-bit-screwdriver-set-3-8-pieces-SCRDRIV-MULTIBIT-PIST-RTCH-LED-VAR3-8PCS/06136403.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🛏️",title:"Eleven cosy evenings",icon:"🛏️",name:"Heated honeycomb overblanket",
-   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",img:"images/prizes/day-11.webp",supplier:"Amazon",
+   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",promo:"VEVLTkFMQlNBTVg=",img:"images/prizes/day-11.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Schallen-Electric-Honeycomb-Overblanket-Settings/dp/B00D8WVY2K"},
   {motif:"🎁",title:"Twelve days, the big one",icon:"🧰",name:"1/4\" socket wrench assortment, 40 pieces",
-   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",img:"images/prizes/day-12.webp",supplier:"Würth",top:true,
+   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",promo:"VEVTSENORVJXS0NPU1NBTVg=",img:"images/prizes/day-12.webp",supplier:"Würth",top:true,
    url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
@@ -463,7 +472,7 @@ const HINTS = [
 
 const STEPS = [
   {n:"1", text:"A new door opens every two days. Open it to see the gift behind it."},
-  {n:"2", text:"Spend £280 or more in a single order on the eshop while that door is open."},
+  {n:"2", text:"Spend £280 or more in a single order on the eshop while that door is open, using the door's code at checkout."},
   {n:"3", text:"The gift is yours. After two days the door locks and the next one opens."}
 ];
 
@@ -482,6 +491,23 @@ function ukCalDay(nowMs) {
   new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "numeric", day: "numeric" })
     .formatToParts(new Date(nowMs)).forEach(x => { p[x.type] = +x.value; });
   return Math.round((Date.UTC(p.year, p.month - 1, p.day) - Date.UTC(2026, 11, 1)) / 86400000) + 1;
+}
+
+// Discount code for a door (stored encoded in DAYS so it isn't plain text in the source).
+function promoCode(n) { try { return atob(DAYS[n - 1].promo || "").split("").reverse().join(""); } catch (e) { return ""; } }
+
+// Copy text to the clipboard. The async Clipboard API can be blocked inside an iframe,
+// so fall back to a hidden textarea + execCommand, which works from a tap.
+function copyText(text) {
+  const legacy = () => new Promise((ok, fail) => {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;top:0;left:-9999px;opacity:0";
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    let done = false; try { done = document.execCommand("copy"); } catch (e) {}
+    ta.remove(); done ? ok() : fail();
+  });
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).catch(legacy);
+  return legacy();
 }
 
 // ---------- Embedded in the eshop (iframe + embed.js on the parent page) ----------
@@ -723,7 +749,7 @@ class Component extends DCLogic {
     opened: saved.opened || {},
     modal: null, toast: "", opening: null,
     burstFor: null, beamFor: null, party: false, rattle: null, now: Date.now(),
-    newLight: null, lightPop: null, rolling: null, pending: null
+    newLight: null, lightPop: null, rolling: null, pending: null, copied: null
   };
 
   componentDidMount() {
@@ -851,6 +877,16 @@ class Component extends DCLogic {
       clearTimeout(this.st);
       this.st = setTimeout(() => this.clickDoor(t), 650);
     } else this.clickDoor(t);
+  }
+
+  copyCode() {
+    const n = this.state.modal, code = promoCode(n);
+    if (!code) return;
+    const done = ok => {
+      this.setState({ copied: ok ? n : "fail" });
+      clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: null }), 2500);
+    };
+    copyText(code).then(() => done(true), () => done(false));
   }
 
   beamFor() {
@@ -1076,8 +1112,13 @@ class Component extends DCLogic {
       prizeHead: gift ? (gift.top ? "The headline gift!" : "Merry Christmas!") : "",
       prizeName: gift ? gift.name : "",
       prizeSub: gift ? gift.sub : "",
+      hasCode: !!gift && stillOpen && !!promoCode(modal),
+      giftCode: gift ? promoCode(modal) : "",
+      copyCode: () => this.copyCode(),
+      copyLabel: st.copied === modal ? "✓ Copied" : st.copied === "fail" ? "Press & hold to copy" : "Copy code",
+      copyBg: st.copied === modal ? "#2e7d32" : "#1a1a1a",
       claimText: !gift ? "" : stillOpen
-        ? "Spend £280 or more in a single order on the eshop by the end of " + this.longDay(lastDay) + " and this gift is yours."
+        ? "Spend £280 or more in a single order on the eshop by the end of " + this.longDay(lastDay) + " and add this code at checkout — the gift is yours."
         : "This door's offer ended on " + this.longDay(lastDay) + "." + (t >= 1 && t <= 12 ? " Door " + t + " is open now." : ""),
       closeModal: () => this.close(),
       veilClick: () => this.close(),
