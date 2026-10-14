@@ -296,7 +296,7 @@
   <div class="x-page" style="position:relative;z-index:2;width:100%;box-sizing:border-box;max-width:1180px;margin:0 auto;padding:0 40px 24px">
 
     <div class="x-topbar" style="display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:2px solid rgba(255,255,255,.35)">
-      <a class="x-logo" href="https://eshop.wurth.co.uk/" aria-label="Würth UK" style="display:inline-flex;align-items:center;background:#fff;padding:10px 14px;line-height:0">
+      <a class="x-logo" href="https://eshop.wurth.co.uk/" target="_top" aria-label="Würth UK" style="display:inline-flex;align-items:center;background:#fff;padding:10px 14px;line-height:0">
         <img src="images/wurth-logo.png" alt="Würth" width="118" height="25" style="display:block;width:118px;height:auto">
       </a>
       <span class="x-topbar-meta" style="font-size:12px;font-weight:600;letter-spacing:.2em;color:#ffc9c9">THE 12 DOORS · 1—24 DEC 2026</span>
@@ -313,7 +313,7 @@
         <p class="x-lede" style="margin:26px 0 0;max-width:46ch;font-size:17px;line-height:1.6;color:#ffd4d4">Twelve doors, a new one every two days from 1 to 24 December, and a gift behind each. Open the door to see what's inside — spend £280 or more in a single order while it's open and the gift is yours.</p>
         <div class="x-cta-row" style="display:flex;gap:20px;align-items:center;margin-top:32px;flex-wrap:wrap">
           <button class="x-cta" sc-camel-on-click="{{ openToday }}" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:15px 26px;cursor:pointer;background:#fff;color:#a00000;border:0" style-hover="background:#ffd9d9">{{ heroCta }}</button>
-          <a class="x-cta x-shop-hero" href="{{ eshopUrl }}" target="_blank" rel="noopener" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:13px 24px;color:#fff;border:2px solid #fff;text-decoration:none" style-hover="background:rgba(255,255,255,.14)">Shop the eshop →</a>
+          <a class="x-cta x-shop-hero" href="{{ eshopUrl }}" target="_top" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;padding:13px 24px;color:#fff;border:2px solid #fff;text-decoration:none" style-hover="background:rgba(255,255,255,.14)">Shop the eshop →</a>
         </div>
         <p style="margin:18px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;color:#ffb3b3">{{ progress }}</p>
         <p class="x-countdown" style="margin:8px 0 0;font-size:13px;font-weight:600;letter-spacing:.06em;color:#ffc9c9;font-variant-numeric:tabular-nums">⏳ {{ countdown }}</p>
@@ -356,7 +356,6 @@
     <div style="position:relative;background:#fff;margin-top:-3px">
       <footer class="x-footer" style="max-width:1180px;margin:0 auto;box-sizing:border-box;padding:4px 40px calc(40px + env(safe-area-inset-bottom));font-size:12.5px;line-height:1.75;color:#6e5a5c">
         <p style="margin:0;max-width:72ch">The doors open one at a time between 1 and 24 December 2026: each stays open for two days, then locks for good and the next door opens (door 1 on 1–2 Dec, door 2 on 3–4 Dec, through to door 12 on 23–24 Dec). Spend £280 or more in a single order on eshop.wurth.co.uk while a door is open to receive that door's gift. One gift per door, per customer, while stocks last; substitutions of equal value may apply. Full terms in the <a href="#">promotion terms</a>.</p>
-        <p style="margin:12px 0 0;max-width:72ch;color:#a23b3b">Prototype — dates are simulated in the browser. Add <code>?day=9</code> to the address to pretend it's 9 December, or <code>?reset</code> to start over.</p>
       </footer>
     </div>
   </div>
@@ -380,7 +379,7 @@
         <h2 style="margin:0 0 6px;font-size:24px;font-weight:800;line-height:1.15;text-transform:uppercase;animation:x-rise .45s .65s both">{{ prizeName }}</h2>
         <p style="margin:0;font-size:14.5px;line-height:1.55;color:#605d5c;animation:x-rise .45s .75s both">{{ prizeSub }}</p>
         <p style="margin:16px 0;padding:12px 14px;background:#fff4f4;border-left:4px solid #cc0000;text-align:left;font-size:14px;line-height:1.5;color:#1a1a1a;animation:x-rise .45s .85s both">{{ claimText }}</p>
-        <a class="x-shop" href="{{ eshopUrl }}" target="_blank" rel="noopener" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
+        <a class="x-shop" href="{{ eshopUrl }}" target="_top" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
         <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the calendar</button>
         <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
           <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR'S HINT</strong>{{ nextTeaser }}</p>
@@ -463,13 +462,28 @@ const STEPS = [
 
 const ESHOP_URL = "https://eshop.wurth.co.uk/";
 
+// Preview mode (for the team): add ?preview=xmas26 to the address, then ?day=N (December date)
+// and ?reset work. Without the key, customers always see the real UK date.
+const PREVIEW_KEY = "xmas26";
+const QS = new URLSearchParams(location.search);
+const PREVIEW = QS.get("preview") === PREVIEW_KEY;
+
+// The real date in the UK as a day number relative to December 2026:
+// 1–24 = calendar days, 0 or less = before it starts, 25+ = after it ends.
+function ukCalDay(nowMs) {
+  const p = {};
+  new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "numeric", day: "numeric" })
+    .formatToParts(new Date(nowMs)).forEach(x => { p[x.type] = +x.value; });
+  return Math.round((Date.UTC(p.year, p.month - 1, p.day) - Date.UTC(2026, 11, 1)) / 86400000) + 1;
+}
+
 // Remembered per browser so a refresh (or tomorrow's visit) keeps your opened doors.
 // Bump the version to close every door for everyone (e.g. after testing).
 const STORE_KEY = "twelve-days-2026-v3";
 try { ["twelve-days-2026", "twelve-days-2026-v2"].forEach(k => localStorage.removeItem(k)); } catch (e) {}
 function loadSaved() {
   try {
-    if (new URLSearchParams(location.search).has("reset")) localStorage.removeItem(STORE_KEY);
+    if (PREVIEW && QS.has("reset")) localStorage.removeItem(STORE_KEY);
     return JSON.parse(localStorage.getItem(STORE_KEY)) || {};
   } catch (e) { return {}; }
 }
@@ -702,10 +716,12 @@ class Component extends DCLogic {
   // So door 1 = 1–2 Dec … door 12 = 23–24 Dec, and only one door is open at a time.
   // calDay() is the date in December (?day=N simulates it, 1–24).
   calDay() {
-    const q = parseInt(new URLSearchParams(location.search).get("day"), 10);
-    return Math.min(24, Math.max(1, q || (this.props.today ?? 1)));
+    const q = parseInt(QS.get("day"), 10);
+    if (PREVIEW && Number.isFinite(q)) return Math.min(26, Math.max(-30, q));
+    return ukCalDay(this.state.now);
   }
-  today() { return Math.ceil(this.calDay() / 2); }          // the door that's open right now
+  today() { return Math.ceil(this.calDay() / 2); }          // the door that's open right now (≤0 before, 13 after)
+  phase() { const t = this.today(); return t < 1 ? "before" : t > 12 ? "after" : "live"; }
   opensOn(n) { return 2 * n - 1; }
   locksAfter(n) { return 2 * n; }
   isLastDay(n) { return this.calDay() === this.locksAfter(n); }
@@ -726,12 +742,14 @@ class Component extends DCLogic {
   // Doors open at midnight — count down to the next one (may be more than a day away).
   countdown() {
     const t = this.today();
-    if (t >= 12) return "Door 12 is the last one — merry Christmas.";
+    if (t > 12) return "The calendar has closed — thank you, and merry Christmas!";
+    if (t === 12) return "Door 12 is the last one — merry Christmas.";
     const now = new Date(this.state.now);
     const midnight = new Date(now); midnight.setHours(24, 0, 0, 0);
-    const days = this.opensOn(t + 1) - this.calDay() - 1;
+    const next = Math.max(t + 1, 1);
+    const days = this.opensOn(next) - this.calDay() - 1;
     const s = Math.max(0, Math.floor((midnight - now) / 1000));
-    return "Door " + (t + 1) + " opens in " + (days > 0 ? days + (days === 1 ? " day, " : " days, ") : "") +
+    return "Door " + next + " opens in " + (days > 0 ? days + (days === 1 ? " day, " : " days, ") : "") +
       pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
   }
 
@@ -766,7 +784,7 @@ class Component extends DCLogic {
       this.rt = setTimeout(() => this.setState({ rattle: null }), 500);
     }
     if (s === "locked") return this.flash("🔒 " + (this.opensOn(n) - this.calDay() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
-    if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDay(this.locksAfter(n)) + ". Each door is open for two days" + (this.state.opened[this.today()] ? "." : " — door " + this.today() + " is open now."));
+    if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDay(this.locksAfter(n)) + ". Each door is open for two days" + (this.phase() !== "live" || this.state.opened[this.today()] ? "." : " — door " + this.today() + " is open now."));
     if (s === "opened") return this.setState({ modal: n, rolling: null });
     if (this.state.opening) return;
 
@@ -788,7 +806,10 @@ class Component extends DCLogic {
 
   // From the hero button: bring today's door into view first so people see it open.
   openToday() {
-    const t = this.today(), s = this.status(t);
+    const t = this.today();
+    if (t < 1) return this.clickDoor(1);
+    if (t > 12) return this.flash("The calendar has closed for this year — thank you for taking part!");
+    const s = this.status(t);
     const el = document.querySelectorAll(".x-house")[t - 1];
     if ((s === "today" || s === "open") && el) {
       el.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1009,7 +1030,7 @@ class Component extends DCLogic {
         ? count + " OF 12 OPENED" + (waiting ? " · " + waiting + " WAITING" : "")
         : waiting ? waiting + (waiting === 1 ? " DOOR" : " DOORS") + " WAITING FOR YOU" : "NO DOORS OPEN YET",
       countdown: this.countdown(),
-      heroCta: st.opened[t] ? "See door " + t + " again" : "Open door " + t,
+      heroCta: t < 1 ? "Door 1 opens 1 December" : t > 12 ? "See your doors" : st.opened[t] ? "See door " + t + " again" : "Open door " + t,
       openToday: () => this.openToday(),
       eshopUrl: ESHOP_URL,
       revealOpen: !!modal,
@@ -1022,7 +1043,7 @@ class Component extends DCLogic {
       prizeSub: gift ? gift.sub : "",
       claimText: !gift ? "" : stillOpen
         ? "Spend £280 or more in a single order on the eshop by the end of " + this.longDay(lastDay) + " and this gift is yours."
-        : "This door's offer ended on " + this.longDay(lastDay) + ". Door " + t + " is open now.",
+        : "This door's offer ended on " + this.longDay(lastDay) + "." + (t >= 1 && t <= 12 ? " Door " + t + " is open now." : ""),
       closeModal: () => this.close(),
       veilClick: () => this.close(),
       stop: (e) => e.stopPropagation(),

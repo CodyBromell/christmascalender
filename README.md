@@ -4,12 +4,14 @@ Twelve doors that open one at a time between 1 and 24 December 2026: each door i
 
 ## Status
 
-Front-end prototype. Dates are simulated in the browser; there's no order checking on the page — qualifying orders are handled on the eshop side.
+Follows the real UK date (locked with a countdown before 1 Dec, closed from 25 Dec). There's no order checking on the page — qualifying orders are handled on the eshop side.
 
-Opened doors are remembered in the browser (`localStorage`). For testing:
+Opened doors are remembered in the browser (`localStorage`). For testing, add the preview key `?preview=xmas26`, then:
 
-- `?day=9` — pretend it's 9 December (1–24)
-- `?reset` — forget opened doors and start over
+- `&day=9`: pretend it's 9 December (0 = 30 Nov, 25 = after Christmas)
+- `&reset`: forget opened doors and start over
+
+Putting it on the eshop: see [cms/GO-LIVE.md](cms/GO-LIVE.md).
 
 ## Structure
 
