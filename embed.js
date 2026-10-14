@@ -22,12 +22,32 @@
 
   function setWidth() { box.style.setProperty("--wx-vw", document.documentElement.clientWidth + "px"); }
 
+  // Height of the eshop's pinned (fixed/sticky) header at the top of the screen, so the
+  // reveal sits below it. Full-screen overlays (e.g. the cookie banner backdrop) are ignored.
+  function topInset() {
+    var y = 0;
+    try {
+      var els = document.elementsFromPoint(window.innerWidth / 2, 2);
+      for (var i = 0; i < els.length; i++) {
+        if (els[i] === frame) break;
+        for (var n = els[i]; n && n !== document.body; n = n.parentElement) {
+          var p = getComputedStyle(n).position;
+          if (p === "fixed" || p === "sticky") {
+            var b = n.getBoundingClientRect().bottom;
+            if (b > y && b < window.innerHeight / 3) y = b;
+            break;
+          }
+        }
+      }
+    } catch (e) {}
+    return y;
+  }
+
   function sendView() {
     var r = frame.getBoundingClientRect(), vh = window.innerHeight;
-    var top = Math.max(0, -r.top);
-    var height = Math.min(vh, r.bottom) - Math.max(0, r.top);
+    var visTop = Math.max(topInset(), r.top), visBottom = Math.min(vh, r.bottom);
     if (!frame.contentWindow) return;
-    try { frame.contentWindow.postMessage({ wurthXmas: 1, type: "view", top: top, height: Math.max(0, height) }, origin); } catch (e) {}
+    try { frame.contentWindow.postMessage({ wurthXmas: 1, type: "view", top: visTop - r.top, height: Math.max(0, visBottom - visTop) }, origin); } catch (e) {}
   }
 
   var queued = false;
@@ -46,7 +66,8 @@
     else if (d.type === "lock") { document.documentElement.style.overflow = d.on ? "hidden" : ""; }
     else if (d.type === "scrollTo") {
       var r = frame.getBoundingClientRect();
-      window.scrollTo({ top: window.pageYOffset + r.top + d.y - window.innerHeight / 2, behavior: "smooth" });
+      var inset = topInset();
+      window.scrollTo({ top: window.pageYOffset + r.top + d.y - (inset + (window.innerHeight - inset) / 2), behavior: "smooth" });
     }
   });
 
