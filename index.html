@@ -398,7 +398,7 @@
         <a class="x-shop" href="{{ eshopUrl }}" target="_top" style="display:block;padding:15px;background:#cc0000;color:#fff;font-family:'Archivo',sans-serif;font-size:16px;font-weight:800;text-decoration:none;animation:x-rise .45s .95s both,x-shop-pulse 2.4s ease-in-out 2s infinite" style-hover="background:#000">Shop now on the eshop →</a>
         <button sc-camel-on-click="{{ closeModal }}" style="width:100%;margin-top:10px;padding:13px;border:2px solid #000;background:#fff;color:#000;font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;cursor:pointer" style-hover="background:#f3f3f3">Back to the calendar</button>
         <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
-          <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR'S HINT</strong>{{ nextTeaser }}</p>
+          <p style="margin:16px 0 0;padding:12px 14px;background:#f7f7f7;border-left:4px solid #2e7d32;text-align:left;font-size:13.5px;line-height:1.5;color:#1a1a1a"><strong style="display:block;font-size:11px;letter-spacing:.12em;color:#2e7d32;margin-bottom:2px">NEXT DOOR</strong>{{ nextTeaser }}</p>
         </sc-if>
         <p style="margin:12px 0 0;font-size:11.5px;line-height:1.6;color:#959595">{{ prizeFine }}</p>
         </div>
@@ -418,60 +418,45 @@
 
 const DAYS = [
   {motif:"🎄",title:"A frost-free windscreen",icon:"🧴",name:"Super de-icer spray, 500ml",
-   sub:"Dispatched with your next order.",code:"WU-DEICE",promo:"UkVDSUVEU0FNWA==",img:"images/prizes/day-01.webp",supplier:"Würth",
+   sub:"Dispatched with your next order.",code:"WU-DEICE",img:"images/prizes/day-01.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Super-de-icer-spray-DEICESPR-SUPER-500ML/0892331201.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0892331201"},
   {motif:"🔔",title:"Two clear screens",icon:"💧",name:"Winter screenwash, 5 litres",
-   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",promo:"SFNBV05FRVJDU1NBTVg=",img:"images/prizes/day-02.webp",supplier:"Würth",
+   sub:"Antifreeze protection to −8°C. Dispatched with your next order.",code:"WU-WASH",img:"images/prizes/day-02.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Windscreen-cleaner-with-frost-protection-down-to-8-C-WSCRNCLNR-ANTIFREZ-BLUE-5LTR/0892332105.sku/en/GB/GBP/?CampaignName=SR001"},
   {motif:"⛄",title:"Three warm heads",icon:"🧢",name:"Würth Thinsulate beanie",
-   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",promo:"RUlOQUVCU0FNWA==",img:"images/prizes/day-03.webp",supplier:"Würth",
+   sub:"Knitted hat with lining. We'll email to confirm your address.",code:"WU-BEAN",img:"images/prizes/day-03.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Thinsulate-knitted-hat-with-lining/31080504070702.cyid/3108.cgid/en/GB/GBP/?CampaignName=CS016"},
   {motif:"🧤",title:"Four hands working",icon:"🧤",name:"TIGERFLEX THERMO DRY W-350 winter gloves",
-   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",promo:"U0VWT0xHU0FNWA==",img:"images/prizes/day-04.webp",supplier:"Würth",
+   sub:"Lined winter protective gloves. We'll email to confirm your size.",code:"WU-GLOV",img:"images/prizes/day-04.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Product-categories/Protective-glove-winter-TIGERFLEX-THERMO-DRY-W-350/310805040907124.cyid/3108.cgid/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🕯️",title:"Five allen keys",icon:"🔧",name:"Allen key set, 9 pieces",
-   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",promo:"WUVLTkVMTEFTQU1Y",img:"images/prizes/day-05.webp",supplier:"Würth",
+   sub:"1.5–10mm, long reach. Dispatched with your next order.",code:"WU-ALLN",img:"images/prizes/day-05.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Allen-key-set-9-pieces-ALLENKEY-SET-LONG-15-10MM-9PCS/071531%20120.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🎄",title:"Six ornaments hanging",icon:"🎅",name:"Würth Christmas ornaments",
-   sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",promo:"Tk9JVEFST0NFRFNBTVg=",supplier:"Würth",
+   sub:"For the tree in the workshop. We'll email to confirm your address.",code:"WU-ORNM",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/"},
   {motif:"📏",title:"Seven things made level",icon:"📏",name:"Magnetic spirit level",
-   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",promo:"TEVWRUxUSVJJUFNTQU1Y",img:"images/prizes/day-07.webp",supplier:"Würth",
+   sub:"74 × 41 × 34mm, pocket size. Dispatched with your next order.",code:"WU-LEVL",img:"images/prizes/day-07.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Small-spirit-level-with-magnet-LEVL-LMET-PLA-MAGN-74X41X34/0714644505.sku/en/GB/GBP/?CampaignName=SR001&VisibleSearchTerm=0714644505"},
   {motif:"🎮",title:"Eight hours off the tools",icon:"🎮",name:"Xbox Game Pass Ultimate — 1 month",
-   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",promo:"Q0dYT0JYU0FNWA==",img:"images/prizes/day-08.webp",supplier:"Amazon",
+   sub:"Digital code, emailed within 24 hours.",code:"XB-PASS",img:"images/prizes/day-08.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Xbox-Ultimate-Console-Month-Membership/dp/B07SBBC7Q2"},
   {motif:"🔥",title:"Nine warm fingers",icon:"🔥",name:"Rechargeable electric hand warmers",
-   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",promo:"UkVNUkFXRE5BSFNBTVg=",img:"images/prizes/day-09.webp",supplier:"Amazon",
+   sub:"Reusable, USB-charged. We'll email to confirm your address.",code:"AM-WARM",img:"images/prizes/day-09.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Rechargeable-Electric-Portable-Reusable-Handwarmers/dp/B0DBLX2HS7"},
   {motif:"⭐",title:"Ten bits at the ready",icon:"🪛",name:"Pistol ratchet multi-bit screwdriver set",
-   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",promo:"UkVWSVJEV0VSQ1NTQU1Y",img:"images/prizes/day-10.webp",supplier:"Würth",
+   sub:"8 pieces with LED. Dispatched with your next order.",code:"WU-SCRW",img:"images/prizes/day-10.webp",supplier:"Würth",
    url:"https://eshop.wurth.co.uk/Pistol-ratchet-multi-bit-screwdriver-set-3-8-pieces-SCRDRIV-MULTIBIT-PIST-RTCH-LED-VAR3-8PCS/06136403.sku/en/GB/GBP/?CampaignName=SR007"},
   {motif:"🛏️",title:"Eleven cosy evenings",icon:"🛏️",name:"Heated honeycomb overblanket",
-   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",promo:"VEVLTkFMQlNBTVg=",img:"images/prizes/day-11.webp",supplier:"Amazon",
+   sub:"Multiple heat settings. We'll email to confirm your address.",code:"AM-BLNK",img:"images/prizes/day-11.webp",supplier:"Amazon",
    url:"https://www.amazon.co.uk/Schallen-Electric-Honeycomb-Overblanket-Settings/dp/B00D8WVY2K"},
   {motif:"🎁",title:"Twelve days, the big one",icon:"🧰",name:"1/4\" socket wrench assortment, 40 pieces",
-   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",promo:"VEVTSENORVJXS0NPU1NBTVg=",img:"images/prizes/day-12.webp",supplier:"Würth",top:true,
+   sub:"Hex sockets and bits in a case. Our headline gift — dispatched with your next order.",code:"WU-SOCK",img:"images/prizes/day-12.webp",supplier:"Würth",top:true,
    url:"https://eshop.wurth.co.uk/1-4-INCH-SOCKET-WRENCH-ASSORTMENT-40-PIECES-SKTWRNCH-SORT-1-4IN-HEX-40PCS/5763114040.sku/en/GB/GBP/?CampaignName=SR007"}
 ];
 
-const HINTS = [
-  "Something for a frosty morning start.",
-  "Helps you see the road ahead.",
-  "Something for cold ears.",
-  "Warm, grippy hands on a frosty site.",
-  "Small, six-sided, always needed.",
-  "Something for the tree.",
-  "Keeps everything straight.",
-  "Something for time off the tools.",
-  "Heat you can carry in your pocket.",
-  "A click-click-click kind of gift.",
-  "For the sofa after a long week.",
-  "Forty pieces to finish the twelve."
-];
-
 const STEPS = [
-  {n:"1", text:"A new door opens every two days. Open it to see the gift behind it."},
+  {n:"1", text:"A new door opens every two days. Open it to see which gift you've won."},
   {n:"2", text:"Spend £280 or more in a single order on the eshop while that door is open, using the door's code at checkout."},
   {n:"3", text:"The gift is yours. After two days the door locks and the next one opens."}
 ];
@@ -493,8 +478,6 @@ function ukCalDay(nowMs) {
   return Math.round((Date.UTC(p.year, p.month - 1, p.day) - Date.UTC(2026, 11, 1)) / 86400000) + 1;
 }
 
-// Discount code for a door (stored encoded in DAYS so it isn't plain text in the source).
-function promoCode(n) { try { return atob(DAYS[n - 1].promo || "").split("").reverse().join(""); } catch (e) { return ""; } }
 
 // Copy text to the clipboard. The async Clipboard API can be blocked inside an iframe,
 // so fall back to a hidden textarea + execCommand, which works from a tap.
@@ -538,8 +521,11 @@ if (EMBED) {
 
 // Remembered per browser so a refresh (or tomorrow's visit) keeps your opened doors.
 // Bump the version to close every door for everyone (e.g. after testing).
-const STORE_KEY = "twelve-days-2026-v3";
-try { ["twelve-days-2026", "twelve-days-2026-v2"].forEach(k => localStorage.removeItem(k)); } catch (e) {}
+const STORE_KEY = "twelve-days-2026-v4";
+try { ["twelve-days-2026", "twelve-days-2026-v2", "twelve-days-2026-v3"].forEach(k => localStorage.removeItem(k)); } catch (e) {}
+// The gift drawn for an opened door (index into DAYS), or -1 for an old/invalid save.
+function drawnPrize(rec) { return rec && Number.isInteger(rec.prize) && DAYS[rec.prize] ? rec.prize : -1; }
+
 function loadSaved() {
   try {
     if (PREVIEW && QS.has("reset")) localStorage.removeItem(STORE_KEY);
@@ -843,25 +829,41 @@ class Component extends DCLogic {
       this.setState({ rattle: n });
       this.rt = setTimeout(() => this.setState({ rattle: null }), 500);
     }
-    if (s === "locked") return this.flash("🔒 " + (this.opensOn(n) - this.calDay() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days. Hint: " + HINTS[n - 1].toLowerCase());
+    if (s === "locked") return this.flash("🔒 " + (this.opensOn(n) - this.calDay() === 1 ? "Door " + n + " opens tomorrow" : "Door " + n + " opens " + this.niceDate(n)) + " for two days — with another surprise gift behind it.");
     if (s === "missed") return this.flash("🔒 Door " + n + " locked after " + this.niceDay(this.locksAfter(n)) + ". Each door is open for two days" + (this.phase() !== "live" || this.state.opened[this.today()] ? "." : " — door " + this.today() + " is open now."));
     if (s === "opened") return this.setState({ modal: n, rolling: null });
     if (this.state.opening) return;
 
-    // The big moment: straight to the slot-machine reveal (confetti as the reel lands).
+    // The big moment. The server draws the gift (weighted by remaining stock) while the
+    // door does its knock-knock wiggle; then the slot-machine reveal lands on that gift.
     // It's saved as opened right away, but the door stays shut until the reveal closes.
-    const g = DAYS[n - 1];
     DAYS.forEach(d => { if (d.img) new Image().src = d.img; });
-    this.setState(st => {
-      const opened = { ...st.opened, [n]: { name: g.name, icon: g.icon } };
-      persist({ opened });
-      return { opened, pending: n, newLight: n, modal: n, rolling: n };
-    });
-    clearTimeout(this.pt);
-    this.pt = setTimeout(() => {
-      this.setState({ party: true });
-      this.pt = setTimeout(() => this.setState({ party: false }), 3400);
-    }, (REEL_SPIN + .15) * 1000);
+    this.setState({ opening: n });
+    const body = { door: n };
+    if (PREVIEW) { body.preview = QS.get("preview"); body.day = this.calDay(); }
+    const knock = new Promise(r => setTimeout(r, 560));
+    const fail = (status) => {
+      this.setState({ opening: null });
+      this.flash(status === 410 ? "Sorry — every gift has now been claimed. Thank you for taking part!"
+        : status === 403 ? "This door isn't open right now."
+        : "Couldn't open the door — please check your connection and try again.");
+    };
+    fetch("api/open", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(r => r.json().catch(() => ({})).then(j => knock.then(() => ({ ok: r.ok, status: r.status, j }))))
+      .then(({ ok, status, j }) => {
+        if (!ok || !Number.isInteger(j.prize) || !DAYS[j.prize]) return fail(status);
+        this.setState(st => {
+          const opened = { ...st.opened, [n]: { prize: j.prize, code: j.code || "" } };
+          persist({ opened });
+          return { opened, opening: null, pending: n, newLight: n, modal: n, rolling: n };
+        });
+        clearTimeout(this.pt);
+        this.pt = setTimeout(() => {
+          this.setState({ party: true });
+          this.pt = setTimeout(() => this.setState({ party: false }), 3400);
+        }, (REEL_SPIN + .15) * 1000);
+      })
+      .catch(() => fail(0));
   }
 
   // From the hero button: bring today's door into view first so people see it open.
@@ -880,7 +882,7 @@ class Component extends DCLogic {
   }
 
   copyCode() {
-    const n = this.state.modal, code = promoCode(n);
+    const n = this.state.modal, rec = this.state.opened[n], code = rec && rec.code;
     if (!code) return;
     const done = ok => {
       this.setState({ copied: ok ? n : "fail" });
@@ -1044,7 +1046,8 @@ class Component extends DCLogic {
 
   renderVals() {
     const t = this.today(), st = this.state, count = Object.keys(st.opened).length;
-    const modal = st.modal, gift = modal ? DAYS[modal - 1] : null;
+    const modal = st.modal, modalRec = modal ? st.opened[modal] : null;
+    const gift = drawnPrize(modalRec) >= 0 ? DAYS[modalRec.prize] : null;
     const waiting = DAYS.filter((d, i) => ["today", "open"].includes(this.status(i + 1))).length;
 
     const doors = DAYS.map((d, i) => {
@@ -1060,13 +1063,13 @@ class Component extends DCLogic {
         numTop: "52%",
         numColor: colour.num,
         numShadow: "0 1px 0 rgba(0,0,0,.5), 0 0 3px rgba(0,0,0,.35)",
-        gift: rec ? giftInDoor(n, "x-gift .5s cubic-bezier(.2,1.5,.4,1) both") : null,
+        gift: rec && drawnPrize(rec) >= 0 ? giftInDoor(rec.prize + 1, "x-gift .5s cubic-bezier(.2,1.5,.4,1) both") : null,
         // Hall light is on behind doors you can open (seen when the door peeks ajar) and behind opened ones.
         innerBg: lampOn ? "radial-gradient(90% 80% at 60% 45%,#fff1c4,#f2b33d 55%,#8a3d00)" : "#1a0d0a",
         insideRadius: "0",
         innerPadLeft: rec ? "22%" : "0",
         innerShadow: rec ? "inset 14px 0 18px rgba(0,0,0,.4)" : "none",
-        caption: rec ? d.name : s === "today" ? (this.isLastDay(n) ? "LAST DAY" : "OPEN NOW") : s === "missed" ? "LOCKED" : this.shortDate(n),
+        caption: rec ? (drawnPrize(rec) >= 0 ? DAYS[rec.prize].name : "OPENED") : s === "today" ? (this.isLastDay(n) ? "LAST DAY" : "OPEN NOW") : s === "missed" ? "LOCKED" : this.shortDate(n),
         captionFg: rec ? "#fff" : s === "today" ? "#fff" : s === "open" ? "#ffd27a" : s === "missed" ? "#b89a9a" : "#ffd4d4",
         captionBg: s === "today" && !rec ? "#cc0000" : "transparent",
         captionPad: s === "today" && !rec ? ".25em .7em" : "0",
@@ -1081,7 +1084,7 @@ class Component extends DCLogic {
         beam: st.beamFor === n ? this.beamFor() : null,
         numAnim: s === "today" ? "x-num-pulse 2.4s ease-in-out infinite" : "none",
         starDisplay: s === "today" ? "block" : "none",
-        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, " + d.name : s === "missed" ? "locked, no longer open" : this.isLastDay(n) ? "open, last day — tap to see the gift" : "open — tap to see the gift"),
+        aria: "Door " + n + " — " + (s === "locked" ? "locked, opens " + this.shortDate(n) : s === "opened" ? "opened, " + (drawnPrize(rec) >= 0 ? DAYS[rec.prize].name : "gift claimed") : s === "missed" ? "locked, no longer open" : this.isLastDay(n) ? "open, last day — tap to see the gift" : "open — tap to see the gift"),
         click: () => this.clickDoor(n)
       };
     });
@@ -1107,13 +1110,13 @@ class Component extends DCLogic {
       revealOpen: !!modal,
       revealDay: modal || "",
       revealLabel: gift ? "Door " + modal + ": " + gift.name : "",
-      prizeVisual: gift ? giftOnPrizeScreen(modal, st.rolling === modal) : null,
+      prizeVisual: gift ? giftOnPrizeScreen(modalRec.prize + 1, st.rolling === modal) : null,
       afterReel: st.rolling === modal ? "x-rise .5s " + (REEL_SPIN + .35) + "s both" : "none",
       prizeHead: gift ? (gift.top ? "The headline gift!" : "Merry Christmas!") : "",
       prizeName: gift ? gift.name : "",
       prizeSub: gift ? gift.sub : "",
-      hasCode: !!gift && stillOpen && !!promoCode(modal),
-      giftCode: gift ? promoCode(modal) : "",
+      hasCode: !!gift && stillOpen && !!(modalRec && modalRec.code),
+      giftCode: gift && modalRec.code ? modalRec.code : "",
       copyCode: () => this.copyCode(),
       copyLabel: st.copied === modal ? "✓ Copied" : st.copied === "fail" ? "Press & hold to copy" : "Copy code",
       copyBg: st.copied === modal ? "#2e7d32" : "#1a1a1a",
@@ -1124,7 +1127,7 @@ class Component extends DCLogic {
       veilClick: () => this.close(),
       stop: (e) => e.stopPropagation(),
       hasNext: !!next,
-      nextTeaser: next ? "Door " + next + " opens " + this.niceDate(next) + ": " + HINTS[next - 1] : "",
+      nextTeaser: next ? "Door " + next + " opens " + this.niceDate(next) + " — with another surprise gift behind it." : "",
       prizeFine: gift ? "One gift per door, per customer, while stocks last." : "",
       toast: st.toast
     };

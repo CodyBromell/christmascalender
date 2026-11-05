@@ -1,0 +1,9 @@
+{
+  "name": "christmascalender",
+  "private": true,
+  "description": "Würth Christmas Calendar: static page + one Vercel function (api/open.js) that draws the gift",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "postgres": "^3.4.5"
+  }
+}
