@@ -3,6 +3,19 @@
 The calendar stays hosted on Vercel and is shown inside an eshop page with an iframe. A small helper script (`embed.js`, also on Vercel) makes it full width, sizes the frame to the calendar's height (no inner scrollbar) and keeps the gift reveal on screen. This follows the same approach as the MS1 page.
 Every update pushed to GitHub `main` goes live automatically, so you never need to touch the CMS again after the first setup.
 
+## 0. Vercel settings for the prize draw (one-off)
+
+The gift behind each door is drawn by the server (`api/open.js`), weighted by remaining stock. In Vercel, open the **xmastestpage** project → **Settings → Environment Variables**, add these for **Production**, then **Redeploy** (Deployments → ⋯ → Redeploy):
+
+| Name | Value |
+|---|---|
+| `PRIZE_CODES` | The 12 discount codes, comma-separated, no spaces, in this order: de-icer, screenwash, beanie, gloves, allen keys, ornaments, spirit level, Xbox, hand warmers, screwdriver set, heated blanket, socket set |
+| `DATABASE_URL` | Supabase connection string (Connect → Transaction pooler, port 6543) |
+
+- Without `PRIZE_CODES` the reveal shows no code. Without `DATABASE_URL` the draw still works, but with equal odds and no stock tracking.
+- On first use the server creates two tables: `xmas_prizes` (stock: edit `remaining` to top up or withdraw a gift; ids 0–11 follow the order above) and `xmas_draws` (a log of every draw).
+- Never put the codes in this repo: it's public.
+
 ## 1. Add it in FirstSpirit
 
 1. Open **FirstSpirit ContentCreator** and go to the page where the calendar should appear. You can also create a new page, for example "Christmas Calendar", in the right menu area.
